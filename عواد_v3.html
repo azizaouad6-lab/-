@@ -3,1757 +3,996 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
-<title>عواد — مساعدك التعليمي الذكي</title>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet"/>
+<title>مكتبة عواد — Aouad Library</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <style>
 :root{
-  --bg:#060d1a;--bg2:#0b1628;--bg3:#112038;--bg4:#172d4e;
-  --blue:#4f8ef7;--blue2:#2563eb;--cyan:#22d3ee;
-  --green:#10b981;--gold:#fbbf24;--red:#f87171;--purple:#a78bfa;--pink:#f472b6;
-  --text:#e2edff;--text2:#6b8db8;--border:rgba(79,142,247,.13);
-  --r:14px;--sh:0 8px 40px rgba(0,0,0,.6);
-  --glow:0 0 30px rgba(79,142,247,.2);
+  --ink:#06080f;--ink2:#0c1220;--ink3:#111d30;--ink4:#182540;
+  --azure:#3b82f6;--azure2:#1d4ed8;--sky:#0ea5e9;
+  --emerald:#10b981;--amber:#f59e0b;--rose:#f43f5e;--violet:#8b5cf6;
+  --text:#dde8ff;--text2:#7a9cc4;--text3:#3d5a80;
+  --border:rgba(59,130,246,.1);--border2:rgba(59,130,246,.2);
+  --r:12px;--r2:18px;--sh:0 12px 40px rgba(0,0,0,.5);
+  --font-d:'Syne',sans-serif;--font-b:'IBM Plex Sans Arabic','DM Sans',sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box;}
 html{scroll-behavior:smooth;}
-body{font-family:'Cairo',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;}
-
-/* ── GRID PARTICLES BG ── */
+body{font-family:var(--font-b);background:var(--ink);color:var(--text);min-height:100vh;}
 body::before{
-  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
-  background-image:
-    radial-gradient(circle at 20% 20%,rgba(79,142,247,.08) 0%,transparent 50%),
-    radial-gradient(circle at 80% 80%,rgba(34,211,238,.06) 0%,transparent 50%),
-    radial-gradient(circle at 50% 50%,rgba(167,139,250,.04) 0%,transparent 60%);
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 55% 45% at 10% 5%,rgba(59,130,246,.08),transparent 55%),
+    radial-gradient(ellipse 35% 35% at 90% 85%,rgba(139,92,246,.06),transparent 55%),
+    radial-gradient(ellipse 25% 25% at 55% 50%,rgba(16,185,129,.03),transparent 60%);
 }
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--ink4);border-radius:4px;}
 
-/* ══ AUTH ══ */
-#authScreen{
-  position:fixed;inset:0;z-index:1000;
-  display:flex;align-items:center;justify-content:center;padding:20px;
-}
-.auth-wrap{width:100%;max-width:400px;}
-.auth-brand{text-align:center;margin-bottom:32px;}
-.auth-brand .logo-big{
-  font-size:52px;font-weight:900;letter-spacing:-3px;
-  background:linear-gradient(135deg,var(--blue),var(--cyan),var(--purple));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  display:block;animation:pulse 3s ease-in-out infinite;
-}
-@keyframes pulse{0%,100%{filter:brightness(1)}50%{filter:brightness(1.2)}}
-.auth-brand .ai-badge{
-  display:inline-flex;align-items:center;gap:6px;margin-top:8px;
-  background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.25);
-  border-radius:20px;padding:4px 14px;font-size:11px;color:var(--blue);font-weight:700;
-}
-.ai-dot{width:6px;height:6px;border-radius:50%;background:var(--cyan);
-  animation:blink 1.5s ease-in-out infinite;}
-@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
-.auth-box{
-  background:var(--bg2);border:1px solid var(--border);border-radius:22px;
-  padding:28px;box-shadow:var(--sh),var(--glow);
-  animation:slideUp .5s both;
-}
-@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.atabs{display:flex;background:var(--bg3);border-radius:11px;padding:3px;margin-bottom:22px;}
-.atab{flex:1;padding:8px;border:none;background:none;color:var(--text2);
-  font-family:'Cairo',sans-serif;font-size:13px;border-radius:9px;cursor:pointer;transition:.2s;}
-.atab.on{background:linear-gradient(135deg,var(--blue2),var(--blue));color:#fff;font-weight:700;}
-.afield{margin-bottom:14px;}
-.afield label{display:block;font-size:10px;color:var(--text2);font-weight:700;
-  margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;}
-.ainp{width:100%;padding:11px 14px;background:var(--bg3);border:1px solid var(--border);
-  border-radius:11px;color:var(--text);font-family:'Cairo',sans-serif;font-size:14px;
-  outline:none;transition:.2s;}
-.ainp:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,142,247,.1);}
-.abtn{
-  width:100%;padding:13px;border:none;border-radius:11px;
-  background:linear-gradient(135deg,var(--blue2),var(--blue));
-  color:#fff;font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;
-  cursor:pointer;transition:.2s;box-shadow:0 4px 20px rgba(79,142,247,.4);
-  position:relative;overflow:hidden;
-}
-.abtn::after{content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,transparent,rgba(255,255,255,.1),transparent);
-  transform:translateX(-100%);transition:.4s;}
-.abtn:hover::after{transform:translateX(100%);}
-.abtn:hover{transform:translateY(-1px);box-shadow:0 6px 26px rgba(79,142,247,.55);}
-.aerr{color:var(--red);font-size:12px;text-align:center;margin-top:10px;min-height:16px;}
-
-/* ══ MAIN APP ══ */
-#app{display:none;position:relative;z-index:1;}
-
-/* ── Header ── */
+/* ══ LAYOUT ══ */
 header{
   position:sticky;top:0;z-index:100;
-  background:rgba(6,13,26,.93);backdrop-filter:blur(24px);
+  background:rgba(6,8,15,.9);backdrop-filter:blur(20px);
   border-bottom:1px solid var(--border);
-  padding:10px 18px;
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:0 20px;height:58px;
+  display:flex;align-items:center;gap:12px;
 }
-.logo-wrap{display:flex;align-items:center;gap:10px;}
-.logo-icon{
-  width:36px;height:36px;border-radius:11px;flex-shrink:0;
-  background:linear-gradient(135deg,var(--blue2),var(--cyan));
+.h-brand{display:flex;align-items:center;gap:8px;}
+.h-logo{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,var(--azure2),var(--sky));
   display:flex;align-items:center;justify-content:center;
-  font-size:16px;font-weight:900;color:#fff;
-  box-shadow:0 2px 12px rgba(79,142,247,.4);
+  font-family:var(--font-d);font-size:16px;font-weight:800;color:#fff;
+  box-shadow:0 2px 10px rgba(59,130,246,.4);
 }
-.logo-name{font-size:18px;font-weight:900;}
-.logo-name span{
-  background:linear-gradient(135deg,var(--blue),var(--cyan));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-}
-.ai-indicator{
-  display:flex;align-items:center;gap:5px;padding:3px 10px;
-  background:rgba(34,211,238,.08);border:1px solid rgba(34,211,238,.2);
-  border-radius:20px;font-size:10px;color:var(--cyan);font-weight:700;
-}
-.hright{display:flex;align-items:center;gap:8px;}
-.pts-badge{
-  display:flex;align-items:center;gap:5px;padding:5px 12px;
-  background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.2);
-  border-radius:20px;font-size:12px;font-weight:700;color:var(--gold);cursor:pointer;
-}
-.hbtn{padding:6px 11px;border-radius:9px;border:1px solid var(--border);
-  background:var(--bg3);color:var(--text2);font-family:'Cairo',sans-serif;
-  font-size:11px;cursor:pointer;transition:.2s;}
-.hbtn:hover{border-color:var(--blue);color:var(--blue);}
-
-/* ── Nav ── */
-.nav{display:flex;background:var(--bg2);border-bottom:1px solid var(--border);
-  overflow-x:auto;scrollbar-width:none;}
-.nav::-webkit-scrollbar{display:none;}
-.ni{display:flex;flex-direction:column;align-items:center;gap:2px;
-  padding:9px 14px;border:none;background:none;color:var(--text2);
-  font-family:'Cairo',sans-serif;font-size:9px;cursor:pointer;transition:.2s;
-  flex-shrink:0;border-bottom:2px solid transparent;white-space:nowrap;}
-.ni .ico{font-size:17px;transition:.2s;}
-.ni.on{color:var(--blue);border-bottom-color:var(--blue);}
-.ni.on .ico{transform:scale(1.2);}
-.ni:hover{color:var(--text);}
-
-/* ── Sections ── */
-.sec{display:none;padding:18px;animation:slideUp .3s both;}
-.sec.on{display:block;}
-
-/* ── Common UI ── */
-.stitle{font-size:20px;font-weight:900;margin-bottom:18px;
-  display:flex;align-items:center;gap:10px;}
-.stag{font-size:9px;font-weight:700;padding:2px 9px;border-radius:20px;
-  background:rgba(79,142,247,.12);color:var(--blue);
-  text-transform:uppercase;letter-spacing:.5px;}
-
-.panel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:18px;margin-bottom:14px;}
-.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;transition:.2s;cursor:pointer;}
-.card:hover{transform:translateY(-2px);border-color:rgba(79,142,247,.3);box-shadow:var(--glow);}
-
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
-.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px;}
-@media(max-width:600px){.g2{grid-template-columns:1fr;}.g3{grid-template-columns:1fr 1fr;}}
-
-.lbl{font-size:10px;color:var(--text2);display:block;margin-bottom:5px;
-  font-weight:700;text-transform:uppercase;letter-spacing:.4px;}
-.inp{width:100%;padding:10px 13px;background:var(--bg3);border:1px solid var(--border);
-  border-radius:11px;color:var(--text);font-family:'Cairo',sans-serif;font-size:13px;
-  outline:none;transition:.2s;}
-.inp:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(79,142,247,.1);}
-textarea.inp{resize:vertical;min-height:100px;line-height:1.7;}
-
-.btn{padding:9px 16px;border-radius:10px;border:none;font-family:'Cairo',sans-serif;
-  font-size:12px;font-weight:700;cursor:pointer;transition:.2s;
-  display:inline-flex;align-items:center;gap:6px;}
-.bblu{background:linear-gradient(135deg,var(--blue2),var(--blue));color:#fff;
-  box-shadow:0 3px 12px rgba(79,142,247,.3);}
-.bblu:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(79,142,247,.45);}
-.bghost{background:var(--bg3);color:var(--text2);border:1px solid var(--border);}
-.bghost:hover{border-color:var(--blue);color:var(--blue);}
-.bred{background:rgba(248,113,113,.1);color:var(--red);border:1px solid rgba(248,113,113,.18);}
-.bgreen{background:rgba(16,185,129,.1);color:var(--green);border:1px solid rgba(16,185,129,.18);}
-
-.fpanel{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:18px;margin-bottom:16px;display:none;animation:slideUp .3s both;}
-.fpanel.on{display:block;}
-.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
-@media(max-width:600px){.frow{grid-template-columns:1fr;}}
-.fbar{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center;}
-
-.pbar{height:7px;background:var(--bg4);border-radius:7px;overflow:hidden;}
-.pfill{height:100%;border-radius:7px;transition:width 1.2s cubic-bezier(.22,1,.36,1);}
-
-.empty{text-align:center;padding:40px 20px;color:var(--text2);}
-.ei{font-size:40px;margin-bottom:10px;opacity:.4;}
-
-/* ── AI CARD ── */
-.ai-card{
-  background:linear-gradient(135deg,rgba(79,142,247,.1),rgba(34,211,238,.06));
-  border:1px solid rgba(79,142,247,.2);border-radius:18px;
-  padding:18px;margin-bottom:16px;position:relative;overflow:hidden;
-}
-.ai-card::before{
-  content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;
-  background:radial-gradient(circle,rgba(79,142,247,.15),transparent 70%);
-  pointer-events:none;
-}
-.ai-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
-.ai-avatar{
-  width:40px;height:40px;border-radius:14px;
-  background:linear-gradient(135deg,var(--blue2),var(--cyan));
-  display:flex;align-items:center;justify-content:center;font-size:18px;
-  flex-shrink:0;box-shadow:0 2px 10px rgba(79,142,247,.4);
-  animation:glow 2s ease-in-out infinite;
-}
-@keyframes glow{0%,100%{box-shadow:0 2px 10px rgba(79,142,247,.4)}50%{box-shadow:0 2px 20px rgba(79,142,247,.7)}}
-.ai-name{font-size:13px;font-weight:700;}
-.ai-sub{font-size:10px;color:var(--cyan);}
-.ai-msg{font-size:13px;line-height:1.8;color:var(--text2);}
-.ai-msg b{color:var(--text);}
-.ai-typing{display:flex;gap:4px;align-items:center;padding:4px 0;}
-.ai-typing span{width:6px;height:6px;border-radius:50%;background:var(--cyan);}
-.ai-typing span:nth-child(2){animation:bounce 1s .2s infinite;}
-.ai-typing span:nth-child(3){animation:bounce 1s .4s infinite;}
-.ai-typing span{animation:bounce 1s infinite;}
-@keyframes bounce{0%,100%{transform:translateY(0);opacity:.4}50%{transform:translateY(-5px);opacity:1}}
-
-/* ── DASHBOARD ── */
-.banner{
-  background:linear-gradient(135deg,rgba(79,142,247,.1),rgba(34,211,238,.05));
-  border:1px solid rgba(79,142,247,.15);border-radius:18px;
-  padding:18px;margin-bottom:16px;position:relative;overflow:hidden;
-}
-.banner::after{content:'';position:absolute;bottom:-40px;left:-40px;width:160px;height:160px;
-  background:radial-gradient(circle,rgba(34,211,238,.08),transparent 70%);pointer-events:none;}
-.bname{font-size:22px;font-weight:900;}
-.bname span{background:linear-gradient(135deg,var(--blue),var(--cyan));
+.h-name{font-family:var(--font-d);font-size:17px;font-weight:700;
+  background:linear-gradient(135deg,var(--azure),var(--sky));
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.bsub{font-size:12px;color:var(--text2);margin-top:3px;}
-.streak-row{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap;}
-.sbadge{display:inline-flex;align-items:center;gap:5px;
-  border-radius:20px;padding:5px 12px;font-size:12px;font-weight:700;}
-.sbadge.fire{background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.2);color:var(--gold);}
-.sbadge.pts{background:rgba(79,142,247,.1);border:1px solid rgba(79,142,247,.2);color:var(--blue);}
-.sbadge.lvl{background:rgba(167,139,250,.1);border:1px solid rgba(167,139,250,.2);color:var(--purple);}
+.h-sub{font-size:10px;color:var(--text3);margin-top:1px;letter-spacing:.5px;text-transform:uppercase;}
+.h-sp{flex:1;}
+.h-acts{display:flex;gap:8px;align-items:center;}
 
-.stat-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px;}
-@media(max-width:600px){.stat-row{grid-template-columns:1fr 1fr;}}
-.scard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:14px 12px;text-align:center;}
-.sv{font-size:22px;font-weight:900;line-height:1;}
-.sl{font-size:10px;color:var(--text2);margin-top:3px;}
+.wrap{max-width:1100px;margin:0 auto;padding:22px 16px;position:relative;z-index:1;}
 
-/* activity heatmap */
-.heatmap-row{display:flex;gap:3px;flex-wrap:wrap;}
-.hm-cell{width:14px;height:14px;border-radius:3px;background:var(--bg4);transition:.2s;}
-.hm-cell.l1{background:rgba(79,142,247,.25);}
-.hm-cell.l2{background:rgba(79,142,247,.5);}
-.hm-cell.l3{background:rgba(79,142,247,.8);}
-.hm-cell.l4{background:var(--blue);}
-
-/* lang cards */
-.lcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:14px;margin-bottom:10px;}
-.lhead{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
-.lflag{font-size:24px;}
-.lpct{margin-right:auto;font-size:20px;font-weight:900;}
-
-/* ── BLOG ── */
-.bgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px;}
-.pcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  overflow:hidden;cursor:pointer;transition:.2s;}
-.pcard:hover{transform:translateY(-3px);border-color:rgba(79,142,247,.3);box-shadow:0 8px 24px rgba(0,0,0,.4);}
-.ph{padding:12px 14px 0;display:flex;justify-content:space-between;align-items:center;}
-.pcat{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;text-transform:uppercase;}
-.pcat.en{background:rgba(79,142,247,.15);color:var(--blue);}
-.pcat.fr{background:rgba(34,211,238,.15);color:var(--cyan);}
-.pcat.goal{background:rgba(16,185,129,.15);color:var(--green);}
-.pcat.personal{background:rgba(167,139,250,.15);color:var(--purple);}
-.pb{padding:10px 14px 12px;}
-.ptitle{font-size:14px;font-weight:700;margin-bottom:4px;}
-.pexc{font-size:12px;color:var(--text2);line-height:1.6;
-  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
-.pf{padding:9px 14px;border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;}
-.pdate{font-size:10px;color:var(--text2);}
-.xbtn{padding:4px 9px;border-radius:8px;border:1px solid var(--border);
-  background:none;color:var(--text2);font-size:10px;font-family:'Cairo',sans-serif;cursor:pointer;transition:.2s;}
-.xbtn:hover{border-color:var(--red);color:var(--red);}
-
-/* ── GOALS ── */
-.gcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:16px;margin-bottom:12px;transition:.2s;}
-.gcard:hover{transform:translateY(-2px);}
-
-/* ── TASKS ── */
-.task-card{
-  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:14px 16px;margin-bottom:10px;
-  display:flex;align-items:flex-start;gap:12px;
-  transition:.2s;cursor:pointer;
+/* ══ HERO ══ */
+.hero{
+  background:linear-gradient(135deg,rgba(59,130,246,.08),rgba(14,165,233,.04));
+  border:1px solid var(--border2);border-radius:22px;
+  padding:28px 24px;margin-bottom:24px;
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
 }
-.task-card:hover{border-color:rgba(79,142,247,.25);}
-.task-card.done{opacity:.55;}
-.task-check{
-  width:22px;height:22px;border-radius:7px;border:2px solid var(--border);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  margin-top:2px;transition:.2s;
-}
-.task-card.done .task-check{background:var(--green);border-color:var(--green);}
-.task-body{flex:1;}
-.task-title{font-size:14px;font-weight:700;margin-bottom:3px;transition:.2s;}
-.task-card.done .task-title{text-decoration:line-through;color:var(--text2);}
-.task-meta{font-size:11px;color:var(--text2);display:flex;gap:10px;flex-wrap:wrap;}
-.task-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:20px;}
-.task-tag.urgent{background:rgba(248,113,113,.15);color:var(--red);}
-.task-tag.normal{background:rgba(79,142,247,.12);color:var(--blue);}
-.task-tag.low{background:rgba(16,185,129,.12);color:var(--green);}
-.task-actions{display:flex;gap:6px;flex-shrink:0;}
+.hero-ico{font-size:48px;flex-shrink:0;}
+.hero-t{font-family:var(--font-d);font-size:26px;font-weight:700;margin-bottom:4px;}
+.hero-t span{background:linear-gradient(135deg,var(--azure),var(--sky));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-s{font-size:13px;color:var(--text2);line-height:1.7;}
+.hero-stats{margin-right:auto;display:flex;gap:14px;flex-wrap:wrap;}
+.hstat{text-align:center;padding:10px 16px;background:rgba(255,255,255,.04);
+  border:1px solid var(--border);border-radius:12px;}
+.hstat-v{font-family:var(--font-d);font-size:22px;font-weight:700;color:var(--azure);}
+.hstat-l{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;margin-top:2px;}
 
-/* calendar */
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px;}
-.cal-day-hdr{font-size:10px;color:var(--text2);text-align:center;padding:4px;}
-.cal-day{
-  aspect-ratio:1;border-radius:9px;border:1px solid var(--border);
-  background:var(--bg3);display:flex;flex-direction:column;
-  align-items:center;justify-content:center;font-size:12px;
-  cursor:pointer;transition:.2s;position:relative;
+/* ══ TOOLBAR ══ */
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:20px;}
+.search-box{
+  flex:1;min-width:200px;position:relative;
 }
-.cal-day:hover{border-color:var(--blue);}
-.cal-day.today{border-color:var(--blue);color:var(--blue);font-weight:700;}
-.cal-day.has-task::after{
-  content:'';position:absolute;bottom:3px;width:4px;height:4px;
-  border-radius:50%;background:var(--cyan);
+.search-box input{
+  width:100%;padding:10px 14px 10px 38px;
+  background:var(--ink2);border:1px solid var(--border);
+  border-radius:11px;color:var(--text);
+  font-family:var(--font-b);font-size:13px;outline:none;transition:.2s;
 }
-.cal-day.selected{background:var(--blue2);border-color:var(--blue);color:#fff;}
-.cal-day.other-month{opacity:.3;}
+.search-box input:focus{border-color:var(--azure);}
+.search-box::before{
+  content:'🔍';position:absolute;right:12px;top:50%;
+  transform:translateY(-50%);font-size:14px;pointer-events:none;
+}
+.filter-tabs{display:flex;background:var(--ink3);border-radius:11px;padding:3px;gap:3px;}
+.ftab{padding:7px 13px;border:none;background:transparent;
+  color:var(--text2);font-family:var(--font-b);font-size:11px;font-weight:600;
+  border-radius:9px;cursor:pointer;transition:.2s;white-space:nowrap;}
+.ftab.on{background:var(--azure);color:#fff;box-shadow:0 2px 8px rgba(59,130,246,.3);}
 
-/* ── FLASHCARDS ── */
-.fc-wrap{perspective:1000px;margin-bottom:16px;}
-.fc-card{
-  width:100%;height:200px;position:relative;transform-style:preserve-3d;
-  transition:transform .6s cubic-bezier(.22,1,.36,1);cursor:pointer;
+/* ══ BUTTONS ══ */
+.btn{
+  padding:9px 16px;border-radius:10px;border:none;
+  font-family:var(--font-b);font-size:12px;font-weight:600;
+  cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:6px;
 }
-.fc-card.flipped{transform:rotateY(180deg);}
-.fc-front,.fc-back{
-  position:absolute;inset:0;backface-visibility:hidden;
-  border-radius:18px;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;padding:24px;text-align:center;
-}
-.fc-front{
-  background:linear-gradient(135deg,var(--bg3),var(--bg4));
-  border:1px solid var(--border);
-}
-.fc-back{
-  background:linear-gradient(135deg,rgba(79,142,247,.15),rgba(34,211,238,.08));
-  border:1px solid rgba(79,142,247,.25);
-  transform:rotateY(180deg);
-}
-.fc-word{font-size:28px;font-weight:900;margin-bottom:8px;}
-.fc-hint{font-size:12px;color:var(--text2);}
-.fc-translation{font-size:22px;font-weight:700;color:var(--cyan);margin-bottom:8px;}
-.fc-example{font-size:12px;color:var(--text2);line-height:1.6;}
-.fc-nav{display:flex;justify-content:center;gap:12px;align-items:center;margin-bottom:16px;}
-.fc-counter{font-size:13px;color:var(--text2);}
-.fc-rating{display:flex;gap:8px;justify-content:center;}
-.fc-rate{padding:8px 20px;border-radius:10px;border:none;font-family:'Cairo',sans-serif;
-  font-size:12px;font-weight:700;cursor:pointer;transition:.2s;}
-.fc-rate.easy{background:rgba(16,185,129,.15);color:var(--green);border:1px solid rgba(16,185,129,.2);}
-.fc-rate.hard{background:rgba(248,113,113,.15);color:var(--red);border:1px solid rgba(248,113,113,.2);}
-.fc-rate:hover{transform:scale(1.05);}
+.btn-blue{background:linear-gradient(135deg,var(--azure2),var(--azure));color:#fff;
+  box-shadow:0 3px 10px rgba(59,130,246,.25);}
+.btn-blue:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(59,130,246,.4);}
+.btn-ghost{background:rgba(255,255,255,.05);color:var(--text2);border:1px solid var(--border);}
+.btn-ghost:hover{border-color:var(--azure);color:var(--azure);}
+.btn-emerald{background:rgba(16,185,129,.1);color:var(--emerald);border:1px solid rgba(16,185,129,.2);}
+.btn-emerald:hover{background:rgba(16,185,129,.2);}
+.btn-amber{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2);}
+.btn-rose{background:rgba(244,63,94,.08);color:var(--rose);border:1px solid rgba(244,63,94,.18);}
+.btn-sm{padding:6px 11px;font-size:11px;}
 
-/* ── QUIZ ── */
-.quiz-wrap{max-width:520px;margin:0 auto;}
-.q-card{background:var(--bg2);border:1px solid var(--border);border-radius:18px;padding:24px;}
-.q-num{font-size:11px;color:var(--text2);margin-bottom:10px;font-weight:700;}
-.q-text{font-size:18px;font-weight:700;margin-bottom:22px;line-height:1.5;}
-.q-options{display:flex;flex-direction:column;gap:10px;}
-.q-opt{
-  padding:13px 16px;border-radius:12px;border:1px solid var(--border);
-  background:var(--bg3);color:var(--text);font-family:'Cairo',sans-serif;
-  font-size:14px;cursor:pointer;text-align:right;transition:.2s;
+/* ══ BOOK GRID ══ */
+.books-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:14px;
 }
-.q-opt:hover:not(:disabled){border-color:var(--blue);background:rgba(79,142,247,.08);}
-.q-opt.correct{background:rgba(16,185,129,.15);border-color:var(--green);color:var(--green);}
-.q-opt.wrong{background:rgba(248,113,113,.1);border-color:var(--red);color:var(--red);}
-.q-progress{height:5px;background:var(--bg4);border-radius:5px;margin-bottom:18px;overflow:hidden;}
-.q-pfill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--blue),var(--cyan));
-  transition:width .4s ease;}
-.q-result{text-align:center;padding:30px 20px;}
-.q-score{font-size:52px;font-weight:900;margin-bottom:8px;}
-.q-stars{font-size:28px;margin-bottom:12px;}
+@media(max-width:600px){.books-grid{grid-template-columns:repeat(2,1fr);}}
 
-/* ── VOCAB ── */
-.vocab-item{
-  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:14px;margin-bottom:10px;display:flex;align-items:center;gap:14px;
+.book-card{
+  background:var(--ink2);border:1px solid var(--border);
+  border-radius:var(--r2);overflow:hidden;
+  cursor:pointer;transition:.25s;position:relative;
 }
-.vocab-word{font-size:16px;font-weight:700;flex:1;}
-.vocab-tr{font-size:13px;color:var(--cyan);flex:1;}
-.vocab-lvl{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.vocab-lvl.new{background:var(--red);}
-.vocab-lvl.learning{background:var(--gold);}
-.vocab-lvl.known{background:var(--green);}
+.book-card:hover{transform:translateY(-4px);border-color:var(--border2);
+  box-shadow:0 14px 40px rgba(0,0,0,.4);}
+.book-card.selected{border-color:var(--azure);box-shadow:0 0 0 2px rgba(59,130,246,.2);}
 
-/* ── LEARN ── */
-.lecard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:15px;display:flex;align-items:center;gap:14px;
-  cursor:pointer;margin-bottom:9px;transition:.2s;}
-.lecard:hover{transform:translateX(-3px);border-color:rgba(79,142,247,.25);}
-.leicon{width:48px;height:48px;border-radius:14px;
-  display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
-.letitle{font-size:13px;font-weight:700;margin-bottom:2px;}
-.lemeta{font-size:11px;color:var(--text2);}
-.lestatus{font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;flex-shrink:0;}
-.done{background:rgba(16,185,129,.12);color:var(--green);}
-.todo{background:var(--bg4);color:var(--text2);}
+.book-cover{
+  width:100%;aspect-ratio:3/4;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.book-cover-emoji{font-size:36px;margin-bottom:8px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));}
+.book-cover-title{
+  font-family:var(--font-d);font-size:11px;font-weight:700;
+  text-align:center;padding:0 10px;color:rgba(255,255,255,.9);
+  line-height:1.3;text-shadow:0 1px 3px rgba(0,0,0,.5);
+}
+.book-cover-author{
+  font-size:9px;color:rgba(255,255,255,.6);text-align:center;
+  padding:0 8px;margin-top:4px;
+}
+.book-cover-flag{
+  position:absolute;top:8px;right:8px;font-size:16px;
+  background:rgba(0,0,0,.35);border-radius:6px;padding:2px 4px;
+}
+.book-cover-level{
+  position:absolute;bottom:8px;left:8px;
+  font-size:9px;font-weight:700;padding:2px 6px;border-radius:5px;
+  background:rgba(0,0,0,.45);
+}
+.book-sel-check{
+  position:absolute;top:8px;left:8px;
+  width:22px;height:22px;border-radius:7px;border:2px solid var(--azure);
+  background:var(--azure);display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:#fff;opacity:0;transition:.2s;
+}
+.book-card.selected .book-sel-check{opacity:1;}
 
-/* ── LIBRARY ── */
-.bkgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;}
-.bkcard{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:12px;text-align:center;cursor:pointer;transition:.2s;}
-.bkcard:hover{transform:translateY(-3px);border-color:rgba(79,142,247,.25);}
-.bkcover{width:100%;aspect-ratio:2/3;border-radius:10px;
-  display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:9px;}
+.book-info{padding:11px 12px;}
+.book-title{font-size:13px;font-weight:600;margin-bottom:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.book-author{font-size:11px;color:var(--text2);margin-bottom:6px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.book-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px;}
+.btag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;white-space:nowrap;}
+.btag-fr{background:rgba(59,130,246,.12);color:var(--azure);}
+.btag-ar{background:rgba(16,185,129,.12);color:var(--emerald);}
+.btag-en{background:rgba(14,165,233,.12);color:var(--sky);}
+.btag-genre{background:rgba(139,92,246,.1);color:var(--violet);}
+.btag-level{background:rgba(245,158,11,.1);color:var(--amber);}
+.book-actions{display:flex;gap:5px;}
 
-/* ── NOTIFICATIONS ── */
-.notif-item{
-  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:14px;margin-bottom:10px;display:flex;align-items:flex-start;gap:12px;
+/* ══ ADD BOOK PANEL ══ */
+.add-panel{
+  background:var(--ink2);border:1px solid var(--border2);
+  border-radius:var(--r2);padding:22px;margin-bottom:22px;
+  display:none;animation:slideDown .3s both;
+}
+.add-panel.on{display:block;}
+@keyframes slideDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+.panel-title{font-family:var(--font-d);font-size:16px;font-weight:700;margin-bottom:18px;
+  display:flex;align-items:center;gap:8px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr;}}
+.field label{display:block;font-size:10px;color:var(--text3);font-weight:600;
+  margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;}
+.inp{width:100%;padding:10px 13px;background:var(--ink3);border:1px solid var(--border);
+  border-radius:10px;color:var(--text);font-family:var(--font-b);font-size:13px;
+  outline:none;transition:.2s;}
+.inp:focus{border-color:var(--azure);box-shadow:0 0 0 3px rgba(59,130,246,.1);}
+select.inp{cursor:pointer;}
+textarea.inp{resize:vertical;min-height:80px;line-height:1.7;}
+.form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+
+/* ══ EXPORT PANEL ══ */
+.export-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:200;
+  background:rgba(10,16,30,.97);backdrop-filter:blur(20px);
+  border-top:1px solid var(--border2);
+  padding:12px 20px;
+  display:none;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.export-bar.on{display:flex;}
+.export-count{
+  font-size:13px;font-weight:600;color:var(--azure);
+  display:flex;align-items:center;gap:6px;
+}
+.export-sp{flex:1;}
+.export-hint{font-size:11px;color:var(--text2);}
+
+/* ══ READER ══ */
+.reader-overlay{
+  position:fixed;inset:0;z-index:300;
+  background:var(--ink);display:none;flex-direction:column;
+}
+.reader-overlay.on{display:flex;}
+.reader-header{
+  padding:14px 20px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;background:var(--ink2);flex-shrink:0;
+}
+.reader-title{font-family:var(--font-d);font-size:15px;font-weight:700;flex:1;}
+.reader-meta{font-size:11px;color:var(--text2);}
+.reader-body{flex:1;overflow-y:auto;padding:28px 20px;max-width:760px;margin:0 auto;width:100%;}
+.reader-chapter{margin-bottom:40px;}
+.reader-chapter h2{font-family:var(--font-d);font-size:20px;font-weight:700;
+  color:var(--azure);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.reader-chapter p{font-size:15px;line-height:2;color:var(--text2);margin-bottom:14px;}
+.reader-chapter .highlight{color:var(--text);font-weight:500;}
+.reader-chapter .vocab{
+  background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.15);
+  border-radius:5px;padding:1px 6px;cursor:pointer;color:var(--azure);
   transition:.2s;
 }
-.notif-item.unread{border-color:rgba(79,142,247,.3);background:rgba(79,142,247,.04);}
-.notif-icon{font-size:22px;flex-shrink:0;}
-.notif-body{flex:1;}
-.notif-title{font-size:13px;font-weight:700;margin-bottom:2px;}
-.notif-sub{font-size:11px;color:var(--text2);}
-.notif-badge{width:8px;height:8px;border-radius:50%;background:var(--blue);flex-shrink:0;margin-top:5px;}
+.reader-chapter .vocab:hover{background:rgba(59,130,246,.2);}
+.reader-progress{height:3px;background:var(--ink3);}
+.reader-progress-fill{height:100%;background:linear-gradient(90deg,var(--azure),var(--sky));
+  transition:width .3s;}
+.reader-controls{
+  padding:10px 20px;border-top:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;background:var(--ink2);flex-shrink:0;flex-wrap:wrap;
+}
+.font-size-ctrl{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);}
+.font-size-ctrl button{width:28px;height:28px;border-radius:7px;border:1px solid var(--border);
+  background:var(--ink3);color:var(--text);cursor:pointer;font-size:14px;font-weight:700;transition:.2s;}
+.font-size-ctrl button:hover{border-color:var(--azure);}
 
-/* ── MODAL ── */
-.moverlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.78);
-  backdrop-filter:blur(10px);display:none;align-items:center;justify-content:center;padding:20px;}
-.moverlay.on{display:flex;}
-.mbox{background:var(--bg2);border:1px solid var(--border);border-radius:20px;
-  padding:24px;width:100%;max-width:500px;max-height:88vh;overflow-y:auto;
-  animation:slideUp .3s both;}
-.mtitle{font-size:17px;font-weight:900;margin-bottom:18px;
-  display:flex;justify-content:space-between;align-items:center;}
-.mclose{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);
-  background:var(--bg3);color:var(--text2);cursor:pointer;font-size:13px;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+/* ══ IMPORT ZONE ══ */
+.import-zone{
+  border:2px dashed var(--border2);border-radius:var(--r2);
+  padding:32px;text-align:center;cursor:pointer;transition:.3s;
+  background:rgba(59,130,246,.02);margin-bottom:20px;
+}
+.import-zone:hover,.import-zone.drag{
+  border-color:var(--azure);background:rgba(59,130,246,.05);}
+.import-zone-ico{font-size:36px;margin-bottom:10px;opacity:.5;}
+.import-zone-t{font-size:14px;font-weight:600;color:var(--text2);margin-bottom:4px;}
+.import-zone-s{font-size:12px;color:var(--text3);}
 
-/* ── BADGES ── */
-.bdg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;}
-.bdg{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:14px;text-align:center;transition:.2s;}
-.bdg.earned{border-color:rgba(251,191,36,.3);background:rgba(251,191,36,.05);}
-.bdg.locked{opacity:.4;}
-.bdg-icon{font-size:28px;margin-bottom:6px;}
-.bdg-name{font-size:11px;font-weight:700;}
-
-/* ── TOAST ── */
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(16px);
-  background:var(--bg2);border:1px solid var(--border);border-radius:11px;
-  padding:10px 18px;font-size:13px;font-weight:600;box-shadow:var(--sh);
-  z-index:9999;opacity:0;transition:.3s;white-space:nowrap;pointer-events:none;}
+/* ══ TOAST ══ */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(10px);
+  background:var(--ink2);border:1px solid var(--border2);border-radius:10px;
+  padding:9px 18px;font-size:13px;font-weight:500;
+  box-shadow:var(--sh);z-index:9999;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap;}
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
 
-/* ── SETTINGS ── */
-.setting-row{
-  background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:14px 16px;margin-bottom:10px;
-  display:flex;align-items:center;justify-content:space-between;gap:12px;
+/* ══ EMPTY ══ */
+.empty{text-align:center;padding:60px 20px;color:var(--text3);}
+.empty-ico{font-size:48px;margin-bottom:12px;opacity:.3;}
+.empty-t{font-size:16px;font-weight:600;margin-bottom:6px;color:var(--text2);}
+.empty-s{font-size:13px;}
+
+/* ══ MODAL ══ */
+.moverlay{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.8);
+  backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:16px;}
+.moverlay.on{display:flex;}
+.mbox{background:var(--ink2);border:1px solid var(--border2);border-radius:22px;
+  padding:24px;width:100%;max-width:520px;max-height:88vh;overflow-y:auto;
+  animation:slideDown .3s both;}
+.mtitle{font-family:var(--font-d);font-size:17px;font-weight:700;margin-bottom:16px;
+  display:flex;justify-content:space-between;align-items:center;}
+.mclose{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);
+  background:var(--ink3);color:var(--text2);cursor:pointer;font-size:12px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.detail-cover{width:120px;aspect-ratio:3/4;border-radius:12px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-size:32px;flex-shrink:0;margin-bottom:14px;}
+.detail-row{display:flex;gap:16px;align-items:flex-start;margin-bottom:14px;flex-wrap:wrap;}
+.detail-info{flex:1;}
+.detail-title{font-family:var(--font-d);font-size:18px;font-weight:700;margin-bottom:4px;}
+.detail-author{font-size:13px;color:var(--text2);margin-bottom:10px;}
+.detail-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.detail-notes{font-size:13px;color:var(--text2);line-height:1.8;
+  background:var(--ink3);border-radius:10px;padding:12px;margin-bottom:14px;}
+.pbar{height:5px;background:var(--ink4);border-radius:5px;overflow:hidden;margin-bottom:10px;}
+.pfill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--azure),var(--sky));transition:width .6s;}
+.st-row{display:flex;gap:8px;flex-wrap:wrap;}
+
+/* ══ AWAD CONNECT ══ */
+.connect-card{
+  background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(14,165,233,.03));
+  border:1px solid rgba(59,130,246,.18);border-radius:var(--r2);
+  padding:18px;margin-bottom:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
 }
-.setting-label{font-size:13px;font-weight:700;}
-.setting-sub{font-size:11px;color:var(--text2);margin-top:2px;}
-.toggle{position:relative;width:44px;height:24px;flex-shrink:0;}
-.toggle input{opacity:0;width:0;height:0;}
-.tog-slider{
-  position:absolute;inset:0;border-radius:12px;background:var(--bg4);
-  cursor:pointer;transition:.3s;
-}
-.tog-slider::before{
-  content:'';position:absolute;height:18px;width:18px;left:3px;bottom:3px;
-  border-radius:50%;background:#fff;transition:.3s;
-}
-.toggle input:checked+.tog-slider{background:var(--blue);}
-.toggle input:checked+.tog-slider::before{transform:translateX(20px);}
-
-
-/* ── LIGHT MODE ── */
-body.light{
-  --bg:#f0f4ff;--bg2:#ffffff;--bg3:#e8eef8;--bg4:#d8e4f4;
-  --text:#0f1c35;--text2:#4a6890;--border:rgba(79,142,247,.18);
-  --sh:0 4px 24px rgba(0,0,0,.08);--glow:0 0 20px rgba(79,142,247,.1);
-}
-body.light header{background:rgba(240,244,255,.95);}
-body.light .nav{background:var(--bg2);}
-body.light #authScreen{background:var(--bg);}
-
-/* ── LANG SWITCHER ── */
-.lang-sw{display:flex;gap:4px;background:var(--bg3);border-radius:10px;padding:3px;}
-.lang-btn{padding:4px 10px;border-radius:8px;border:none;background:none;
-  color:var(--text2);font-family:'Cairo',sans-serif;font-size:11px;font-weight:700;
-  cursor:pointer;transition:.2s;}
-.lang-btn.on{background:var(--blue);color:#fff;}
-
-/* ── THEME TOGGLE ── */
-.theme-btn{width:32px;height:32px;border-radius:10px;border:1px solid var(--border);
-  background:var(--bg3);color:var(--text2);cursor:pointer;font-size:14px;
-  display:flex;align-items:center;justify-content:center;transition:.2s;}
-.theme-btn:hover{border-color:var(--blue);}
-
-/* ── STATS CHARTS ── */
-.chart-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:16px;margin-bottom:14px;}
-.chart-title{font-size:12px;font-weight:700;color:var(--text2);margin-bottom:12px;}
-.bar-chart{display:flex;align-items:flex-end;gap:6px;height:100px;}
-.bar-item{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
-.bar-fill{width:100%;border-radius:6px 6px 0 0;transition:height .8s cubic-bezier(.22,1,.36,1);min-height:4px;}
-.bar-lbl{font-size:9px;color:var(--text2);white-space:nowrap;}
-.bar-val{font-size:9px;color:var(--text2);}
-
-.donut-wrap{display:flex;align-items:center;gap:16px;}
-.donut-legend{flex:1;}
-.donut-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
-.donut-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
-.donut-lbl{font-size:12px;flex:1;}
-.donut-pct{font-size:12px;font-weight:700;color:var(--text2);}
-
-.stat-big{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:16px;text-align:center;}
-.stat-big-val{font-size:32px;font-weight:900;line-height:1;
-  background:linear-gradient(135deg,var(--blue),var(--cyan));
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-.stat-big-lbl{font-size:11px;color:var(--text2);margin-top:4px;}
-
-/* ── AI CHAT ── */
-.chat-wrap{display:flex;flex-direction:column;height:calc(100vh - 160px);max-height:600px;}
-.chat-msgs{flex:1;overflow-y:auto;padding:10px 0;display:flex;flex-direction:column;gap:10px;scrollbar-width:thin;}
-.chat-msg{display:flex;gap:10px;align-items:flex-start;animation:slideUp .25s both;}
-.chat-msg.user{flex-direction:row-reverse;}
-.chat-bubble{max-width:75%;padding:11px 14px;border-radius:16px;font-size:13px;line-height:1.7;}
-.chat-msg.ai .chat-bubble{background:var(--bg3);border:1px solid var(--border);border-radius:4px 16px 16px 16px;}
-.chat-msg.user .chat-bubble{background:linear-gradient(135deg,var(--blue2),var(--blue));color:#fff;border-radius:16px 4px 16px 16px;}
-.chat-avatar{width:32px;height:32px;border-radius:10px;display:flex;align-items:center;
-  justify-content:center;font-size:14px;flex-shrink:0;}
-.chat-msg.ai .chat-avatar{background:linear-gradient(135deg,var(--blue2),var(--cyan));}
-.chat-msg.user .chat-avatar{background:var(--bg4);}
-.chat-input-row{display:flex;gap:8px;padding-top:12px;border-top:1px solid var(--border);}
-.chat-inp{flex:1;padding:11px 14px;background:var(--bg3);border:1px solid var(--border);
-  border-radius:12px;color:var(--text);font-family:'Cairo',sans-serif;font-size:13px;outline:none;transition:.2s;}
-.chat-inp:focus{border-color:var(--blue);}
-.chat-send{width:44px;height:44px;border-radius:12px;border:none;flex-shrink:0;
-  background:linear-gradient(135deg,var(--blue2),var(--blue));color:#fff;
-  cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;
-  transition:.2s;box-shadow:0 2px 8px rgba(79,142,247,.3);}
-.chat-send:hover{transform:scale(1.05);}
-
-/* ── WEEKLY SCHEDULE ── */
-.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:14px;}
-.week-day{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:8px 4px;text-align:center;}
-.week-day.today{border-color:var(--blue);background:rgba(79,142,247,.08);}
-.week-day-name{font-size:9px;color:var(--text2);font-weight:700;margin-bottom:4px;}
-.week-day-num{font-size:13px;font-weight:700;margin-bottom:6px;}
-.week-tasks{display:flex;flex-direction:column;gap:3px;}
-.week-task{font-size:9px;padding:2px 4px;border-radius:4px;background:rgba(79,142,247,.15);
-  color:var(--blue);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.week-task.done{background:rgba(16,185,129,.12);color:var(--green);text-decoration:line-through;}
-.week-task.urgent{background:rgba(248,113,113,.12);color:var(--red);}
-
-/* ── AI SCHEDULE ── */
-.sched-item{background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);
-  padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;
-  border-right:3px solid var(--blue);}
-.sched-time{font-size:12px;font-weight:700;color:var(--blue);flex-shrink:0;min-width:50px;}
-.sched-body{flex:1;}
-.sched-title{font-size:13px;font-weight:700;}
-.sched-meta{font-size:11px;color:var(--text2);}
-.sched-item.urgent{border-right-color:var(--red);}
-.sched-item.done{opacity:.5;}
-
-/* ── MOBILE BOTTOM NAV ── */
-@media(max-width:600px){
-  .nav{position:fixed;bottom:0;left:0;right:0;z-index:100;
-    border-top:1px solid var(--border);border-bottom:none;
-    justify-content:space-around;background:rgba(6,13,26,.96);}
-  .ni{padding:7px 6px;}
-  main{padding-bottom:70px;}
-  .toast{bottom:86px;}
-  .stat-row{grid-template-columns:1fr 1fr;}
-}
+.connect-ico{font-size:30px;flex-shrink:0;}
+.connect-body{flex:1;}
+.connect-title{font-size:14px;font-weight:700;margin-bottom:4px;}
+.connect-sub{font-size:12px;color:var(--text2);line-height:1.6;}
+.connect-status{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;}
+.cstatus-dot{width:7px;height:7px;border-radius:50%;}
+.cstatus-dot.on{background:var(--emerald);box-shadow:0 0 6px rgba(16,185,129,.5);}
+.cstatus-dot.off{background:var(--text3);}
 </style>
 </head>
 <body>
 
-<!-- ══ AUTH ══ -->
-<div id="authScreen">
-  <div class="auth-wrap">
-    <div class="auth-brand">
-      <span class="logo-big">عواد</span>
-      <div class="ai-badge"><div class="ai-dot"></div>مدعوم بالذكاء الاصطناعي</div>
+<header>
+  <div class="h-brand">
+    <div class="h-logo">ع</div>
+    <div>
+      <div class="h-name">مكتبة عواد</div>
+      <div class="h-sub">Aouad Book Library</div>
     </div>
-    <div class="auth-box">
-      <div class="atabs">
-        <button class="atab on" onclick="swTab('l')">تسجيل الدخول</button>
-        <button class="atab" onclick="swTab('r')">حساب جديد</button>
+  </div>
+  <div class="h-sp"></div>
+  <div class="h-acts">
+    <button class="btn btn-ghost btn-sm" onclick="toggleImport()">📥 استيراد</button>
+    <button class="btn btn-ghost btn-sm" onclick="toggleAdd()">➕ إضافة</button>
+    <button class="btn btn-blue btn-sm" onclick="openExportAll()">📤 تصدير لعواد</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- Awad Connect Card -->
+  <div class="connect-card" id="connectCard">
+    <div class="connect-ico">🔗</div>
+    <div class="connect-body">
+      <div class="connect-title">ربط مع تطبيق عواد</div>
+      <div class="connect-sub">صدّر الكتب مباشرة إلى تطبيق عواد. افتح عواد في نفس المتصفح ثم اضغط "تصدير".</div>
+    </div>
+    <div>
+      <div class="connect-status" id="awadStatus">
+        <div class="cstatus-dot off" id="statusDot"></div>
+        <span id="statusTxt">غير متصل</span>
       </div>
-      <div id="lForm">
-        <div class="afield"><label>الإيميل</label><input class="ainp" type="email" id="lE" placeholder="you@gmail.com"/></div>
-        <div class="afield"><label>كلمة السر</label><input class="ainp" type="password" id="lP" placeholder="••••••••"/></div>
-        <button class="abtn" onclick="doLogin()">🚀 دخول</button>
+      <div style="margin-top:8px;display:flex;gap:6px;">
+        <button class="btn btn-ghost btn-sm" onclick="checkAwadConn()">🔄 فحص</button>
       </div>
-      <div id="rForm" style="display:none">
-        <div class="afield"><label>الاسم</label><input class="ainp" type="text" id="rN" placeholder="اسمك"/></div>
-        <div class="afield"><label>الإيميل</label><input class="ainp" type="email" id="rE" placeholder="you@gmail.com"/></div>
-        <div class="afield"><label>كلمة السر</label><input class="ainp" type="password" id="rP" placeholder="••••••••"/></div>
-        <button class="abtn" onclick="doReg()">✨ إنشاء حساب</button>
+    </div>
+  </div>
+
+  <!-- Import Zone -->
+  <div id="importWrap" style="display:none">
+    <div class="import-zone" id="importZone" onclick="document.getElementById('fileInput').click()"
+         ondragover="event.preventDefault();this.classList.add('drag')"
+         ondragleave="this.classList.remove('drag')"
+         ondrop="handleDrop(event)">
+      <div class="import-zone-ico">📂</div>
+      <div class="import-zone-t">اسحب ملف JSON هنا أو اضغط للاختيار</div>
+      <div class="import-zone-s">يدعم ملفات التصدير من عواد (.json)</div>
+    </div>
+    <input type="file" id="fileInput" accept=".json" style="display:none" onchange="handleFileImport(this)"/>
+  </div>
+
+  <!-- Add Book Panel -->
+  <div class="add-panel" id="addPanel">
+    <div class="panel-title">📚 إضافة كتاب جديد</div>
+    <div class="form-grid">
+      <div class="field"><label>عنوان الكتاب *</label><input class="inp" id="fTitle" placeholder="Le Petit Prince"/></div>
+      <div class="field"><label>المؤلف</label><input class="inp" id="fAuth" placeholder="Antoine de Saint-Exupéry"/></div>
+      <div class="field"><label>اللغة</label>
+        <select class="inp" id="fLang">
+          <option value="fr">🇫🇷 Français</option>
+          <option value="ar">🇲🇦 العربية</option>
+          <option value="en">🇬🇧 English</option>
+        </select></div>
+      <div class="field"><label>المستوى</label>
+        <select class="inp" id="fLevel">
+          <option value="A1">A1 — مبتدئ</option>
+          <option value="A2" selected>A2 — أساسي</option>
+          <option value="B1">B1 — متوسط</option>
+          <option value="B2">B2 — فوق المتوسط</option>
+          <option value="C1">C1 — متقدم</option>
+        </select></div>
+      <div class="field"><label>النوع الأدبي</label><input class="inp" id="fGenre" placeholder="رواية، شعر، فلسفة..."/></div>
+      <div class="field"><label>السنة</label><input class="inp" id="fYear" placeholder="1943"/></div>
+    </div>
+    <div class="field" style="margin-bottom:12px"><label>ملاحظاتي</label><textarea class="inp" id="fNotes" placeholder="لماذا أريد قراءة هذا الكتاب..."></textarea></div>
+    <div class="form-actions">
+      <button class="btn btn-blue" onclick="addBook()">💾 حفظ الكتاب</button>
+      <button class="btn btn-ghost" onclick="toggleAdd()">إلغاء</button>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-ico">📚</div>
+    <div>
+      <div class="hero-t">مكتبتي <span>الشخصية</span></div>
+      <div class="hero-s">أضف كتبك، تابع تقدمك، وصدّرها لتطبيق عواد مباشرة</div>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-v" id="hTotal">0</div><div class="hstat-l">📚 كتاب</div></div>
+      <div class="hstat"><div class="hstat-v" id="hReading">0</div><div class="hstat-l">📖 يُقرأ</div></div>
+      <div class="hstat"><div class="hstat-v" id="hDone">0</div><div class="hstat-l">✅ مكتمل</div></div>
+      <div class="hstat"><div class="hstat-v" id="hFr">0</div><div class="hstat-l">🇫🇷 فرنسية</div></div>
+      <div class="hstat"><div class="hstat-v" id="hAr">0</div><div class="hstat-l">🇲🇦 عربية</div></div>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="search-box">
+      <input type="text" id="searchInp" placeholder="ابحث عن كتاب..." oninput="render()"/>
+    </div>
+    <div class="filter-tabs">
+      <button class="ftab on" onclick="setFilter('all',this)">الكل</button>
+      <button class="ftab" onclick="setFilter('fr',this)">🇫🇷</button>
+      <button class="ftab" onclick="setFilter('ar',this)">🇲🇦</button>
+      <button class="ftab" onclick="setFilter('en',this)">🇬🇧</button>
+      <button class="ftab" onclick="setFilter('reading',this)">📖</button>
+      <button class="ftab" onclick="setFilter('done',this)">✅</button>
+      <button class="ftab" onclick="setFilter('todo',this)">📌</button>
+    </div>
+    <button class="btn btn-ghost btn-sm" id="selAllBtn" onclick="toggleSelAll()">☑️ تحديد الكل</button>
+  </div>
+
+  <!-- Books Grid -->
+  <div class="books-grid" id="booksGrid"></div>
+
+  <!-- Empty State -->
+  <div class="empty" id="emptyState" style="display:none">
+    <div class="empty-ico">📚</div>
+    <div class="empty-t">المكتبة فارغة</div>
+    <div class="empty-s">اضغط "إضافة" لإضافة أول كتاب</div>
+  </div>
+
+</div>
+
+<!-- Export Bar -->
+<div class="export-bar" id="exportBar">
+  <div class="export-count">📦 <span id="selCount">0</span> كتاب محدد</div>
+  <div class="export-hint">سيتم التصدير إلى تطبيق عواد</div>
+  <div class="export-sp"></div>
+  <button class="btn btn-ghost btn-sm" onclick="clearSel()">✕ إلغاء</button>
+  <button class="btn btn-emerald btn-sm" onclick="exportSelected()">📤 تصدير المحدد</button>
+  <button class="btn btn-blue btn-sm" onclick="exportSelectedRead()">📖 تصدير + قراءة</button>
+</div>
+
+<!-- Book Detail Modal -->
+<div class="moverlay" id="detailModal">
+  <div class="mbox">
+    <div class="mtitle"><span id="dTitle">—</span><button class="mclose" onclick="closeMod('detailModal')">✕</button></div>
+    <div class="detail-row">
+      <div class="detail-cover" id="dCover"></div>
+      <div class="detail-info">
+        <div class="detail-author" id="dAuthor"></div>
+        <div class="detail-tags" id="dTags"></div>
+        <div id="dProgress" style="margin-bottom:10px"></div>
+        <div class="st-row" id="dSt"></div>
       </div>
-      <div class="aerr" id="aerr"></div>
+    </div>
+    <div class="detail-notes" id="dNotes"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-blue btn-sm" id="dRead" onclick="">📖 اقرأ الآن</button>
+      <button class="btn btn-emerald btn-sm" onclick="exportOne(currentBookId)">📤 تصدير لعواد</button>
+      <button class="btn btn-rose btn-sm" onclick="deleteBook(currentBookId);closeMod('detailModal')">🗑️ حذف</button>
     </div>
   </div>
 </div>
 
-<!-- ══ APP ══ -->
-<div id="app">
-  <header>
-    <div class="logo-wrap">
-      <div class="logo-icon">ع</div>
-      <div class="logo-name">عو<span>اد</span></div>
-      <div class="ai-indicator"><div class="ai-dot"></div>AI</div>
+<!-- Reader -->
+<div class="reader-overlay" id="reader">
+  <div class="reader-header">
+    <button class="btn btn-ghost btn-sm" onclick="closeReader()">← رجوع</button>
+    <div>
+      <div class="reader-title" id="readerTitle">—</div>
+      <div class="reader-meta" id="readerMeta"></div>
     </div>
-    <div class="hright">
-      <div class="lang-sw">
-        <button class="lang-btn on" id="lb-ar" onclick="setAppLang('ar')">ع</button>
-        <button class="lang-btn" id="lb-fr" onclick="setAppLang('fr')">Fr</button>
-        <button class="lang-btn" id="lb-en" onclick="setAppLang('en')">En</button>
+    <div style="margin-right:auto;display:flex;gap:8px;align-items:center">
+      <div class="font-size-ctrl">
+        <button onclick="changeFontSize(-1)">−</button>
+        <span id="fsDisplay">16px</span>
+        <button onclick="changeFontSize(1)">+</button>
       </div>
-      <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="الوضع النهاري/الليلي">🌙</button>
-      <div class="pts-badge">⭐ <span id="hpts">0</span></div>
-      <span id="ubadge" style="font-size:11px;color:var(--text2)">👤</span>
-      <button class="hbtn" id="hLogout" onclick="doLogout()">خروج</button>
+      <button class="btn btn-emerald btn-sm" onclick="saveReadProgress()">💾 حفظ</button>
     </div>
-  </header>
-
-  <nav class="nav">
-    <button class="ni on" onclick="go('dash')"><span class="ico">🏠</span>الرئيسية</button>
-    <button class="ni" onclick="go('blog')"><span class="ico">📝</span>مدونتي</button>
-    <button class="ni" onclick="go('tasks')"><span class="ico">✅</span>المهام</button>
-    <button class="ni" onclick="go('goals')"><span class="ico">🎯</span>أهدافي</button>
-    <button class="ni" onclick="go('learn')"><span class="ico">📚</span>التعلم</button>
-    <button class="ni" onclick="go('vocab')"><span class="ico">🔤</span>المفردات</button>
-    <button class="ni" onclick="go('lib')"><span class="ico">📖</span>المكتبة</button>
-    <button class="ni" onclick="go('stats')"><span class="ico">📊</span><span data-t="nav_stats">إحصائيات</span></button>
-    <button class="ni" onclick="go('schedule')"><span class="ico">📅</span><span data-t="nav_sched">جدول AI</span></button>
-    <button class="ni" onclick="go('chat')"><span class="ico">💬</span><span data-t="nav_chat">AI Chat</span></button>
-    <button class="ni" onclick="go('settings')"><span class="ico">⚙️</span><span data-t="nav_settings">الإعدادات</span></button>
-  </nav>
-
-  <main>
-
-    <!-- ══ DASHBOARD ══ -->
-    <div id="sec-dash" class="sec on">
-      <!-- AI Card -->
-      <div class="ai-card">
-        <div class="ai-header">
-          <div class="ai-avatar">🤖</div>
-          <div><div class="ai-name">مساعد عواد الذكي</div><div class="ai-sub">تحليل شخصي · الآن</div></div>
-        </div>
-        <div class="ai-msg" id="aiMsg">
-          <div class="ai-typing"><span></span><span></span><span></span></div>
-        </div>
-      </div>
-
-      <div class="banner">
-        <div class="bname">أهلاً، <span id="dname">-</span> 👋</div>
-        <div class="bsub" id="ddate"></div>
-        <div class="streak-row">
-          <div class="sbadge fire">🔥 <span id="snum">0</span> يوم</div>
-          <div class="sbadge pts">⭐ <span id="dpts">0</span> نقطة</div>
-          <div class="sbadge lvl" id="dlvl">📊 مبتدئ</div>
-        </div>
-      </div>
-
-      <div class="stat-row" id="dstats"></div>
-
-      <!-- Heatmap -->
-      <div class="panel">
-        <div style="font-size:13px;font-weight:700;margin-bottom:12px;color:var(--text2)">📅 نشاط آخر 30 يوم</div>
-        <div class="heatmap-row" id="heatmap"></div>
-      </div>
-
-      <div style="margin-bottom:16px">
-        <div style="font-size:14px;font-weight:700;margin-bottom:10px">📈 تقدم اللغات</div>
-        <div id="dlang"></div>
-      </div>
-
-      <!-- Recent tasks -->
-      <div>
-        <div style="font-size:14px;font-weight:700;margin-bottom:10px">⏰ مهام اليوم</div>
-        <div id="dtasks"></div>
-      </div>
-    </div>
-
-    <!-- ══ BLOG ══ -->
-    <div id="sec-blog" class="sec">
-      <div class="stitle">📝 مدونتي <span class="stag">BLOG</span></div>
-      <div class="fbar">
-        <button class="btn bblu" onclick="tfp('pF')">✏️ منشور جديد</button>
-        <select class="inp" id="fCat" onchange="renderPosts()" style="width:auto;padding:8px 12px">
-          <option value="">كل الفئات</option>
-          <option value="en">🇬🇧 إنجليزية</option>
-          <option value="fr">🇫🇷 فرنسية</option>
-          <option value="goal">🎯 هدف</option>
-          <option value="personal">💭 شخصي</option>
-        </select>
-        <select class="inp" id="fPriv" onchange="renderPosts()" style="width:auto;padding:8px 12px">
-          <option value="">الكل</option>
-          <option value="private">🔒 خاص</option>
-          <option value="public">🌍 عام</option>
-        </select>
-      </div>
-      <div class="fpanel" id="pF">
-        <div style="font-size:13px;font-weight:700;margin-bottom:14px">✏️ منشور جديد</div>
-        <div class="frow">
-          <div><label class="lbl">الفئة</label>
-            <select class="inp" id="pCat"><option value="en">🇬🇧 إنجليزية</option><option value="fr">🇫🇷 فرنسية</option><option value="goal">🎯 هدف</option><option value="personal">💭 شخصي</option></select></div>
-          <div><label class="lbl">الخصوصية</label>
-            <select class="inp" id="pPriv"><option value="private">🔒 خاص</option><option value="public">🌍 عام</option></select></div>
-        </div>
-        <div style="margin-bottom:10px"><label class="lbl">العنوان</label><input class="inp" id="pTitle" placeholder="عنوان المنشور..."/></div>
-        <div style="margin-bottom:14px"><label class="lbl">المحتوى</label><textarea class="inp" id="pBody" placeholder="اكتب ما تعلمته اليوم..."></textarea></div>
-        <div style="display:flex;gap:8px"><button class="btn bblu" onclick="savePost()">💾 حفظ</button><button class="btn bghost" onclick="tfp('pF')">إلغاء</button></div>
-      </div>
-      <div id="blogList"></div>
-    </div>
-
-    <!-- ══ TASKS ══ -->
-    <div id="sec-tasks" class="sec">
-      <div class="stitle">✅ المهام <span class="stag">TASKS</span></div>
-
-      <!-- Calendar -->
-      <div class="panel">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-          <div style="font-size:13px;font-weight:700" id="calTitle"></div>
-          <div style="display:flex;gap:6px">
-            <button class="btn bghost" style="padding:5px 10px;font-size:11px" onclick="calMove(-1)">◀</button>
-            <button class="btn bghost" style="padding:5px 10px;font-size:11px" onclick="calMove(1)">▶</button>
-          </div>
-        </div>
-        <div class="cal-grid" id="calGrid"></div>
-        <div style="font-size:12px;color:var(--cyan);font-weight:700;margin-top:8px" id="calSelLabel"></div>
-      </div>
-
-      <div class="fbar">
-        <button class="btn bblu" onclick="tfp('tF')">➕ مهمة جديدة</button>
-        <select class="inp" id="tFilter" onchange="renderTasks()" style="width:auto;padding:8px 12px">
-          <option value="all">الكل</option>
-          <option value="today">اليوم</option>
-          <option value="pending">قيد التنفيذ</option>
-          <option value="done">مكتملة</option>
-        </select>
-      </div>
-
-      <div class="fpanel" id="tF">
-        <div style="font-size:13px;font-weight:700;margin-bottom:14px">➕ مهمة جديدة</div>
-        <div style="margin-bottom:10px"><label class="lbl">العنوان</label><input class="inp" id="tTitle" placeholder="ماذا تريد تفعل؟"/></div>
-        <div class="frow">
-          <div><label class="lbl">التاريخ</label><input class="inp" type="date" id="tDate"/></div>
-          <div><label class="lbl">الوقت</label><input class="inp" type="time" id="tTime"/></div>
-        </div>
-        <div class="frow">
-          <div><label class="lbl">الأولوية</label>
-            <select class="inp" id="tPri"><option value="urgent">🔴 عاجل</option><option value="normal" selected>🔵 عادي</option><option value="low">🟢 منخفض</option></select></div>
-          <div><label class="lbl">الفئة</label>
-            <select class="inp" id="tCat"><option value="study">📚 دراسة</option><option value="lang">🌍 لغة</option><option value="personal">💭 شخصي</option><option value="health">💪 صحة</option></select></div>
-        </div>
-        <div style="margin-bottom:14px"><label class="lbl">ملاحظة</label><input class="inp" id="tNote" placeholder="تفاصيل إضافية..."/></div>
-        <div style="display:flex;gap:8px"><button class="btn bblu" onclick="saveTask()">💾 حفظ</button><button class="btn bghost" onclick="tfp('tF')">إلغاء</button></div>
-      </div>
-
-      <div id="tasksList"></div>
-    </div>
-
-    <!-- ══ GOALS ══ -->
-    <div id="sec-goals" class="sec">
-      <div class="stitle">🎯 أهدافي <span class="stag">GOALS</span></div>
-      <div class="fbar"><button class="btn bblu" onclick="tfp('gF')">➕ هدف جديد</button></div>
-      <div class="fpanel" id="gF">
-        <div style="font-size:13px;font-weight:700;margin-bottom:14px">🎯 هدف جديد</div>
-        <div style="margin-bottom:10px"><label class="lbl">عنوان الهدف</label><input class="inp" id="gTitle" placeholder="مثال: إنهاء مستوى A2"/></div>
-        <div class="frow">
-          <div><label class="lbl">الفئة</label>
-            <select class="inp" id="gCat"><option value="en">🇬🇧 English</option><option value="fr">🇫🇷 Français</option><option value="personal">💭 شخصي</option></select></div>
-          <div><label class="lbl">الموعد</label><input class="inp" type="date" id="gDead"/></div>
-        </div>
-        <div style="margin-bottom:14px"><label class="lbl">وصف</label><textarea class="inp" id="gDesc" placeholder="ما تريد تحقيقه..." style="min-height:70px"></textarea></div>
-        <div style="display:flex;gap:8px"><button class="btn bblu" onclick="saveGoal()">💾 حفظ</button><button class="btn bghost" onclick="tfp('gF')">إلغاء</button></div>
-      </div>
-      <div id="goalsList"></div>
-    </div>
-
-    <!-- ══ LEARN ══ -->
-    <div id="sec-learn" class="sec">
-      <div class="stitle">📚 التعلم <span class="stag">LEARN</span></div>
-      <div style="display:flex;gap:8px;margin-bottom:16px">
-        <button class="btn bblu" id="btnEn" onclick="setLang('en')">🇬🇧 English</button>
-        <button class="btn bghost" id="btnFr" onclick="setLang('fr')">🇫🇷 Français</button>
-        <button class="btn bghost" id="btnQuiz" onclick="startQuiz()" style="margin-right:auto">🧠 اختبار</button>
-      </div>
-      <div id="learnList"></div>
-      <!-- Quiz section -->
-      <div id="quizSection" style="display:none">
-        <div class="quiz-wrap">
-          <div class="q-progress"><div class="q-pfill" id="qProg" style="width:0%"></div></div>
-          <div class="q-card" id="qCard"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ══ VOCAB / FLASHCARDS ══ -->
-    <div id="sec-vocab" class="sec">
-      <div class="stitle">🔤 المفردات <span class="stag">VOCAB</span></div>
-      <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
-        <button class="btn bblu" onclick="tfp('vF')">➕ كلمة جديدة</button>
-        <button class="btn bghost" id="fcBtn" onclick="startFlash()">🃏 Flashcards</button>
-      </div>
-
-      <div class="fpanel" id="vF">
-        <div style="font-size:13px;font-weight:700;margin-bottom:14px">➕ كلمة جديدة</div>
-        <div class="frow">
-          <div><label class="lbl">الكلمة</label><input class="inp" id="vWord" placeholder="Apple"/></div>
-          <div><label class="lbl">الترجمة</label><input class="inp" id="vTr" placeholder="تفاحة"/></div>
-        </div>
-        <div class="frow">
-          <div><label class="lbl">مثال</label><input class="inp" id="vEx" placeholder="I eat an apple every day"/></div>
-          <div><label class="lbl">اللغة</label>
-            <select class="inp" id="vLang"><option value="en">🇬🇧 English</option><option value="fr">🇫🇷 Français</option></select></div>
-        </div>
-        <div style="display:flex;gap:8px"><button class="btn bblu" onclick="saveVocab()">💾 حفظ</button><button class="btn bghost" onclick="tfp('vF')">إلغاء</button></div>
-      </div>
-
-      <!-- Flashcard area -->
-      <div id="flashArea" style="display:none">
-        <div class="fc-wrap"><div class="fc-card" id="fcCard" onclick="flipCard()">
-          <div class="fc-front"><div class="fc-word" id="fcWord">-</div><div class="fc-hint">اضغط لترى الترجمة</div></div>
-          <div class="fc-back">
-            <div class="fc-translation" id="fcTr">-</div>
-            <div class="fc-example" id="fcEx"></div>
-          </div>
-        </div></div>
-        <div class="fc-nav">
-          <button class="btn bghost" style="padding:7px 14px" onclick="fcMove(-1)">◀</button>
-          <div class="fc-counter" id="fcCounter">1 / 1</div>
-          <button class="btn bghost" style="padding:7px 14px" onclick="fcMove(1)">▶</button>
-        </div>
-        <div class="fc-rating">
-          <button class="fc-rate easy" onclick="rateCard('known')">✅ أعرفها</button>
-          <button class="fc-rate hard" onclick="rateCard('hard')">🔄 مرة أخرى</button>
-        </div>
-        <div style="text-align:center;margin-top:12px">
-          <button class="btn bghost" style="font-size:11px" onclick="endFlash()">✕ إنهاء</button>
-        </div>
-      </div>
-
-      <div id="vocabList"></div>
-    </div>
-
-    <!-- ══ LIBRARY ══ -->
-    <div id="sec-lib" class="sec">
-      <div class="stitle">📖 المكتبة <span class="stag">LIBRARY</span></div>
-      <div class="fbar"><button class="btn bblu" onclick="tfp('bF')">➕ كتاب جديد</button></div>
-      <div class="fpanel" id="bF">
-        <div style="font-size:13px;font-weight:700;margin-bottom:14px">📖 كتاب جديد</div>
-        <div class="frow">
-          <div><label class="lbl">العنوان</label><input class="inp" id="bTitle" placeholder="اسم الكتاب"/></div>
-          <div><label class="lbl">المؤلف</label><input class="inp" id="bAuth" placeholder="المؤلف"/></div>
-        </div>
-        <div class="frow">
-          <div><label class="lbl">اللغة</label>
-            <select class="inp" id="bLang"><option value="en">🇬🇧 English</option><option value="fr">🇫🇷 Français</option><option value="ar">🇲🇦 العربية</option></select></div>
-          <div><label class="lbl">الحالة</label>
-            <select class="inp" id="bSt"><option value="reading">📖 أقرأه</option><option value="done">✅ أنهيته</option><option value="todo">📌 أريد قراءته</option></select></div>
-        </div>
-        <div style="margin-bottom:14px"><label class="lbl">ملاحظاتي</label><textarea class="inp" id="bNotes" placeholder="ما أعجبني..." style="min-height:70px"></textarea></div>
-        <div style="display:flex;gap:8px"><button class="btn bblu" onclick="saveBook()">💾 حفظ</button><button class="btn bghost" onclick="tfp('bF')">إلغاء</button></div>
-      </div>
-      <div id="libList"></div>
-    </div>
-
-    <!-- ══ SETTINGS ══ -->
-    <div id="sec-settings" class="sec">
-      <div class="stitle">⚙️ الإعدادات <span class="stag">SETTINGS</span></div>
-
-      <!-- Badges -->
-      <div class="panel" style="margin-bottom:18px">
-        <div style="font-size:13px;font-weight:700;margin-bottom:14px">🏆 الشارات والإنجازات</div>
-        <div class="bdg-grid" id="badgeGrid"></div>
-      </div>
-
-      <!-- Notifications -->
-      <div style="font-size:13px;font-weight:700;margin-bottom:10px;color:var(--text2)">🔔 الإشعارات الذكية</div>
-      <div class="setting-row">
-        <div><div class="setting-label">تذكير يومي بالتعلم</div><div class="setting-sub">يذكرك بفتح التطبيق وتعلم شيء جديد</div></div>
-        <label class="toggle"><input type="checkbox" id="togDaily" onchange="saveSetting('daily',this.checked)"/><div class="tog-slider"></div></label>
-      </div>
-      <div class="setting-row">
-        <div><div class="setting-label">تذكير المهام</div><div class="setting-sub">إشعار قبل موعد كل مهمة بـ 30 دقيقة</div></div>
-        <label class="toggle"><input type="checkbox" id="togTask" onchange="saveSetting('taskNotif',this.checked)"/><div class="tog-slider"></div></label>
-      </div>
-      <div class="setting-row">
-        <div><div class="setting-label">تحفيز من الذكاء الاصطناعي</div><div class="setting-sub">رسائل تحفيزية ذكية حسب تقدمك</div></div>
-        <label class="toggle"><input type="checkbox" id="togAI" onchange="saveSetting('aiMotiv',this.checked)" checked/><div class="tog-slider"></div></label>
-      </div>
-      <div class="setting-row">
-        <div><div class="setting-label">Streak تحذير</div><div class="setting-sub">تحذير عند خطر كسر سلسلة الأيام</div></div>
-        <label class="toggle"><input type="checkbox" id="togStreak" onchange="saveSetting('streakWarn',this.checked)" checked/><div class="tog-slider"></div></label>
-      </div>
-
-      <div style="font-size:13px;font-weight:700;margin:18px 0 10px;color:var(--text2)">🎯 وقت التذكير اليومي</div>
-      <div class="setting-row">
-        <div class="setting-label">الوقت المفضل</div>
-        <input type="time" class="inp" id="remTime" value="20:00" style="width:auto" onchange="saveSetting('remTime',this.value)"/>
-      </div>
-
-      <div style="margin-top:20px">
-        <button class="btn bred" onclick="if(confirm('مسح كل البيانات؟'))clearAll()">🗑️ مسح كل البيانات</button>
-      </div>
-    </div>
-
-  </main>
+  </div>
+  <div class="reader-progress"><div class="reader-progress-fill" id="readProg"></div></div>
+  <div class="reader-body" id="readerBody" onscroll="updateReadProgress()"></div>
+  <div class="reader-controls">
+    <button class="btn btn-ghost btn-sm" id="prevChBtn" onclick="changeChapter(-1)">◀ السابق</button>
+    <span style="font-size:12px;color:var(--text2)" id="chapIndicator">الفصل 1/1</span>
+    <button class="btn btn-ghost btn-sm" id="nextChBtn" onclick="changeChapter(1)">التالي ▶</button>
+    <div style="margin-right:auto;font-size:11px;color:var(--text2)" id="readPercent">0%</div>
+  </div>
 </div>
 
-    <!-- ══ STATS ══ -->
-    <div id="sec-stats" class="sec">
-      <div class="stitle">📊 <span data-t="stats_title">إحصائياتي</span> <span class="stag">STATS</span></div>
-      <div class="g2" id="statsBigs"></div>
-      <div class="chart-wrap">
-        <div class="chart-title" data-t="stats_activity">📅 النشاط الأسبوعي</div>
-        <div class="bar-chart" id="weekChart"></div>
-      </div>
-      <div class="chart-wrap">
-        <div class="chart-title" data-t="stats_cats">📂 توزيع المنشورات</div>
-        <div class="donut-wrap">
-          <canvas id="donutCanvas" width="100" height="100" style="flex-shrink:0"></canvas>
-          <div class="donut-legend" id="donutLegend"></div>
-        </div>
-      </div>
-      <div class="chart-wrap">
-        <div class="chart-title" data-t="stats_progress">📈 تقدم التعلم</div>
-        <div id="learnStats"></div>
-      </div>
-      <div class="chart-wrap">
-        <div class="chart-title" data-t="stats_vocab">🔤 حالة المفردات</div>
-        <div class="bar-chart" id="vocabChart"></div>
-      </div>
-    </div>
-
-    <!-- ══ SCHEDULE ══ -->
-    <div id="sec-schedule" class="sec">
-      <div class="stitle">📅 <span data-t="sched_title">جدول AI الأسبوعي</span> <span class="stag">AI</span></div>
-      <div class="ai-card" style="margin-bottom:16px">
-        <div class="ai-header">
-          <div class="ai-avatar">🤖</div>
-          <div><div class="ai-name" data-t="ai_name">مساعد عواد</div><div class="ai-sub" data-t="ai_sched_sub">يولّد جدولك الأسبوعي تلقائياً</div></div>
-        </div>
-        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-          <button class="btn bblu" onclick="genSchedule()" id="genSchedBtn">✨ <span data-t="gen_sched">توليد الجدول</span></button>
-          <button class="btn bghost" onclick="clearSchedule()" data-t="clear_sched">🗑️ مسح</button>
-        </div>
-      </div>
-      <div class="week-grid" id="weekView"></div>
-      <div id="schedList"></div>
-    </div>
-
-    <!-- ══ AI CHAT ══ -->
-    <div id="sec-chat" class="sec" style="padding:14px;">
-      <div class="stitle">💬 <span data-t="chat_title">AI Chat</span> <span class="stag">AI</span></div>
-      <div class="chat-wrap">
-        <div class="chat-msgs" id="chatMsgs"></div>
-        <div class="chat-input-row">
-          <input class="chat-inp" id="chatInp" placeholder="اسألني أي شيء..." onkeydown="if(event.key==='Enter')sendChat()"/>
-          <button class="chat-send" onclick="sendChat()">➤</button>
-        </div>
-      </div>
-    </div>
-
-<!-- Modals -->
-<div class="moverlay" id="postModal">
+<!-- Export Modal -->
+<div class="moverlay" id="exportModal">
   <div class="mbox">
-    <div class="mtitle"><span id="mpTitle"></span><button class="mclose" onclick="closeMod('postModal')">✕</button></div>
-    <div id="mpCat" style="margin-bottom:12px"></div>
-    <div id="mpBody" style="font-size:14px;line-height:1.9;color:var(--text2);white-space:pre-wrap"></div>
-    <div id="mpDate" style="font-size:11px;color:var(--text2);margin-top:14px"></div>
+    <div class="mtitle">📤 تصدير لعواد<button class="mclose" onclick="closeMod('exportModal')">✕</button></div>
+    <div style="margin-bottom:16px">
+      <div style="font-size:13px;color:var(--text2);line-height:1.8;margin-bottom:14px" id="exportInfo"></div>
+      <div style="background:var(--ink3);border-radius:12px;padding:14px;margin-bottom:14px">
+        <div style="font-size:11px;font-weight:700;margin-bottom:10px;color:var(--sky)">📋 طريقة الاستيراد في عواد:</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.9">
+          1. افتح تطبيق <b>عواد</b> في نفس المتصفح<br/>
+          2. اذهب إلى قسم <b>المكتبة</b><br/>
+          3. اضغط على زر <b>"📥 استيراد"</b><br/>
+          4. الكتب ستظهر تلقائياً
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-blue" onclick="doExport()">📤 تصدير الآن</button>
+      <button class="btn btn-ghost" onclick="doExportFile()">💾 حفظ كـ JSON</button>
+      <button class="btn btn-ghost" onclick="closeMod('exportModal')">إلغاء</button>
+    </div>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ══════════════════════════════════════════
-//  CORE
-// ══════════════════════════════════════════
-let CU=null;
-const DB={
-  _p(){return CU?'aw2_'+CU+'_':'aw2__';},
-  get(k){try{return JSON.parse(localStorage.getItem(this._p()+k));}catch{return null;}},
-  set(k,v){localStorage.setItem(this._p()+k,JSON.stringify(v));},
-};
+'use strict';
 
-// ══ AUTH ══
-function swTab(t){
-  document.querySelectorAll('.atab').forEach((e,i)=>e.classList.toggle('on',(i===0&&t==='l')||(i===1&&t==='r')));
-  document.getElementById('lForm').style.display=t==='l'?'block':'none';
-  document.getElementById('rForm').style.display=t==='r'?'block':'none';
-  document.getElementById('aerr').textContent='';
-}
-function doLogin(){
-  const e=v('lE'),p=v('lP');
-  if(!e||!p){err('أدخل الإيميل وكلمة السر');return;}
-  const us=getUsers();
-  if(!us[e]){err('الحساب غير موجود');return;}
-  if(us[e].pass!==btoa(p)){err('كلمة السر غلط');return;}
-  localStorage.setItem('aw2_sess',e);boot(e,us[e].name);
-}
-function doReg(){
-  const n=v('rN'),e=v('rE'),p=v('rP');
-  if(!n||!e||!p){err('أكمل كل الحقول');return;}
-  if(p.length<6){err('كلمة السر أقل من 6 حروف');return;}
-  const us=getUsers();
-  if(us[e]){err('الإيميل موجود');return;}
-  us[e]={name:n,pass:btoa(p)};
-  localStorage.setItem('aw2_users',JSON.stringify(us));
-  localStorage.setItem('aw2_sess',e);
-  boot(e,n);
-}
-function doLogout(){
-  localStorage.removeItem('aw2_sess');CU=null;
-  document.getElementById('app').style.display='none';
-  document.getElementById('authScreen').style.display='flex';
-}
-function getUsers(){return JSON.parse(localStorage.getItem('aw2_users')||'{}');}
-function v(id){return document.getElementById(id)?.value.trim()||'';}
-function err(m){document.getElementById('aerr').textContent=m;}
+// ══ STORAGE ══
+const LIB_KEY = 'awad_library_books';
+const SEL_KEY = 'awad_library_sel';
+const EXPORT_KEY = 'awad_lib_export'; // shared key with Awad app
 
-function boot(email,name){
-  CU=email;
-  document.getElementById('authScreen').style.display='none';
-  document.getElementById('app').style.display='block';
-  document.getElementById('ubadge').textContent='👤 '+name;
-  document.getElementById('dname').textContent=name;
-  const d=new Date();
-  const days=['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-  const months=['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'];
-  document.getElementById('ddate').textContent=days[d.getDay()]+' · '+d.getDate()+' '+months[d.getMonth()]+' '+d.getFullYear();
-  doStreak();loadSettings();renderDash();
-  // load saved lang + theme
-  const savedLang = DB.get('lang')||'ar';
-  setAppLang(savedLang);
-  if(DB.get('theme')==='light'){document.body.classList.add('light');document.getElementById('themeBtn').textContent='☀️';}
-  setTimeout(()=>genAI(),800);
-  initNotifications();
-}
+function getBooks(){ return JSON.parse(localStorage.getItem(LIB_KEY)||'[]'); }
+function setBooks(b){ localStorage.setItem(LIB_KEY, JSON.stringify(b)); }
 
-// ══ STREAK + POINTS ══
-function doStreak(){
-  const t=new Date().toDateString();
-  const y=new Date(Date.now()-86400000).toDateString();
-  const s=DB.get('streak')||{last:'',n:0};
-  if(s.last!==t){s.n=(s.last===y)?s.n+1:1;s.last=t;}
-  DB.set('streak',s);
-  document.getElementById('snum').textContent=s.n;
-  // log activity
-  const acts=DB.get('activity')||{};
-  acts[new Date().toISOString().slice(0,10)]=(acts[new Date().toISOString().slice(0,10)]||0)+1;
-  DB.set('activity',acts);
-}
-function getPts(){return DB.get('points')||0;}
-function addPts(n){
-  const p=(DB.get('points')||0)+n;
-  DB.set('points',p);
-  document.getElementById('hpts').textContent=p;
-  document.getElementById('dpts').textContent=p;
-  // level
-  const lvl=p<100?'مبتدئ':p<300?'متوسط':p<600?'متقدم':'خبير';
-  const lIco=p<100?'🌱':p<300?'📊':p<600?'🚀':'🏆';
-  document.getElementById('dlvl').textContent=lIco+' '+lvl;
-  checkBadges();
-}
-
-// ══ AI MESSAGE ══
-const AI_MSGS=[
-  ()=>{
-    const tasks=(DB.get('tasks')||[]).filter(t=>!t.done&&t.date===today());
-    const vocab=DB.get('vocab')||[];
-    const streak=DB.get('streak')||{n:0};
-    if(tasks.length>0) return `عندك <b>${tasks.length} مهمة</b> اليوم — هيا نكملها! 💪`;
-    if(vocab.length>0){
-      const unknown=vocab.filter(v=>v.lvl!=='known');
-      if(unknown.length>0) return `عندك <b>${unknown.length} كلمة</b> مازالت ما حفظتيهاش — جرب Flashcards الآن 🃏`;
-    }
-    if(streak.n>=3) return `ماشاء الله! <b>${streak.n} أيام</b> متتالية بدون توقف 🔥 استمري!`;
-    return `مرحباً! أنا هنا باش نساعدك تتعلمي بشكل ذكي. ابدأي بدرس أو أضيفي كلمة جديدة 📚`;
-  },
-  ()=>{
-    const les=DB.get('les_en')||LEN;
-    const done=les.filter(l=>l.done).length;
-    const pct=Math.round(done/LEN.length*100);
-    return `تقدمك في الإنجليزية <b>${pct}%</b> — ${pct<50?'كمل الدروس الباقية':'رائع، قريب من النهاية!'} 🎯`;
-  }
+// ══ COVER GRADIENTS ══
+const GRADIENTS = [
+  ['#1e3a5f','#3b82f6'],['#064e3b','#10b981'],['#312e81','#8b5cf6'],
+  ['#78350f','#f59e0b'],['#7f1d1d','#ef4444'],['#164e63','#06b6d4'],
+  ['#1a1a2e','#e94560'],['#0f3460','#533483'],['#1b4332','#52b788'],
+  ['#3d0000','#c9a227'],['#0d1b2a','#415a77'],['#2d0022','#c77dff'],
 ];
-let aiIdx=0;
-function genAI(){
-  const el=document.getElementById('aiMsg');
-  if(!el) return;
-  el.innerHTML='<div class="ai-typing"><span></span><span></span><span></span></div>';
-  setTimeout(()=>{
-    try{el.innerHTML=AI_MSGS[aiIdx%AI_MSGS.length]();}
-    catch(e){el.innerHTML='كيف يمكنني مساعدتك اليوم؟ 🤖';}
-    aiIdx++;
-  },1200);
-}
+const BOOK_EMOJIS = {fr:'📗',ar:'📕',en:'📘'};
+const LEVEL_COLORS = {A1:'#10b981',A2:'#0ea5e9',B1:'#3b82f6',B2:'#f59e0b',C1:'#ef4444'};
+const LANG_LABELS = {fr:'🇫🇷 Français',ar:'🇲🇦 العربية',en:'🇬🇧 English'};
 
-// ══ DASHBOARD ══
-function renderDash(){
-  const posts=DB.get('posts')||[];
-  const goals=DB.get('goals')||[];
-  const books=DB.get('books')||[];
-  const tasks=DB.get('tasks')||[];
-  const vocab=DB.get('vocab')||[];
-  const enD=(DB.get('les_en')||LEN).filter(l=>l.done).length;
-  const frD=(DB.get('les_fr')||LFR).filter(l=>l.done).length;
+// ══ DEFAULT BOOKS ══
+const DEFAULTS = [
+  // 🇫🇷 Français
+  {id:'ldf1',title:'Le Petit Prince',auth:'Antoine de Saint-Exupéry',lang:'fr',level:'A2',genre:'Conte philosophique',year:'1943',st:'todo',notes:'رواية فلسفية جميلة — مثالية لتعلم الفرنسية بأسلوب شعري',pages:96},
+  {id:'ldf2',title:'Les Misérables',auth:'Victor Hugo',lang:'fr',level:'B2',genre:'Roman historique',year:'1862',st:'todo',notes:'ملحمة أدبية عن العدالة والحرية في فرنسا القرن 19',pages:1463},
+  {id:'ldf3',title:`Le Comte de Monte-Cristo`,auth:'Alexandre Dumas',lang:'fr',level:'B1',genre:'Aventure',year:'1844',st:'todo',notes:'قصة انتقام رائعة — من أكثر الروايات الفرنسية قراءة في العالم',pages:1276},
+  {id:'ldf4',title:`L'Étranger`,auth:'Albert Camus',lang:'fr',level:'B1',genre:'Roman existentiel',year:'1942',st:'todo',notes:'رواية وجودية قصيرة بأسلوب بسيط ومباشر',pages:123},
+  {id:'ldf5',title:'Madame Bovary',auth:'Gustave Flaubert',lang:'fr',level:'B2',genre:'Roman réaliste',year:'1857',st:'todo',notes:'من أهم الروايات الفرنسية — نقد للرومانسية المفرطة',pages:356},
+  {id:'ldf6',title:'Le Tour du monde en 80 jours',auth:'Jules Verne',lang:'fr',level:'A2',genre:'Aventure',year:'1872',st:'todo',notes:'مغامرة ممتعة حول العالم — لغة سهلة ومناسبة للمستوى الأساسي',pages:236},
+  {id:'ldf7',title:'Candide',auth:'Voltaire',lang:'fr',level:'B1',genre:'Satire',year:'1759',st:'todo',notes:'نقد ساخر للمجتمع والتفاؤل المبالغ فيه — قصير وممتع',pages:112},
+  {id:'ldf8',title:'Notre-Dame de Paris',auth:'Victor Hugo',lang:'fr',level:'B1',genre:'Roman historique',year:'1831',st:'todo',notes:'قصة كوازيمودو الشهيرة في باريس القروسطية',pages:480},
+  {id:'ldf9',title:'Germinal',auth:'Émile Zola',lang:'fr',level:'B2',genre:'Roman social',year:'1885',st:'todo',notes:'رواية عمالية قوية عن إضراب عمال المناجم',pages:591},
+  {id:'ldf10',title:'La Nausée',auth:'Jean-Paul Sartre',lang:'fr',level:'C1',genre:'Roman philosophique',year:'1938',st:'todo',notes:'الرواية الأولى لسارتر — أسس الوجودية الفرنسية',pages:248},
+  // 🇲🇦 عربية
+  {id:'lda1',title:'ألف ليلة وليلة',auth:'مجهول',lang:'ar',level:'B1',genre:'قصص شعبية',year:'القرن 9',st:'todo',notes:'أشهر تراث أدبي عربي — حكايات شهرزاد الخالدة',pages:800},
+  {id:'lda2',title:'الأيام',auth:'طه حسين',lang:'ar',level:'B1',genre:'سيرة ذاتية',year:'1929',st:'todo',notes:'سيرة ذاتية رائعة لعميد الأدب العربي — أسلوب شاعري جميل',pages:312},
+  {id:'lda3',title:'زقاق المدق',auth:'نجيب محفوظ',lang:'ar',level:'B1',genre:'رواية اجتماعية',year:'1947',st:'todo',notes:'من روائع نجيب محفوظ — تصوير حي لحياة حارة مصرية',pages:320},
+  {id:'lda4',title:'رجال في الشمس',auth:'غسان كنفاني',lang:'ar',level:'A2',genre:'رواية',year:'1963',st:'todo',notes:'رواية قصيرة ومؤثرة جداً — أسلوب بسيط وقوي',pages:87},
+  {id:'lda5',title:'موسم الهجرة إلى الشمال',auth:'الطيب صالح',lang:'ar',level:'B2',genre:'رواية',year:'1966',st:'todo',notes:'من أهم 100 رواية في الأدب العالمي حسب اليونسكو',pages:175},
+  {id:'lda6',title:'اللص والكلاب',auth:'نجيب محفوظ',lang:'ar',level:'B1',genre:'رواية نفسية',year:'1961',st:'todo',notes:'رواية مكثفة عن الانتقام والخيانة — أسلوب درامي',pages:145},
+  {id:'lda7',title:'أولاد حارتنا',auth:'نجيب محفوظ',lang:'ar',level:'B1',genre:'رواية رمزية',year:'1959',st:'todo',notes:'ملحمة رمزية عن تاريخ الإنسانية من منظور ديني',pages:400},
+  {id:'lda8',title:'الخيميائي',auth:'باولو كويلو — ترجمة',lang:'ar',level:'A2',genre:'فلسفي',year:'1988',st:'todo',notes:'رواية ملهمة عن اتباع أحلامك — لغة بسيطة وتأملية',pages:163},
+  {id:'lda9',title:'عبقرية عمر',auth:'عباس العقاد',lang:'ar',level:'B2',genre:'تاريخ وأدب',year:'1942',st:'todo',notes:'دراسة أدبية وتاريخية عميقة لشخصية عمر بن الخطاب',pages:280},
+  {id:'lda10',title:'قنديل أم هاشم',auth:'يحيى حقي',lang:'ar',level:'B1',genre:'رواية اجتماعية',year:'1944',st:'todo',notes:'قصيرة ومكثفة عن الصراع بين الحداثة والتراث',pages:98},
+];
 
-  document.getElementById('hpts').textContent=getPts();
-  document.getElementById('dpts').textContent=getPts();
+let selectedIds = new Set();
+let currentFilter = 'all';
+let currentBookId = null;
+let readerFontSize = 16;
+let readerChapter = 0;
+let readerBookId = null;
 
-  document.getElementById('dstats').innerHTML=`
-    <div class="scard"><div class="sv">${posts.length}</div><div class="sl">📝 منشور</div></div>
-    <div class="scard"><div class="sv">${tasks.filter(t=>t.done).length}/${tasks.length}</div><div class="sl">✅ مهمة</div></div>
-    <div class="scard"><div class="sv">${goals.filter(g=>g.done).length}/${goals.length}</div><div class="sl">🎯 هدف</div></div>
-    <div class="scard"><div class="sv">${vocab.length}</div><div class="sl">🔤 كلمة</div></div>`;
-
-  // Heatmap
-  const acts=DB.get('activity')||{};
-  let hmHTML='';
-  for(let i=29;i>=0;i--){
-    const d=new Date(Date.now()-i*86400000);
-    const key=d.toISOString().slice(0,10);
-    const v=acts[key]||0;
-    const cls=v===0?'':v<3?'l1':v<6?'l2':v<10?'l3':'l4';
-    hmHTML+=`<div class="hm-cell ${cls}" title="${key}: ${v} نشاط"></div>`;
+// ══ INIT ══
+function init(){
+  // Load defaults if first time
+  if(!localStorage.getItem(LIB_KEY)){
+    setBooks(DEFAULTS.map(b=>({...b, progress:0, readAt:null})));
   }
-  document.getElementById('heatmap').innerHTML=hmHTML;
-
-  // Lang progress
-  const ep=Math.round(enD/LEN.length*100),fp=Math.round(frD/LFR.length*100);
-  document.getElementById('dlang').innerHTML=`
-    <div class="lcard">
-      <div class="lhead"><div class="lflag">🇬🇧</div>
-        <div><div style="font-size:14px;font-weight:700">English</div><div style="font-size:10px;color:var(--blue)">A1→A2</div></div>
-        <div class="lpct" style="color:var(--blue)">${ep}%</div></div>
-      <div class="pbar"><div class="pfill" style="width:${ep}%;background:var(--blue)"></div></div>
-      <div style="font-size:10px;color:var(--text2);margin-top:4px">${enD} من ${LEN.length} درس</div>
-    </div>
-    <div class="lcard">
-      <div class="lhead"><div class="lflag">🇫🇷</div>
-        <div><div style="font-size:14px;font-weight:700">Français</div><div style="font-size:10px;color:var(--cyan)">A1→A2</div></div>
-        <div class="lpct" style="color:var(--cyan)">${fp}%</div></div>
-      <div class="pbar"><div class="pfill" style="width:${fp}%;background:var(--cyan)"></div></div>
-      <div style="font-size:10px;color:var(--text2);margin-top:4px">${frD} من ${LFR.length} درس</div>
-    </div>`;
-
-  // Today tasks
-  const todayT=tasks.filter(t=>t.date===today()).sort((a,b)=>a.time>b.time?1:-1);
-  document.getElementById('dtasks').innerHTML=todayT.length
-    ?todayT.map(t=>taskHTML(t)).join('')
-    :'<div class="empty"><div class="ei">✅</div><div>ما كاين مهام اليوم</div></div>';
+  render();
+  updateStats();
+  checkAwadConn();
 }
 
-// ══ BLOG ══
-const CLBLS={en:'🇬🇧 إنجليزية',fr:'🇫🇷 فرنسية',goal:'🎯 هدف',personal:'💭 شخصي'};
-function savePost(){
-  const t=v('pTitle'),b=v('pBody');
-  if(!t||!b){toast('⚠️ أكمل العنوان والمحتوى');return;}
-  const posts=DB.get('posts')||[];
-  posts.push({id:Date.now(),title:t,content:b,cat:v('pCat')||document.getElementById('pCat').value,
-    priv:document.getElementById('pPriv').value,date:new Date().toLocaleDateString('ar-MA')});
-  DB.set('posts',posts);tfp('pF');renderPosts();renderDash();
-  addPts(10);logActivity();toast('✅ تم حفظ المنشور! +10 نقاط');
-}
-function renderPosts(){
-  const posts=DB.get('posts')||[];
-  const fc=document.getElementById('fCat').value;
-  const fp=document.getElementById('fPriv').value;
-  let f=posts.filter(p=>(!fc||p.cat===fc)&&(!fp||p.priv===fp)).sort((a,b)=>b.id-a.id);
-  document.getElementById('blogList').innerHTML=f.length
-    ?'<div class="bgrid">'+f.map(pHTML).join('')+'</div>'
-    :'<div class="empty"><div class="ei">📝</div><div>ما كاين منشورات</div></div>';
-}
-function pHTML(p){
-  return`<div class="pcard" onclick="viewPost(${p.id})">
-    <div class="ph"><span class="pcat ${p.cat}">${CLBLS[p.cat]||p.cat}</span>
-      <span style="font-size:10px;color:var(--text2)">${p.priv==='private'?'🔒':'🌍'}</span></div>
-    <div class="pb"><div class="ptitle">${p.title}</div><div class="pexc">${p.content}</div></div>
-    <div class="pf"><span class="pdate">📅 ${p.date}</span>
-      <button class="xbtn" onclick="event.stopPropagation();delPost(${p.id})">🗑️</button></div>
-  </div>`;
-}
-function viewPost(id){
-  const p=(DB.get('posts')||[]).find(x=>x.id===id);if(!p)return;
-  document.getElementById('mpTitle').textContent=p.title;
-  document.getElementById('mpCat').innerHTML=`<span class="pcat ${p.cat}">${CLBLS[p.cat]}</span>`;
-  document.getElementById('mpBody').textContent=p.content;
-  document.getElementById('mpDate').textContent='📅 '+p.date;
-  document.getElementById('postModal').classList.add('on');
-}
-function delPost(id){
-  if(!confirm('تمسح المنشور؟'))return;
-  DB.set('posts',(DB.get('posts')||[]).filter(p=>p.id!==id));
-  renderPosts();renderDash();toast('🗑️ تم الحذف');
-}
+// ══ RENDER ══
+function render(){
+  const books = getBooks();
+  const q = document.getElementById('searchInp').value.toLowerCase();
+  let filtered = books.filter(b=>{
+    if(currentFilter==='fr') return b.lang==='fr';
+    if(currentFilter==='ar') return b.lang==='ar';
+    if(currentFilter==='en') return b.lang==='en';
+    if(currentFilter==='reading') return b.st==='reading';
+    if(currentFilter==='done') return b.st==='done';
+    if(currentFilter==='todo') return b.st==='todo';
+    return true;
+  });
+  if(q) filtered = filtered.filter(b=>
+    b.title.toLowerCase().includes(q)||
+    (b.auth||'').toLowerCase().includes(q)||
+    (b.genre||'').toLowerCase().includes(q)
+  );
 
-// ══ TASKS + CALENDAR ══
-let calYear=new Date().getFullYear(),calMonth=new Date().getMonth();
-let selDate=today();
+  const grid = document.getElementById('booksGrid');
+  const empty = document.getElementById('emptyState');
 
-function today(){return new Date().toISOString().slice(0,10);}
+  if(!filtered.length){grid.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
 
-function renderCal(){
-  const months=['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'];
-  const days=['أح','إث','ثل','أر','خم','جم','سب'];
-  document.getElementById('calTitle').textContent=months[calMonth]+' '+calYear;
-  const tasks=DB.get('tasks')||[];
-  const taskDates=new Set(tasks.map(t=>t.date));
-  const t=today();
-  const first=new Date(calYear,calMonth,1).getDay();
-  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
-  let html=days.map(d=>`<div class="cal-day-hdr">${d}</div>`).join('');
-  for(let i=0;i<first;i++) html+=`<div class="cal-day other-month"></div>`;
-  for(let d=1;d<=daysInMonth;d++){
-    const ds=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
-    const cls=[
-      'cal-day',
-      ds===t?'today':'',
-      ds===selDate?'selected':'',
-      taskDates.has(ds)?'has-task':''
-    ].filter(Boolean).join(' ');
-    html+=`<div class="${cls}" onclick="selectDay('${ds}')">${d}</div>`;
-  }
-  document.getElementById('calGrid').innerHTML=html;
-  document.getElementById('calSelLabel').textContent=selDate===t?'اليوم':'📅 '+selDate;
-}
-function selectDay(d){selDate=d;renderCal();renderTasks();}
-function calMove(dir){
-  calMonth+=dir;
-  if(calMonth>11){calMonth=0;calYear++;}
-  if(calMonth<0){calMonth=11;calYear--;}
-  renderCal();
-}
-function saveTask(){
-  const t=v('tTitle');
-  if(!t){toast('⚠️ أدخل عنوان المهمة');return;}
-  const tasks=DB.get('tasks')||[];
-  const d=document.getElementById('tDate').value||today();
-  tasks.push({id:Date.now(),title:t,date:d,
-    time:document.getElementById('tTime').value||'',
-    pri:document.getElementById('tPri').value,
-    cat:document.getElementById('tCat').value,
-    note:v('tNote'),done:false});
-  DB.set('tasks',tasks);tfp('tF');
-  renderTasks();renderCal();renderDash();
-  scheduleTaskNotif(tasks[tasks.length-1]);
-  logActivity();toast('✅ تم إضافة المهمة!');
-}
-function taskHTML(t){
-  const priTag={urgent:'urgent',normal:'normal',low:'low'};
-  const priLbl={urgent:'🔴 عاجل',normal:'🔵 عادي',low:'🟢 منخفض'};
-  const catIco={study:'📚',lang:'🌍',personal:'💭',health:'💪'};
-  return`<div class="task-card ${t.done?'done':''}" onclick="togTask(${t.id})">
-    <div class="task-check">${t.done?'<span style="color:#fff;font-size:13px">✓</span>':''}</div>
-    <div class="task-body">
-      <div class="task-title">${t.title}</div>
-      <div class="task-meta">
-        ${t.time?`<span>⏰ ${t.time}</span>`:''}
-        <span>${catIco[t.cat]||'📌'} ${t.cat||''}</span>
-        <span class="task-tag ${priTag[t.pri]||'normal'}">${priLbl[t.pri]||''}</span>
+  const stLbl={reading:'📖 يُقرأ',done:'✅ مكتمل',todo:'📌 لاحقاً'};
+  const stC={reading:'var(--azure)',done:'var(--emerald)',todo:'var(--text3)'};
+
+  grid.innerHTML = filtered.map((b,i)=>{
+    const g = GRADIENTS[i%GRADIENTS.length];
+    const isSel = selectedIds.has(b.id);
+    const prog = b.progress||0;
+    return `
+    <div class="book-card${isSel?' selected':''}" data-id="${b.id}" onclick="handleCardClick('${b.id}',event)">
+      <div class="book-sel-check">✓</div>
+      <div class="book-cover" style="background:linear-gradient(145deg,${g[0]},${g[1]})">
+        <div class="book-cover-flag">${b.lang==='fr'?'🇫🇷':b.lang==='ar'?'🇲🇦':'🇬🇧'}</div>
+        <div class="book-cover-emoji">${BOOK_EMOJIS[b.lang]||'📖'}</div>
+        <div class="book-cover-title">${b.title}</div>
+        <div class="book-cover-author">${b.auth||''}</div>
+        ${b.level?`<div class="book-cover-level" style="color:${LEVEL_COLORS[b.level]||'#fff'}">${b.level}</div>`:''}
       </div>
-      ${t.note?`<div style="font-size:11px;color:var(--text2);margin-top:3px">${t.note}</div>`:''}
-    </div>
-    <button class="xbtn" style="font-size:11px;padding:4px 8px" onclick="event.stopPropagation();delTask(${t.id})">🗑️</button>
-  </div>`;
-}
-function renderTasks(){
-  const tasks=DB.get('tasks')||[];
-  const fil=document.getElementById('tFilter').value;
-  let f=tasks;
-  if(fil==='today') f=f.filter(t=>t.date===today());
-  else if(fil==='pending') f=f.filter(t=>!t.done);
-  else if(fil==='done') f=f.filter(t=>t.done);
-  f=f.filter(t=>!document.getElementById('calSelLabel')||t.date===selDate||fil!=='all'||true);
-  // show tasks for selected date if filter is 'all'
-  if(fil==='all') f=f.filter(t=>t.date===selDate);
-  f=f.sort((a,b)=>a.done-b.done||a.time>b.time?1:-1);
-  document.getElementById('tasksList').innerHTML=f.length
-    ?f.map(taskHTML).join('')
-    :'<div class="empty"><div class="ei">✅</div><div>لا توجد مهام لهذا اليوم</div></div>';
-}
-function togTask(id){
-  const tasks=DB.get('tasks')||[];
-  const t=tasks.find(x=>x.id===id);
-  if(t){t.done=!t.done;DB.set('tasks',tasks);}
-  if(t.done){addPts(5);logActivity();}
-  renderTasks();renderDash();
-  if(t.done)toast('✅ مبروك! مهمة مكتملة +5 نقاط');
-}
-function delTask(id){
-  DB.set('tasks',(DB.get('tasks')||[]).filter(t=>t.id!==id));
-  renderTasks();renderCal();renderDash();toast('🗑️ تم الحذف');
-}
-
-// ══ GOALS ══
-function saveGoal(){
-  const t=v('gTitle');if(!t){toast('⚠️ أدخل عنوان الهدف');return;}
-  const goals=DB.get('goals')||[];
-  goals.push({id:Date.now(),title:t,cat:document.getElementById('gCat').value,
-    dead:document.getElementById('gDead').value,
-    desc:v('gDesc'),done:false,prog:0,date:new Date().toLocaleDateString('ar-MA')});
-  DB.set('goals',goals);tfp('gF');renderGoals();renderDash();
-  logActivity();toast('🎯 تم إضافة الهدف!');
-}
-function renderGoals(){
-  const goals=(DB.get('goals')||[]).sort((a,b)=>b.id-a.id);
-  const el=document.getElementById('goalsList');
-  if(!goals.length){el.innerHTML='<div class="empty"><div class="ei">🎯</div><div>أضف هدفك الأول!</div></div>';return;}
-  const cc={en:'var(--blue)',fr:'var(--cyan)',personal:'var(--purple)'};
-  el.innerHTML=goals.map(g=>`
-    <div class="gcard">
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
-        <div>
-          <div style="font-size:10px;color:${cc[g.cat]||'var(--green)'};font-weight:700;margin-bottom:3px">${CLBLS[g.cat]||g.cat}${g.dead?' · '+g.dead:''}</div>
-          <div style="font-size:15px;font-weight:700">${g.title}</div>
-          ${g.desc?`<div style="font-size:11px;color:var(--text2);margin-top:2px">${g.desc}</div>`:''}
+      <div class="book-info">
+        <div class="book-title">${b.title}</div>
+        <div class="book-author">${b.auth||'—'}</div>
+        <div class="book-tags">
+          <span class="btag btag-${b.lang}">${b.lang==='fr'?'Français':b.lang==='ar'?'عربية':'English'}</span>
+          ${b.genre?`<span class="btag btag-genre">${b.genre.split(' ')[0]}</span>`:''}
+          ${b.level?`<span class="btag btag-level">${b.level}</span>`:''}
         </div>
-        <div style="font-size:20px;font-weight:900;color:${g.done?'var(--green)':cc[g.cat]||'var(--green)'}">${g.done?'✅':g.prog+'%'}</div>
+        ${prog>0?`<div style="height:3px;background:var(--ink4);border-radius:3px;margin-bottom:7px;overflow:hidden"><div style="height:100%;width:${prog}%;background:linear-gradient(90deg,var(--azure),var(--sky));border-radius:3px"></div></div>`:''}
+        <div style="font-size:10px;font-weight:600;color:${stC[b.st]}">${stLbl[b.st]||''}</div>
+        <div class="book-actions" style="margin-top:8px">
+          <button class="btn btn-ghost" style="flex:1;font-size:10px;padding:5px 0" onclick="event.stopPropagation();cycleStatus('${b.id}')">🔄</button>
+          <button class="btn btn-blue" style="flex:1;font-size:10px;padding:5px 0" onclick="event.stopPropagation();openReaderForBook('${b.id}')">📖</button>
+          <button class="btn btn-emerald" style="flex:1;font-size:10px;padding:5px 0" onclick="event.stopPropagation();toggleSel('${b.id}')">📤</button>
+        </div>
       </div>
-      <div class="pbar" style="margin-bottom:12px">
-        <div class="pfill" style="width:${g.done?100:g.prog}%;background:${cc[g.cat]||'var(--green)'}"></div>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        ${!g.done?`<button class="btn bghost" style="font-size:11px;padding:6px 10px" onclick="updProg(${g.id})">📈 تحديث</button>`:''}
-        <button class="btn bghost" style="font-size:11px;padding:6px 10px" onclick="togGoal(${g.id})">${g.done?'↩️ فتح':'✅ مكتمل'}</button>
-        <button class="btn bred" style="font-size:11px;padding:6px 10px" onclick="delGoal(${g.id})">🗑️</button>
-      </div>
-    </div>`).join('');
-}
-function updProg(id){
-  const p=prompt('نسبة التقدم (0-100):');if(p===null)return;
-  const n=Math.min(100,Math.max(0,parseInt(p)||0));
-  const g=DB.get('goals')||[];const i=g.find(x=>x.id===id);
-  if(i){i.prog=n;if(n===100)i.done=true;}
-  DB.set('goals',g);renderGoals();renderDash();
-  addPts(2);toast('📈 تم التحديث! +2 نقاط');
-}
-function togGoal(id){
-  const g=DB.get('goals')||[];const i=g.find(x=>x.id===id);
-  if(i){i.done=!i.done;i.prog=i.done?100:i.prog;}
-  DB.set('goals',g);renderGoals();renderDash();
-  if(i.done){addPts(50);toast('🎉 تبروك! هدف مكتمل +50 نقطة');}
-  else toast('↩️ تم إعادة فتح الهدف');
-}
-function delGoal(id){
-  if(!confirm('تمسح هذا الهدف؟'))return;
-  DB.set('goals',(DB.get('goals')||[]).filter(g=>g.id!==id));
-  renderGoals();renderDash();toast('🗑️ تم الحذف');
+    </div>`;
+  }).join('');
+  updateExportBar();
+  updateStats();
 }
 
-// ══ LESSONS ══
-const LEN=[
-  {id:1,t:'Greetings & Introductions',d:'Hello, My name is, How are you?',l:'A1',dur:'15 دقيقة',done:false},
-  {id:2,t:'Numbers & Colors',d:'1-100, Basic colors, Shapes',l:'A1',dur:'20 دقيقة',done:false},
-  {id:3,t:'Days & Months',d:'Days of week, Months, Seasons',l:'A1',dur:'15 دقيقة',done:false},
-  {id:4,t:'Family Members',d:'Mother, father, brother, sister',l:'A1',dur:'20 دقيقة',done:false},
-  {id:5,t:'Food & Drinks',d:'Common food vocabulary',l:'A1',dur:'25 دقيقة',done:false},
-  {id:6,t:'Present Simple',d:'I am, You are, He/She is',l:'A1',dur:'30 دقيقة',done:false},
-  {id:7,t:'Questions',d:'Who, What, Where, When, Why',l:'A2',dur:'25 دقيقة',done:false},
-  {id:8,t:'Past Simple',d:'Regular & irregular verbs',l:'A2',dur:'35 دقيقة',done:false},
-  {id:9,t:'Future Tense',d:'Will, Going to, Plans',l:'A2',dur:'30 دقيقة',done:false},
-  {id:10,t:'Adjectives',d:'Describe people, places, actions',l:'A2',dur:'25 دقيقة',done:false},
-  {id:11,t:'Modal Verbs',d:'Can, Should, Must, Would',l:'B1',dur:'35 دقيقة',done:false},
-  {id:12,t:'Conditionals',d:'If I were... I would...',l:'B1',dur:'40 دقيقة',done:false},
-];
-const LFR=[
-  {id:1,t:'Bonjour et Salutations',d:'Bonjour, Je mappelle, Ca va?',l:'A1',dur:'15 دقيقة',done:false},
-  {id:2,t:'Les Chiffres',d:'0-100, les nombres ordinaux',l:'A1',dur:'20 دقيقة',done:false},
-  {id:3,t:'Les Couleurs',d:'Rouge, bleu, vert, jaune...',l:'A1',dur:'15 دقيقة',done:false},
-  {id:4,t:'La Famille',d:'Mère, père, frère, soeur',l:'A1',dur:'20 دقيقة',done:false},
-  {id:5,t:'La Nourriture',d:'Le pain, le café, le repas',l:'A1',dur:'25 دقيقة',done:false},
-  {id:6,t:'Verbe Être',d:'Je suis, tu es, il est',l:'A1',dur:'30 دقيقة',done:false},
-  {id:7,t:'Les Questions',d:'Qui, Quoi, Où, Quand, Pourquoi',l:'A2',dur:'25 دقيقة',done:false},
-  {id:8,t:'Passé Composé',d:'Verbes réguliers et irréguliers',l:'A2',dur:'35 دقيقة',done:false},
-  {id:9,t:'Le Futur',d:'Je vais, il va, nous allons',l:'A2',dur:'30 دقيقة',done:false},
-  {id:10,t:'Les Adjectifs',d:'Grand, petit, beau, nouveau',l:'A2',dur:'25 دقيقة',done:false},
-  {id:11,t:'Les Verbes',d:'Conjugaisons essentielles',l:'B1',dur:'35 دقيقة',done:false},
-  {id:12,t:'Imparfait',d:'Quand jetais enfant...',l:'B1',dur:'40 دقيقة',done:false},
-];
-
-let curLang='en';
-function setLang(l){
-  curLang=l;
-  document.getElementById('btnEn').className='btn '+(l==='en'?'bblu':'bghost');
-  document.getElementById('btnFr').className='btn '+(l==='fr'?'bblu':'bghost');
-  document.getElementById('learnList').style.display='block';
-  document.getElementById('quizSection').style.display='none';
-  renderLearn();
-}
-function renderLearn(){
-  const key='les_'+curLang;
-  const base=curLang==='en'?LEN:LFR;
-  const les=DB.get(key)||base.map(l=>({...l}));
-  const flag=curLang==='en'?'🇬🇧':'🇫🇷';
-  const col=curLang==='en'?'var(--blue)':'var(--cyan)';
-  const done=les.filter(l=>l.done).length;
-  const pct=Math.round(done/les.length*100);
-  document.getElementById('learnList').innerHTML=`
-    <div style="background:var(--bg2);border:1px solid var(--border);border-radius:var(--r);padding:14px;margin-bottom:14px">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
-        <div style="font-size:12px;color:var(--text2)">التقدم الكلي</div>
-        <div style="font-size:18px;font-weight:900;color:${col}">${pct}%</div>
-      </div>
-      <div class="pbar"><div class="pfill" style="width:${pct}%;background:${col}"></div></div>
-      <div style="font-size:10px;color:var(--text2);margin-top:5px">${done} من ${les.length} درس مكتمل</div>
-    </div>`+
-    les.map(l=>`
-    <div class="lecard" onclick="togLesson('${curLang}',${l.id})">
-      <div class="leicon" style="background:${l.done?'rgba(16,185,129,.12)':'rgba(79,142,247,.08)'}">
-        ${l.done?'✅':flag}</div>
-      <div style="flex:1">
-        <div class="letitle">${l.t}</div>
-        <div class="lemeta">${l.d} · ${l.dur} · <b style="color:${col}">${l.l}</b></div>
-      </div>
-      <span class="lestatus ${l.done?'done':'todo'}">${l.done?'✓ مكتمل':'لم يبدأ'}</span>
-    </div>`).join('');
-}
-function togLesson(lang,id){
-  const key='les_'+lang;const base=lang==='en'?LEN:LFR;
-  const les=DB.get(key)||base.map(l=>({...l}));
-  const l=les.find(x=>x.id===id);
-  if(l){l.done=!l.done;DB.set(key,les);renderLearn();renderDash();
-    if(l.done){addPts(15);logActivity();toast('✅ درس مكتمل! +15 نقطة 🎉');}
-    else toast('↩️ تم إلغاء الإكمال');}
+function updateStats(){
+  const books = getBooks();
+  document.getElementById('hTotal').textContent = books.length;
+  document.getElementById('hReading').textContent = books.filter(b=>b.st==='reading').length;
+  document.getElementById('hDone').textContent = books.filter(b=>b.st==='done').length;
+  document.getElementById('hFr').textContent = books.filter(b=>b.lang==='fr').length;
+  document.getElementById('hAr').textContent = books.filter(b=>b.lang==='ar').length;
 }
 
-// ══ QUIZ ══
-const QUIZZES={
-  en:[
-    {q:'What is the translation of "Apple"?',opts:['تفاحة','موزة','برتقالة','عنبة'],a:0},
-    {q:'How do you say "Thank you" in English?',opts:['Sorry','Please','Thank you','Excuse me'],a:2},
-    {q:'Complete: "I ___ a student"',opts:['am','is','are','be'],a:0},
-    {q:'What is "Water" in Arabic?',opts:['حليب','عصير','ماء','شاي'],a:2},
-    {q:'Choose the correct sentence:',opts:['She go to school','She goes to school','She going to school','She gone to school'],a:1},
-  ],
+// ══ FILTER ══
+function setFilter(f, el){
+  currentFilter = f;
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  render();
+}
+
+// ══ ADD BOOK ══
+function toggleAdd(){
+  document.getElementById('addPanel').classList.toggle('on');
+  document.getElementById('importWrap').style.display='none';
+}
+function toggleImport(){
+  const w=document.getElementById('importWrap');
+  w.style.display=w.style.display==='none'?'block':'none';
+  document.getElementById('addPanel').classList.remove('on');
+}
+function addBook(){
+  const t=document.getElementById('fTitle').value.trim();
+  if(!t){toast('⚠️ أدخل عنوان الكتاب');return;}
+  const books=getBooks();
+  books.push({
+    id:'u'+Date.now(),
+    title:t,
+    auth:document.getElementById('fAuth').value.trim(),
+    lang:document.getElementById('fLang').value,
+    level:document.getElementById('fLevel').value,
+    genre:document.getElementById('fGenre').value.trim(),
+    year:document.getElementById('fYear').value.trim(),
+    notes:document.getElementById('fNotes').value.trim(),
+    st:'todo',progress:0,readAt:null,
+    addedAt:new Date().toLocaleDateString('ar-MA')
+  });
+  setBooks(books);
+  ['fTitle','fAuth','fGenre','fYear','fNotes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('addPanel').classList.remove('on');
+  render();toast('📚 تم إضافة الكتاب!');
+}
+
+// ══ STATUS ══
+const ST_CYCLE={todo:'reading',reading:'done',done:'todo'};
+const ST_MSG={todo:'📌 قائمة القراءة',reading:'📖 بدأت القراءة!',done:'✅ أنهيت الكتاب! 🎉'};
+function cycleStatus(id){
+  const books=getBooks();
+  const b=books.find(x=>x.id===id);
+  if(!b)return;
+  b.st=ST_CYCLE[b.st]||'todo';
+  if(b.st==='done') b.progress=100;
+  setBooks(books);render();toast(ST_MSG[b.st]);
+}
+function setStatus(id,st){
+  const books=getBooks();
+  const b=books.find(x=>x.id===id);
+  if(b){b.st=st;if(st==='done')b.progress=100;setBooks(books);}
+  render();closeMod('detailModal');toast(ST_MSG[st]);
+}
+
+// ══ SELECTION ══
+let selMode = false;
+function handleCardClick(id, e){
+  if(selMode || selectedIds.size>0){toggleSel(id);return;}
+  openDetail(id);
+}
+function toggleSel(id){
+  selMode=true;
+  if(selectedIds.has(id)) selectedIds.delete(id);
+  else selectedIds.add(id);
+  if(selectedIds.size===0) selMode=false;
+  render();updateExportBar();
+}
+function clearSel(){
+  selectedIds.clear();selMode=false;
+  render();updateExportBar();
+}
+function toggleSelAll(){
+  const books=getBooks();
+  if(selectedIds.size===books.length){clearSel();return;}
+  books.forEach(b=>selectedIds.add(b.id));
+  selMode=true;render();updateExportBar();
+}
+function updateExportBar(){
+  const bar=document.getElementById('exportBar');
+  bar.classList.toggle('on',selectedIds.size>0);
+  document.getElementById('selCount').textContent=selectedIds.size;
+}
+
+// ══ DETAIL MODAL ══
+function openDetail(id){
+  const books=getBooks();
+  const b=books.find(x=>x.id===id);
+  if(!b)return;
+  currentBookId=id;
+  const g=GRADIENTS[books.indexOf(b)%GRADIENTS.length];
+  document.getElementById('dTitle').textContent=b.title;
+  document.getElementById('dCover').style.background=`linear-gradient(145deg,${g[0]},${g[1]})`;
+  document.getElementById('dCover').innerHTML=`<div style="font-size:36px">${BOOK_EMOJIS[b.lang]||'📖'}</div><div style="font-size:11px;color:rgba(255,255,255,.7);text-align:center;padding:0 8px;margin-top:6px">${b.title}</div>`;
+  document.getElementById('dAuthor').textContent='✍️ '+(b.auth||'—');
+  document.getElementById('dTags').innerHTML=`
+    <span class="btag btag-${b.lang}">${LANG_LABELS[b.lang]||b.lang}</span>
+    ${b.level?`<span class="btag btag-level">${b.level}</span>`:''}
+    ${b.genre?`<span class="btag btag-genre">${b.genre}</span>`:''}
+    ${b.year?`<span class="btag" style="background:rgba(255,255,255,.06);color:var(--text2)">${b.year}</span>`:''}
+  `;
+  const prog=b.progress||0;
+  document.getElementById('dProgress').innerHTML=prog>0?`
+    <div style="font-size:11px;color:var(--text2);margin-bottom:5px">التقدم: ${prog}%</div>
+    <div class="pbar"><div class="pfill" style="width:${prog}%"></div></div>`:
+    '<div style="font-size:11px;color:var(--text3)">لم تبدأ القراءة بعد</div>';
+  const stLbl={reading:'📖 يُقرأ حالياً',done:'✅ مكتمل',todo:'📌 قائمة القراءة'};
+  const stC={reading:'var(--azure)',done:'var(--emerald)',todo:'var(--text3)'};
+  document.getElementById('dSt').innerHTML=`
+    <div style="font-size:13px;font-weight:600;color:${stC[b.st]};margin-bottom:10px">${stLbl[b.st]||''}</div>
+    <button class="btn btn-ghost btn-sm" onclick="setStatus('${id}','reading')">📖 أقرأه</button>
+    <button class="btn btn-emerald btn-sm" onclick="setStatus('${id}','done')">✅ أنهيته</button>
+    <button class="btn btn-ghost btn-sm" onclick="setStatus('${id}','todo')">📌 لاحقاً</button>
+  `;
+  document.getElementById('dNotes').textContent=b.notes||'لا توجد ملاحظات';
+  document.getElementById('dRead').onclick=()=>{closeMod('detailModal');openReaderForBook(id);};
+  document.getElementById('detailModal').classList.add('on');
+}
+
+// ══ DELETE ══
+function deleteBook(id){
+  if(!confirm('تمسح هذا الكتاب؟'))return;
+  setBooks(getBooks().filter(b=>b.id!==id));
+  render();toast('🗑️ تم الحذف');
+}
+
+// ══ READER ══
+const SAMPLE_CHAPTERS = {
   fr:[
-    {q:'Que signifie "Bonjour"?',opts:['Bonsoir','Bonne nuit','Bonjour','Au revoir'],a:2},
-    {q:'Comment dit-on "Chat" en français?',opts:['Chien','Chat','Cheval','Oiseau'],a:1},
-    {q:'Complétez: "Je ___ étudiant"',opts:['es','suis','est','sommes'],a:1},
-    {q:'"Merci" signifie:',opts:['Pardon','SVP','Merci','Bonjour'],a:2},
-    {q:'Quel est le pluriel de "Un livre"?',opts:['Des livres','Un livres','De livre','Des livre'],a:0},
+    {title:'Chapitre I — Introduction', text:`<p>Vous allez découvrir dans ce livre une histoire unique et fascinante. <span class="vocab" title="fascinante = رائعة">fascinante</span> est un mot important en français.</p><p>La langue française est belle et <span class="vocab" title="mélodieuse = موسيقية">mélodieuse</span>. Elle se parle dans plus de 50 pays dans le monde.</p><p>Notre histoire commence par un voyage extraordinaire, plein de <span class="vocab" title="surprises = مفاجآت">surprises</span> et d'aventures.</p>`},
+    {title:'Chapitre II — Le Début', text:`<p>Le personnage principal <span class="vocab" title="personnage principal = الشخصية الرئيسية">personnage principal</span> commence son voyage un matin d'automne.</p><p>Il regarde le <span class="vocab" title="ciel = السماء">ciel</span> bleu et pense à sa famille. La vie est parfois <span class="vocab" title="difficile = صعبة">difficile</span>, mais il ne perd jamais espoir.</p><p>Au bout du chemin, il aperçoit une petite <span class="vocab" title="maison = بيت">maison</span> en pierre avec une lumière à la fenêtre.</p>`},
+    {title:'Chapitre III — La Rencontre', text:`<p>Une <span class="vocab" title="femme = امرأة">femme</span> âgée ouvre la porte. Elle a les yeux verts et les cheveux blancs comme la neige.</p><p>"Entrez, je vous attendais," dit-elle avec un sourire <span class="vocab" title="mystérieux = غامض">mystérieux</span>.</p><p>À l'intérieur, des centaines de <span class="vocab" title="livres = كتب">livres</span> couvrent tous les murs. Notre héros n'en croit pas ses yeux.</p>`},
+  ],
+  ar:[
+    {title:'الفصل الأول — البداية', text:`<p class="highlight">في بدايةِ كلِّ قصةٍ، ثمةَ لحظةٌ حاسمةٌ تغيّر مجرى الأحداث.</p><p>كان الصباح هادئاً حين فتح البطل عينيه على ضوء الشمس الذهبي يتسلل من بين ستائر الغرفة. شعر بأن هذا اليوم مختلف عن غيره.</p><p>نهض ببطء، ارتدى ملابسه، وتناول فنجان قهوته الصباحي وهو ينظر من النافذة إلى الشارع الهادئ أسفله.</p>`},
+    {title:'الفصل الثاني — الرحلة', text:`<p>لم يكن يعلم أن قراره بمغادرة البيت في ذلك الصباح سيغير حياته إلى الأبد.</p><p>مشى في الطرق الضيقة للمدينة القديمة، يتأمل البيوت العتيقة والأبواب الملونة. كانت رائحة الخبز الطازج تفوح من المخبز المجاور.</p><p class="highlight">في زاوية الشارع، وجد كتاباً قديماً ملقى على الأرض. رفعه وقرأ عنوانه: "أسرار المدينة المنسية".</p>`},
+    {title:'الفصل الثالث — الاكتشاف', text:`<p>فتح الكتاب بحذر. كانت صفحاته صفراء من الزمن، وخطه الجميل يشبه خط الخطاطين القدامى.</p><p>قرأ السطر الأول: "من يجد هذا الكتاب، فقد اختاره القدر لمهمة عظيمة..."</p><p class="highlight">نظر حوله، لم يكن أحد في الشارع. أخذ الكتاب وسار نحو المقهى القريب ليقرأه بتمعن.</p>`},
   ]
 };
-let qIdx=0,qScore=0,qAnswered=false;
-function startQuiz(){
-  document.getElementById('learnList').style.display='none';
-  document.getElementById('quizSection').style.display='block';
-  qIdx=0;qScore=0;showQ();
+function openReaderForBook(id){
+  const books=getBooks();
+  const b=books.find(x=>x.id===id);
+  if(!b){toast('⚠️ الكتاب غير موجود');return;}
+  readerBookId=id;readerChapter=0;
+  document.getElementById('readerTitle').textContent=b.title;
+  document.getElementById('readerMeta').textContent=(b.auth||'')+(b.lang?' · '+(b.lang==='fr'?'Français':b.lang==='ar'?'عربية':'English'):'');
+  document.getElementById('reader').classList.add('on');
+  const lang=b.lang||'fr';
+  const chapters=SAMPLE_CHAPTERS[lang]||SAMPLE_CHAPTERS['fr'];
+  document.getElementById('chapIndicator').textContent=`الفصل 1/${chapters.length}`;
+  // Set RTL for Arabic
+  const body=document.getElementById('readerBody');
+  body.dir=lang==='ar'?'rtl':'ltr';
+  body.style.textAlign=lang==='ar'?'right':'left';
+  renderChapter();
+  // Mark as reading
+  if(b.st==='todo'){setStatus(id,'reading');}
 }
-function showQ(){
-  const qs=QUIZZES[curLang];
-  if(qIdx>=qs.length){showResult();return;}
-  const q=qs[qIdx];
-  const pct=Math.round(qIdx/qs.length*100);
-  document.getElementById('qProg').style.width=pct+'%';
-  qAnswered=false;
-  document.getElementById('qCard').innerHTML=`
-    <div class="q-num">سؤال ${qIdx+1} من ${qs.length}</div>
-    <div class="q-text">${q.q}</div>
-    <div class="q-options">${q.opts.map((o,i)=>`
-      <button class="q-opt" onclick="ansQ(${i})">${o}</button>`).join('')}
-    </div>`;
-}
-function ansQ(i){
-  if(qAnswered)return;qAnswered=true;
-  const q=QUIZZES[curLang][qIdx];
-  const btns=document.querySelectorAll('.q-opt');
-  btns.forEach((b,j)=>{
-    b.disabled=true;
-    if(j===q.a)b.classList.add('correct');
-    else if(j===i)b.classList.add('wrong');
-  });
-  if(i===q.a)qScore++;
-  setTimeout(()=>{qIdx++;showQ();},1200);
-}
-function showResult(){
-  const pct=Math.round(qScore/QUIZZES[curLang].length*100);
-  const stars=pct>=80?'⭐⭐⭐':pct>=50?'⭐⭐':'⭐';
-  const pts=qScore*10;
-  document.getElementById('qCard').innerHTML=`
-    <div class="q-result">
-      <div class="q-score" style="color:${pct>=80?'var(--green)':pct>=50?'var(--gold)':'var(--red)'}">${pct}%</div>
-      <div class="q-stars">${stars}</div>
-      <div style="font-size:16px;font-weight:700;margin-bottom:6px">${qScore}/${QUIZZES[curLang].length} إجابة صحيحة</div>
-      <div style="font-size:13px;color:var(--text2);margin-bottom:20px">+${pts} نقطة مضافة!</div>
-      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-        <button class="btn bblu" onclick="startQuiz()">🔄 مرة أخرى</button>
-        <button class="btn bghost" onclick="endQuiz()">← رجوع</button>
-      </div>
-    </div>`;
-  addPts(pts);logActivity();
-}
-function endQuiz(){
-  document.getElementById('learnList').style.display='block';
-  document.getElementById('quizSection').style.display='none';
-}
-
-// ══ VOCABULARY + FLASHCARDS ══
-function saveVocab(){
-  const w=v('vWord'),tr=v('vTr');
-  if(!w||!tr){toast('⚠️ أدخل الكلمة والترجمة');return;}
-  const vocab=DB.get('vocab')||[];
-  vocab.push({id:Date.now(),word:w,tr:tr,ex:v('vEx'),
-    lang:document.getElementById('vLang').value,lvl:'new',
-    date:new Date().toLocaleDateString('ar-MA')});
-  DB.set('vocab',vocab);tfp('vF');renderVocab();renderDash();
-  addPts(3);logActivity();toast('✅ تم إضافة الكلمة! +3 نقاط');
-}
-function renderVocab(){
-  const vocab=(DB.get('vocab')||[]).sort((a,b)=>b.id-a.id);
-  const lvlC={new:'var(--red)',learning:'var(--gold)',known:'var(--green)'};
-  const lvlL={new:'جديدة',learning:'أتعلمها',known:'أعرفها'};
-  document.getElementById('vocabList').innerHTML=vocab.length
-    ?vocab.map(v=>`
-      <div class="vocab-item">
-        <div class="vocab-lvl ${v.lvl}" title="${lvlL[v.lvl]}"></div>
-        <div class="vocab-word">${v.word}</div>
-        <div class="vocab-tr">${v.tr}</div>
-        <div style="font-size:10px;color:var(--text2);flex-shrink:0">${v.lang==='en'?'🇬🇧':'🇫🇷'}</div>
-        <button class="xbtn" style="font-size:10px;padding:3px 8px" onclick="delVocab(${v.id})">🗑️</button>
-      </div>`).join('')
-    :'<div class="empty"><div class="ei">🔤</div><div>أضف أول كلمة!</div></div>';
-}
-function delVocab(id){
-  DB.set('vocab',(DB.get('vocab')||[]).filter(v=>v.id!==id));
-  renderVocab();toast('🗑️ تم الحذف');
-}
-
-// Flashcards
-let fcDeck=[],fcCur=0;
-function startFlash(){
-  const vocab=DB.get('vocab')||[];
-  if(!vocab.length){toast('⚠️ أضف كلمات أولاً');return;}
-  fcDeck=[...vocab].sort(()=>Math.random()-.5);
-  fcCur=0;
-  document.getElementById('vocabList').style.display='none';
-  document.getElementById('flashArea').style.display='block';
-  showFC();
-}
-function showFC(){
-  if(!fcDeck.length)return;
-  const w=fcDeck[fcCur];
-  document.getElementById('fcCard').classList.remove('flipped');
-  document.getElementById('fcWord').textContent=w.word;
-  document.getElementById('fcTr').textContent=w.tr;
-  document.getElementById('fcEx').textContent=w.ex||'';
-  document.getElementById('fcCounter').textContent=(fcCur+1)+' / '+fcDeck.length;
-}
-function flipCard(){document.getElementById('fcCard').classList.toggle('flipped');}
-function fcMove(d){
-  fcCur=(fcCur+d+fcDeck.length)%fcDeck.length;
-  showFC();
-}
-function rateCard(r){
-  const vocab=DB.get('vocab')||[];
-  const w=fcDeck[fcCur];
-  const v=vocab.find(x=>x.id===w.id);
-  if(v){v.lvl=r==='known'?'known':'learning';DB.set('vocab',vocab);}
-  if(r==='known'){addPts(2);}
-  fcMove(1);
-}
-function endFlash(){
-  document.getElementById('vocabList').style.display='block';
-  document.getElementById('flashArea').style.display='none';
-  renderVocab();
-}
-
-// ══ LIBRARY ══
-const BKCLR=['linear-gradient(135deg,#1e3a5f,#3b82f6)','linear-gradient(135deg,#064e3b,#10b981)',
-  'linear-gradient(135deg,#312e81,#8b5cf6)','linear-gradient(135deg,#78350f,#f59e0b)',
-  'linear-gradient(135deg,#7f1d1d,#ef4444)','linear-gradient(135deg,#164e63,#06b6d4)'];
-function saveBook(){
-  const t=v('bTitle');if(!t){toast('⚠️ أدخل عنوان الكتاب');return;}
-  const books=DB.get('books')||[];
-  books.push({id:Date.now(),title:t,auth:v('bAuth'),
-    lang:document.getElementById('bLang').value,
-    st:document.getElementById('bSt').value,
-    notes:v('bNotes'),date:new Date().toLocaleDateString('ar-MA')});
-  DB.set('books',books);tfp('bF');renderLib();renderDash();
-  addPts(5);logActivity();toast('📖 تم إضافة الكتاب! +5 نقاط');
-}
-function renderLib(){
-  const books=(DB.get('books')||[]).sort((a,b)=>b.id-a.id);
-  const el=document.getElementById('libList');
-  if(!books.length){el.innerHTML='<div class="empty"><div class="ei">📚</div><div>أضف أول كتاب!</div></div>';return;}
-  const stI={reading:'📖',done:'✅',todo:'📌'};
-  const lf={en:'🇬🇧',fr:'🇫🇷',ar:'🇲🇦'};
-  el.innerHTML='<div class="bkgrid">'+books.map((b,i)=>`
-    <div class="bkcard" title="${b.notes||b.title}">
-      <div class="bkcover" style="background:${BKCLR[i%BKCLR.length]}">${lf[b.lang]||'📖'}</div>
-      <div style="font-size:12px;font-weight:700;margin-bottom:3px">${b.title}</div>
-      <div style="font-size:10px;color:var(--text2)">${b.auth||''} ${stI[b.st]||''}</div>
-      <button class="xbtn" style="margin-top:8px;width:100%;font-size:10px" onclick="delBook(${b.id})">🗑️</button>
-    </div>`).join('')+'</div>';
-}
-function delBook(id){
-  if(!confirm('تمسح هذا الكتاب؟'))return;
-  DB.set('books',(DB.get('books')||[]).filter(b=>b.id!==id));
-  renderLib();renderDash();toast('🗑️ تم الحذف');
-}
-
-// ══ BADGES ══
-const BADGES=[
-  {id:'first_post',ico:'✍️',name:'أول منشور',check:()=>(DB.get('posts')||[]).length>=1},
-  {id:'5_posts',ico:'📝',name:'5 منشورات',check:()=>(DB.get('posts')||[]).length>=5},
-  {id:'first_lesson',ico:'📚',name:'أول درس',check:()=>{const e=DB.get('les_en')||[];const f=DB.get('les_fr')||[];return e.some(l=>l.done)||f.some(l=>l.done);}},
-  {id:'streak3',ico:'🔥',name:'3 أيام متتالية',check:()=>(DB.get('streak')||{n:0}).n>=3},
-  {id:'streak7',ico:'⚡',name:'7 أيام متتالية',check:()=>(DB.get('streak')||{n:0}).n>=7},
-  {id:'100pts',ico:'⭐',name:'100 نقطة',check:()=>getPts()>=100},
-  {id:'500pts',ico:'🌟',name:'500 نقطة',check:()=>getPts()>=500},
-  {id:'first_goal',ico:'🎯',name:'أول هدف',check:()=>(DB.get('goals')||[]).length>=1},
-  {id:'goal_done',ico:'🏆',name:'هدف مكتمل',check:()=>(DB.get('goals')||[]).some(g=>g.done)},
-  {id:'10_vocab',ico:'🔤',name:'10 كلمات',check:()=>(DB.get('vocab')||[]).length>=10},
-  {id:'first_book',ico:'📖',name:'أول كتاب',check:()=>(DB.get('books')||[]).length>=1},
-  {id:'quiz_master',ico:'🧠',name:'اختبار كامل',check:()=>getPts()>=50},
-];
-function checkBadges(){
-  const earned=DB.get('badges')||[];
-  BADGES.forEach(b=>{
-    if(!earned.includes(b.id)&&b.check()){
-      earned.push(b.id);DB.set('badges',earned);
-      toast('🏆 شارة جديدة: '+b.name+'!');
-    }
+function renderChapter(){
+  const books=getBooks();
+  const b=books.find(x=>x.id===readerBookId);
+  const lang=(b&&b.lang)||'fr';
+  const chapters=SAMPLE_CHAPTERS[lang]||SAMPLE_CHAPTERS['fr'];
+  if(readerChapter<0)readerChapter=0;
+  if(readerChapter>=chapters.length)readerChapter=chapters.length-1;
+  const ch=chapters[readerChapter];
+  document.getElementById('readerBody').innerHTML=`<div class="reader-chapter"><h2>${ch.title}</h2>${ch.text}</div>`;
+  document.getElementById('chapIndicator').textContent=`الفصل ${readerChapter+1}/${chapters.length}`;
+  document.getElementById('prevChBtn').disabled=readerChapter===0;
+  document.getElementById('nextChBtn').disabled=readerChapter===chapters.length-1;
+  document.getElementById('readerBody').style.fontSize=readerFontSize+'px';
+  updateReadProgress();
+  // Add vocab tooltips
+  document.querySelectorAll('.vocab').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const t=el.getAttribute('title');
+      toast('📚 '+t);
+    });
   });
 }
-function renderBadges(){
-  const earned=DB.get('badges')||[];
-  document.getElementById('badgeGrid').innerHTML=BADGES.map(b=>`
-    <div class="bdg ${earned.includes(b.id)?'earned':'locked'}">
-      <div class="bdg-icon">${b.ico}</div>
-      <div class="bdg-name">${b.name}</div>
-      ${earned.includes(b.id)?'<div style="font-size:9px;color:var(--gold);margin-top:2px">مكتسبة</div>':'<div style="font-size:9px;color:var(--text2);margin-top:2px">مقفلة</div>'}
-    </div>`).join('');
+function changeChapter(d){readerChapter+=d;renderChapter();}
+function changeFontSize(d){readerFontSize=Math.max(12,Math.min(24,readerFontSize+d));
+  document.getElementById('readerBody').style.fontSize=readerFontSize+'px';
+  document.getElementById('fsDisplay').textContent=readerFontSize+'px';}
+function updateReadProgress(){
+  const body=document.getElementById('readerBody');
+  const pct=Math.round((body.scrollTop/(body.scrollHeight-body.clientHeight||1))*100);
+  document.getElementById('readProg').style.width=pct+'%';
+  document.getElementById('readPercent').textContent=pct+'%';
+}
+function saveReadProgress(){
+  const books=getBooks();
+  const b=books.find(x=>x.id===readerBookId);
+  if(!b)return;
+  const chapters=SAMPLE_CHAPTERS[b.lang||'fr']||SAMPLE_CHAPTERS['fr'];
+  const prog=Math.round(((readerChapter+1)/chapters.length)*100);
+  b.progress=prog;
+  if(prog>=100){b.st='done';toast('🎉 أنهيت الكتاب! احسنت');}
+  else toast(`💾 تم الحفظ — التقدم: ${prog}%`);
+  setBooks(books);render();
+}
+function closeReader(){document.getElementById('reader').classList.remove('on');}
+
+// ══ EXPORT ══
+let exportQueue = [];
+function exportOne(id){
+  exportQueue=[id];
+  showExportModal([id]);
+}
+function exportSelected(){
+  exportQueue=[...selectedIds];
+  showExportModal([...selectedIds]);
+}
+function exportSelectedRead(){
+  exportQueue=[...selectedIds];
+  // Mark all as reading first
+  const books=getBooks();
+  exportQueue.forEach(id=>{
+    const b=books.find(x=>x.id===id);
+    if(b&&b.st==='todo')b.st='reading';
+  });
+  setBooks(books);render();
+  showExportModal(exportQueue);
+}
+function openExportAll(){
+  const books=getBooks();
+  exportQueue=books.map(b=>b.id);
+  showExportModal(exportQueue);
+}
+function showExportModal(ids){
+  const books=getBooks();
+  const sel=books.filter(b=>ids.includes(b.id));
+  document.getElementById('exportInfo').innerHTML=
+    `سيتم تصدير <b>${sel.length} كتاب</b>:<br/><br/>`+
+    sel.slice(0,8).map(b=>`• ${b.title} (${b.auth||'—'})`).join('<br/>')+
+    (sel.length>8?`<br/>... و${sel.length-8} كتاب آخر`:'');
+  document.getElementById('exportModal').classList.add('on');
+}
+function doExport(){
+  const books=getBooks();
+  const sel=books.filter(b=>exportQueue.includes(b.id));
+  // Write to shared localStorage key that Awad will read
+  const payload={
+    source:'awad_library',
+    timestamp:Date.now(),
+    books: sel.map(b=>({
+      id:'lib_'+b.id, title:b.title, auth:b.auth||'',
+      lang:b.lang, st:b.st||'todo', level:b.level||'',
+      notes:b.notes||'', genre:b.genre||'', year:b.year||'',
+      pages:b.pages||0, progress:b.progress||0,
+      date:b.addedAt||new Date().toLocaleDateString('ar-MA')
+    }))
+  };
+  localStorage.setItem(EXPORT_KEY, JSON.stringify(payload));
+  closeMod('exportModal');
+  clearSel();
+  toast(`✅ تم التصدير! ${sel.length} كتاب جاهز للاستيراد في عواد`);
+  checkAwadConn();
+}
+function doExportFile(){
+  const books=getBooks();
+  const sel=books.filter(b=>exportQueue.includes(b.id));
+  const payload={source:'awad_library',timestamp:Date.now(),books:sel};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='awad_books_export.json';
+  a.click();
+  closeMod('exportModal');
+  toast(`💾 تم حفظ ${sel.length} كتاب كـ JSON`);
 }
 
-// ══ NOTIFICATIONS ══
-function initNotifications(){
-  if('Notification' in window && Notification.permission==='default'){
-    setTimeout(()=>{
-      if(DB.get('settings')?.daily){
-        Notification.requestPermission();
+// ══ IMPORT FROM FILE ══
+function handleFileImport(input){
+  const file=input.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      const imported=data.books||[];
+      const books=getBooks();
+      let added=0;
+      imported.forEach(b=>{
+        if(!books.find(x=>x.title===b.title&&x.auth===b.auth)){
+          books.push({...b, id:'imp_'+Date.now()+'_'+Math.random(), addedAt:new Date().toLocaleDateString()});
+          added++;
+        }
+      });
+      setBooks(books);render();
+      document.getElementById('importWrap').style.display='none';
+      toast(`✅ تم الاستيراد! ${added} كتاب جديد`);
+    }catch{toast('⚠️ ملف غير صحيح');}
+  };
+  reader.readAsText(file);
+}
+function handleDrop(e){
+  e.preventDefault();
+  document.getElementById('importZone').classList.remove('drag');
+  const file=e.dataTransfer.files[0];
+  if(!file)return;
+  const inp=document.getElementById('fileInput');
+  const dt=new DataTransfer();dt.items.add(file);inp.files=dt.files;
+  handleFileImport(inp);
+}
+
+// ══ AWAD CONNECTION ══
+function checkAwadConn(){
+  // Check if there's recent Awad data in localStorage
+  const awadKeys=Object.keys(localStorage).filter(k=>k.startsWith('aw3_')||k.startsWith('aw2_'));
+  const connected=awadKeys.length>0;
+  document.getElementById('statusDot').className='cstatus-dot '+(connected?'on':'off');
+  document.getElementById('statusTxt').textContent=connected?'عواد متصل ✓':'لم يُفتح عواد بعد';
+  // Check for pending import (Awad exported to us)
+  const pending=localStorage.getItem('awad_lib_import');
+  if(pending){
+    try{
+      const data=JSON.parse(pending);
+      if(data.books&&data.books.length>0){
+        toast(`📥 ${data.books.length} كتاب من عواد متاح للاستيراد`);
       }
-    },3000);
+    }catch{}
   }
-  checkTaskNotifs();
-  setInterval(checkTaskNotifs, 60000);
-}
-function scheduleTaskNotif(task){
-  if(!task.time||!task.date)return;
-  if(!DB.get('settings')?.taskNotif)return;
-  const dt=new Date(task.date+'T'+task.time);
-  const now=new Date();
-  const diff=dt-now-30*60000;
-  if(diff>0&&diff<86400000){
-    setTimeout(()=>{
-      if(Notification.permission==='granted'){
-        new Notification('⏰ عواد — تذكير مهمة',{body:'بعد 30 دقيقة: '+task.title,icon:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">✅</text></svg>'});
-      } else toast('⏰ تذكير: '+task.title+' بعد 30 دقيقة');
-    },diff);
-  }
-}
-function checkTaskNotifs(){
-  const tasks=DB.get('tasks')||[];
-  const now=new Date();
-  const nowStr=now.toISOString().slice(0,16);
-  tasks.filter(t=>!t.done&&t.date&&t.time).forEach(t=>{
-    const taskDt=t.date+'T'+t.time;
-    if(taskDt<=nowStr&&taskDt>=new Date(now-60000).toISOString().slice(0,16)){
-      toast('⏰ حان وقت: '+t.title);
-    }
-  });
-}
-
-// ══ SETTINGS ══
-function saveSetting(k,v){
-  const s=DB.get('settings')||{};s[k]=v;DB.set('settings',s);
-  if(k==='daily'&&v){
-    if(Notification.permission==='default') Notification.requestPermission();
-    else if(Notification.permission==='granted') scheduleDaily();
-  }
-  toast('✅ تم حفظ الإعداد');
-}
-function scheduleDaily(){
-  const s=DB.get('settings')||{};
-  const [h,m]=(s.remTime||'20:00').split(':').map(Number);
-  const now=new Date(),target=new Date();
-  target.setHours(h,m,0,0);
-  if(target<=now)target.setDate(target.getDate()+1);
-  const diff=target-now;
-  setTimeout(()=>{
-    if(Notification.permission==='granted'){
-      new Notification('📚 عواد — وقت التعلم!',{body:'لا تنسى تعلم شيء جديد اليوم 🌟'});
-    } else toast('📚 وقت التعلم اليومي!');
-    scheduleDaily();
-  },diff);
-}
-function loadSettings(){
-  const s=DB.get('settings')||{};
-  if(document.getElementById('togDaily')) document.getElementById('togDaily').checked=!!s.daily;
-  if(document.getElementById('togTask')) document.getElementById('togTask').checked=!!s.taskNotif;
-  if(document.getElementById('togAI')) document.getElementById('togAI').checked=s.aiMotiv!==false;
-  if(document.getElementById('togStreak')) document.getElementById('togStreak').checked=s.streakWarn!==false;
-  if(document.getElementById('remTime')) document.getElementById('remTime').value=s.remTime||'20:00';
-}
-function clearAll(){
-  const keys=Object.keys(localStorage).filter(k=>k.startsWith('aw2_'+CU));
-  keys.forEach(k=>localStorage.removeItem(k));
-  toast('🗑️ تم مسح البيانات');renderDash();
-}
-
-// ══ ACTIVITY LOG ══
-function logActivity(){
-  const acts=DB.get('activity')||{};
-  const key=today();
-  acts[key]=(acts[key]||0)+1;
-  DB.set('activity',acts);
-  // re-render heatmap if on dash
-  const hm=document.getElementById('heatmap');
-  if(hm&&hm.children.length>0)renderDash();
 }
 
 // ══ HELPERS ══
-const SECS=['dash','blog','tasks','goals','learn','vocab','lib','stats','schedule','chat','settings'];
-function go(name){
-  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
-  document.querySelectorAll('.ni').forEach(n=>n.classList.remove('on'));
-  document.getElementById('sec-'+name).classList.add('on');
-  document.querySelectorAll('.ni')[SECS.indexOf(name)].classList.add('on');
-  if(name==='blog')renderPosts();
-  if(name==='tasks'){renderCal();renderTasks();}
-  if(name==='goals')renderGoals();
-  if(name==='learn'){renderLearn();document.getElementById('quizSection').style.display='none';document.getElementById('learnList').style.display='block';}
-  if(name==='vocab'){renderVocab();document.getElementById('flashArea').style.display='none';document.getElementById('vocabList').style.display='block';}
-  if(name==='lib')renderLib();
-  if(name==='settings'){renderBadges();loadSettings();}
-  if(name==='stats')renderStats();
-  if(name==='schedule'){renderSchedule();renderWeekView();}
-  if(name==='chat'&&chatHistory.length===0)initChat();
-  if(name==='dash')genAI();
-}
-function tfp(id){document.getElementById(id).classList.toggle('on');}
 function closeMod(id){document.getElementById(id).classList.remove('on');}
 let _tt;
 function toast(m){
@@ -1762,416 +1001,10 @@ function toast(m){
   clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('on'),2800);
 }
 
-// ══ i18n SYSTEM ══
-const LANGS = {
-  ar:{
-    dir:'rtl',
-    nav_stats:'إحصائيات',nav_sched:'جدول AI',nav_chat:'AI Chat',nav_settings:'الإعدادات',
-    stats_title:'إحصائياتي',stats_activity:'النشاط الأسبوعي',stats_cats:'توزيع المنشورات',
-    stats_progress:'تقدم التعلم',stats_vocab:'حالة المفردات',
-    sched_title:'جدول AI الأسبوعي',ai_name:'مساعد عواد',ai_sched_sub:'يولّد جدولك الأسبوعي تلقائياً',
-    gen_sched:'توليد الجدول',clear_sched:'🗑️ مسح',
-    chat_title:'AI Chat',chat_ph:'اسألني أي شيء...',
-    logout:'خروج',
-    days:['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
-    days_short:['أح','إث','ثل','أر','خم','جم','سب'],
-    months:['يناير','فبراير','مارس','أبريل','ماي','يونيو','يوليوز','غشت','شتنبر','أكتوبر','نونبر','دجنبر'],
-    welcome:'أهلاً',pts:'نقطة',streak_days:'يوم',
-    ai_greet: (n,s,t)=>`أهلاً ${n}! لديك <b>${t} مهمة</b> اليوم و streak <b>${s} يوم</b> 🔥`,
-    chat_intro:'مرحباً! أنا مساعدك الذكي في عواد. اسألني عن تقدمك أو احصل على نصائح تعليمية 🤖',
-    chat_responses:[
-      n=>`تقدمك في الإنجليزية <b>${n.enPct}%</b> وفي الفرنسية <b>${n.frPct}%</b> — استمر! 💪`,
-      n=>`عندك <b>${n.tasks}</b> مهمة اليوم. ركز على العاجلة أولاً! ✅`,
-      n=>`حفظت <b>${n.vocab}</b> كلمة حتى الآن. جرب Flashcards لتقوية الذاكرة 🃏`,
-      n=>`نقاطك <b>${n.pts}</b> ⭐ — ${n.pts<100?'كملك أقل من 100 نقطة للمستوى التالي!':'أحسنت، واصل!'}`,
-      ()=>'حاول تتعلم 15 دقيقة يومياً — الثبات أهم من الكمية 📚',
-      ()=>'اكتب في مدونتك ما تعلمته اليوم — الكتابة تثبت المعلومة ✍️',
-      ()=>'كرر المفردات الجديدة 3 مرات: عند التعلم، بعد ساعة، وبعد يوم 🔄',
-    ],
-    sched_slots:['08:00','09:00','10:00','11:00','14:00','15:00','16:00','20:00','21:00'],
-    sched_acts:[
-      {t:'مراجعة المفردات',d:'Flashcards · 15 دقيقة',c:'lang'},
-      {t:'درس إنجليزي',d:'دراسة · 30 دقيقة',c:'study'},
-      {t:'درس فرنسي',d:'دراسة · 30 دقيقة',c:'study'},
-      {t:'كتابة في المدونة',d:'شخصي · 20 دقيقة',c:'personal'},
-      {t:'قراءة',d:'مكتبة · 30 دقيقة',c:'study'},
-      {t:'اختبار قصير',d:'تقييم · 10 دقائق',c:'study'},
-      {t:'مراجعة الأهداف',d:'تخطيط · 10 دقائق',c:'personal'},
-    ],
-  },
-  fr:{
-    dir:'ltr',
-    nav_stats:'Statistiques',nav_sched:'Planning AI',nav_chat:'AI Chat',nav_settings:'Paramètres',
-    stats_title:'Mes Statistiques',stats_activity:'Activité Hebdomadaire',stats_cats:'Répartition Posts',
-    stats_progress:'Progression',stats_vocab:'Vocabulaire',
-    sched_title:'Planning AI de la Semaine',ai_name:'Assistant Aouad',ai_sched_sub:'Génère ton planning intelligent',
-    gen_sched:'Générer le planning',clear_sched:'🗑️ Effacer',
-    chat_title:'AI Chat',chat_ph:'Pose-moi une question...',
-    logout:'Déconnexion',
-    days:['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'],
-    days_short:['Di','Lu','Ma','Me','Je','Ve','Sa'],
-    months:['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Aoû','Sep','Oct','Nov','Déc'],
-    welcome:'Bonjour',pts:'pts',streak_days:'jours',
-    ai_greet:(n,s,t)=>'Bonjour '+n+'! Tu as '+t+' taches et streak: '+s+' jours 🔥',//'hui et un streak de <b>${s} jours</b> 🔥`,
-    chat_intro:'Bonjour! Je suis ton assistant Aouad. Demandez-moi vos questions 🤖',
-    chat_responses:[
-      n=>'Progression anglais: <b>'+n.enPct+'%</b>, français: <b>'+n.frPct+'%</b> 💪',
-      n=>`Tu as <b>${n.tasks}</b> taches aujourd hui. Commence par les urgentes! ✅`,
-      n=>'Tu as appris <b>'+n.vocab+'</b> mots. Utilise les Flashcards! 🃏',
-      n=>'Tu as <b>'+n.pts+'</b> points ⭐',
-      ()=>"15 min par jour suffisent — la regularite est la cle 📚",
-      ()=>"Ecris dans ton journal ce que tu as appris ✍️",
-      ()=>'Répète les mots nouveaux 3 fois 🔄',
-    ],
-    sched_slots:['08:00','09:30','11:00','14:00','15:30','17:00','20:00','21:00'],
-    sched_acts:[
-      {t:'Révision vocabulaire',d:'Flashcards · 15 min',c:'lang'},
-      {t:'Cours anglais',d:'Étude · 30 min',c:'study'},
-      {t:'Cours francais',d:'Étude · 30 min',c:'study'},
-      {t:'Écriture journal',d:'Personnel · 20 min',c:'personal'},
-      {t:'Lecture',d:'Bibliothèque · 30 min',c:'study'},
-      {t:'Quiz rapide',d:'Évaluation · 10 min',c:'study'},
-      {t:'Révision objectifs',d:'Planification · 10 min',c:'personal'},
-    ],
-  },
-  en:{
-    dir:'ltr',
-    nav_stats:'Statistics',nav_sched:'AI Schedule',nav_chat:'AI Chat',nav_settings:'Settings',
-    stats_title:'My Statistics',stats_activity:'Weekly Activity',stats_cats:'Post Categories',
-    stats_progress:'Learning Progress',stats_vocab:'Vocabulary Status',
-    sched_title:'AI Weekly Schedule',ai_name:'Aouad Assistant',ai_sched_sub:'Generates your smart schedule',
-    gen_sched:'Generate Schedule',clear_sched:'🗑️ Clear',
-    chat_title:'AI Chat',chat_ph:'Ask me anything...',
-    logout:'Logout',
-    days:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],
-    days_short:['Su','Mo','Tu','We','Th','Fr','Sa'],
-    months:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
-    welcome:'Hello',pts:'pts',streak_days:'days',
-    ai_greet:(n,s,t)=>`Hello ${n}! You have <b>${t} tasks</b> today and a <b>${s}-day</b> streak 🔥`,
-    chat_intro:"Hello! I am your Aouad AI assistant. Ask me about your progress or get learning tips 🤖",
-    chat_responses:[
-      n=>`English progress: <b>${n.enPct}%</b>, French: <b>${n.frPct}%</b> 💪`,
-      n=>`You have <b>${n.tasks}</b> tasks today. Start with urgent ones! ✅`,
-      n=>`You've learned <b>${n.vocab}</b> words. Try Flashcards! 🃏`,
-      n=>`You have <b>${n.pts}</b> points ⭐`,
-      ()=>'15 minutes daily is enough — consistency is key 📚',
-      ()=>"Write in your journal what you learned today ✍️",
-      ()=>"Review new words 3 times 3 times 🔄",
-    ],
-    sched_slots:['08:00','09:00','10:30','13:00','15:00','17:00','19:00','21:00'],
-    sched_acts:[
-      {t:'Vocabulary Review',d:'Flashcards · 15 min',c:'lang'},
-      {t:'English Lesson',d:'Study · 30 min',c:'study'},
-      {t:'French Lesson',d:'Study · 30 min',c:'study'},
-      {t:'Journal Writing',d:'Personal · 20 min',c:'personal'},
-      {t:'Reading',d:'Library · 30 min',c:'study'},
-      {t:'Quick Quiz',d:'Assessment · 10 min',c:'study'},
-      {t:'Goals Review',d:'Planning · 10 min',c:'personal'},
-    ],
-  }
-};
+// ══ AUTO-CHECK ══
+setInterval(checkAwadConn, 5000);
 
-let appLang = 'ar';
-function setAppLang(l){
-  appLang = l;
-  DB.set('lang', l);
-  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('on'));
-  document.getElementById('lb-'+l).classList.add('on');
-  document.documentElement.lang = l==='ar'?'ar':'fr';
-  document.documentElement.dir = LANGS[l].dir;
-  document.body.style.direction = LANGS[l].dir;
-  // update nav labels
-  document.querySelectorAll('[data-t]').forEach(el=>{
-    const key = el.getAttribute('data-t');
-    if(LANGS[l][key]) el.textContent = LANGS[l][key];
-  });
-  // chat placeholder
-  const ci = document.getElementById('chatInp');
-  if(ci) ci.placeholder = LANGS[l].chat_ph;
-  // logout btn
-  const lb = document.getElementById('hLogout');
-  if(lb) lb.textContent = LANGS[l].logout;
-}
-
-// ══ THEME ══
-function toggleTheme(){
-  document.body.classList.toggle('light');
-  const isLight = document.body.classList.contains('light');
-  document.getElementById('themeBtn').textContent = isLight ? '🌙' : '☀️';
-  DB.set('theme', isLight ? 'light' : 'dark');
-}
-
-// ══ STATS ══
-function renderStats(){
-  const posts = DB.get('posts')||[];
-  const tasks = DB.get('tasks')||[];
-  const goals = DB.get('goals')||[];
-  const vocab = DB.get('vocab')||[];
-  const streak = (DB.get('streak')||{n:0}).n;
-  const pts = getPts();
-
-  // Big stats
-  document.getElementById('statsBigs').innerHTML = `
-    <div class="stat-big"><div class="stat-big-val">${streak}</div><div class="stat-big-lbl">🔥 أعلى Streak</div></div>
-    <div class="stat-big"><div class="stat-big-val">${pts}</div><div class="stat-big-lbl">⭐ مجموع النقاط</div></div>
-    <div class="stat-big"><div class="stat-big-val">${tasks.filter(t=>t.done).length}</div><div class="stat-big-lbl">✅ مهام مكتملة</div></div>
-    <div class="stat-big"><div class="stat-big-val">${goals.filter(g=>g.done).length}</div><div class="stat-big-lbl">🎯 أهداف محققة</div></div>`;
-
-  // Weekly activity bar chart
-  const acts = DB.get('activity')||{};
-  const lang = LANGS[appLang];
-  const weekData = Array.from({length:7},(_,i)=>{
-    const d = new Date(Date.now()-(6-i)*86400000);
-    const key = d.toISOString().slice(0,10);
-    return {lbl: lang.days_short[d.getDay()], val: acts[key]||0};
-  });
-  const maxAct = Math.max(...weekData.map(w=>w.val),1);
-  document.getElementById('weekChart').innerHTML = weekData.map(w=>`
-    <div class="bar-item">
-      <div class="bar-val">${w.val||''}</div>
-      <div class="bar-fill" style="height:${Math.round((w.val/maxAct)*80)+4}px;background:linear-gradient(180deg,var(--blue),var(--cyan))"></div>
-      <div class="bar-lbl">${w.lbl}</div>
-    </div>`).join('');
-
-  // Donut chart — post categories
-  const cats = {en:0,fr:0,goal:0,personal:0};
-  posts.forEach(p=>cats[p.cat]=(cats[p.cat]||0)+1);
-  const total = posts.length||1;
-  const catColors = {en:'#4f8ef7',fr:'#22d3ee',goal:'#10b981',personal:'#a78bfa'};
-  const catNames = {en:'🇬🇧 إنجليزية',fr:'🇫🇷 فرنسية',goal:'🎯 هدف',personal:'💭 شخصي'};
-  const canvas = document.getElementById('donutCanvas');
-  const ctx = canvas.getContext('2d');
-  ctx.clearRect(0,0,100,100);
-  let startAngle = -Math.PI/2;
-  Object.entries(cats).forEach(([k,v])=>{
-    if(!v)return;
-    const sweep = (v/total)*Math.PI*2;
-    ctx.beginPath();ctx.moveTo(50,50);
-    ctx.arc(50,50,44,startAngle,startAngle+sweep);
-    ctx.closePath();ctx.fillStyle=catColors[k];ctx.fill();
-    startAngle+=sweep;
-  });
-  ctx.beginPath();ctx.arc(50,50,28,0,Math.PI*2);
-  ctx.fillStyle=getComputedStyle(document.documentElement).getPropertyValue('--bg2')||'#0b1628';
-  ctx.fill();
-  ctx.fillStyle='#e2edff';ctx.font='bold 14px Cairo';ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText(total,50,50);
-  document.getElementById('donutLegend').innerHTML = Object.entries(cats)
-    .filter(([,v])=>v>0)
-    .map(([k,v])=>`
-      <div class="donut-row">
-        <div class="donut-dot" style="background:${catColors[k]}"></div>
-        <div class="donut-lbl">${catNames[k]}</div>
-        <div class="donut-pct">${Math.round(v/total*100)}%</div>
-      </div>`).join('');
-
-  // Learn progress
-  const enD=(DB.get('les_en')||LEN).filter(l=>l.done).length;
-  const frD=(DB.get('les_fr')||LFR).filter(l=>l.done).length;
-  document.getElementById('learnStats').innerHTML = `
-    <div style="margin-bottom:10px">
-      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px">
-        <span>🇬🇧 English</span><span style="font-weight:700;color:var(--blue)">${enD}/${LEN.length}</span>
-      </div>
-      <div class="pbar"><div class="pfill" style="width:${Math.round(enD/LEN.length*100)}%;background:var(--blue)"></div></div>
-    </div>
-    <div>
-      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px">
-        <span>🇫🇷 Français</span><span style="font-weight:700;color:var(--cyan)">${frD}/${LFR.length}</span>
-      </div>
-      <div class="pbar"><div class="pfill" style="width:${Math.round(frD/LFR.length*100)}%;background:var(--cyan)"></div></div>
-    </div>`;
-
-  // Vocab status
-  const vocabItems = DB.get('vocab')||[];
-  const vStats = {new:0,learning:0,known:0};
-  vocabItems.forEach(v=>vStats[v.lvl]=(vStats[v.lvl]||0)+1);
-  const vMax = Math.max(...Object.values(vStats),1);
-  const vColors = {new:'var(--red)',learning:'var(--gold)',known:'var(--green)'};
-  const vLabels = {new:'جديدة',learning:'أتعلمها',known:'أعرفها'};
-  document.getElementById('vocabChart').innerHTML = Object.entries(vStats).map(([k,v])=>`
-    <div class="bar-item">
-      <div class="bar-val">${v||''}</div>
-      <div class="bar-fill" style="height:${Math.round((v/vMax)*80)+4}px;background:${vColors[k]}"></div>
-      <div class="bar-lbl">${vLabels[k]}</div>
-    </div>`).join('');
-}
-
-// ══ AI SCHEDULE ══
-function genSchedule(){
-  const btn = document.getElementById('genSchedBtn');
-  btn.innerHTML = '⏳ جاري التوليد...';
-  btn.disabled = true;
-
-  setTimeout(()=>{
-    const lang = LANGS[appLang];
-    const tasks = DB.get('tasks')||[];
-    const todayTasks = tasks.filter(t=>!t.done&&t.date===today());
-    const acts = [...lang.sched_acts];
-    
-    // shuffle + pick 5
-    const shuffled = acts.sort(()=>Math.random()-.5).slice(0,5);
-    const slots = lang.sched_slots.sort(()=>Math.random()-.5).slice(0,5).sort();
-    
-    const schedule = slots.map((time,i)=>({
-      id: Date.now()+i,
-      time,
-      title: shuffled[i].t,
-      meta: shuffled[i].d,
-      cat: shuffled[i].c,
-      date: today(),
-      done: false,
-      priority: i===0?'urgent':'normal'
-    }));
-    
-    // merge with existing tasks
-    const existing = DB.get('ai_schedule')||[];
-    const merged = [...existing.filter(s=>s.date!==today()), ...schedule];
-    DB.set('ai_schedule', merged);
-    
-    renderSchedule();
-    renderWeekView();
-    btn.innerHTML = '✨ <span data-t="gen_sched">'+lang.gen_sched+'</span>';
-    btn.disabled = false;
-    toast('✅ تم توليد جدولك الأسبوعي بالذكاء الاصطناعي!');
-    addPts(3);
-  }, 1500);
-}
-
-function clearSchedule(){
-  const sched = DB.get('ai_schedule')||[];
-  DB.set('ai_schedule', sched.filter(s=>s.date!==today()));
-  renderSchedule();renderWeekView();toast('🗑️ تم مسح جدول اليوم');
-}
-
-function renderSchedule(){
-  const sched = (DB.get('ai_schedule')||[]).filter(s=>s.date===today()).sort((a,b)=>a.time>b.time?1:-1);
-  const el = document.getElementById('schedList');
-  if(!sched.length){
-    el.innerHTML = '<div class="empty"><div class="ei">📅</div><div>اضغط "توليد الجدول" لإنشاء برنامجك اليومي بالذكاء الاصطناعي</div></div>';
-    return;
-  }
-  el.innerHTML = sched.map(s=>`
-    <div class="sched-item ${s.done?'done':''} ${s.priority==='urgent'?'urgent':''}">
-      <div class="sched-time">${s.time}</div>
-      <div class="sched-body">
-        <div class="sched-title">${s.title}</div>
-        <div class="sched-meta">${s.meta}</div>
-      </div>
-      <button class="btn ${s.done?'bghost':'bgreen'}" style="font-size:11px;padding:5px 10px" onclick="togSched(${s.id})">${s.done?'↩️':'✅'}</button>
-    </div>`).join('');
-}
-
-function togSched(id){
-  const sched = DB.get('ai_schedule')||[];
-  const s = sched.find(x=>x.id===id);
-  if(s){s.done=!s.done;DB.set('ai_schedule',sched);}
-  if(s.done){addPts(5);logActivity();toast('✅ +5 نقاط');}
-  renderSchedule();
-}
-
-function renderWeekView(){
-  const lang = LANGS[appLang];
-  const tasks = DB.get('tasks')||[];
-  const sched = DB.get('ai_schedule')||[];
-  let html = '';
-  for(let i=0;i<7;i++){
-    const d = new Date();
-    d.setDate(d.getDate()-d.getDay()+i);
-    const ds = d.toISOString().slice(0,10);
-    const isToday = ds===today();
-    const dayTasks = [...tasks.filter(t=>t.date===ds), ...sched.filter(s=>s.date===ds)].slice(0,3);
-    html += `<div class="week-day ${isToday?'today':''}">
-      <div class="week-day-name">${lang.days_short[i]}</div>
-      <div class="week-day-num">${d.getDate()}</div>
-      <div class="week-tasks">${dayTasks.map(t=>`
-        <div class="week-task ${t.done?'done':''} ${t.pri==='urgent'||t.priority==='urgent'?'urgent':''}" title="${t.title}">${t.title.slice(0,8)}</div>`).join('')}
-      </div>
-    </div>`;
-  }
-  document.getElementById('weekView').innerHTML = html;
-}
-
-// ══ AI CHAT ══
-let chatHistory = [];
-function initChat(){
-  chatHistory = [];
-  const lang = LANGS[appLang];
-  addChatMsg('ai', lang.chat_intro);
-}
-function addChatMsg(role, text){
-  chatHistory.push({role,text});
-  const msgs = document.getElementById('chatMsgs');
-  const div = document.createElement('div');
-  div.className = 'chat-msg '+role;
-  div.innerHTML = `
-    <div class="chat-avatar">${role==='ai'?'🤖':'👤'}</div>
-    <div class="chat-bubble">${text}</div>`;
-  msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
-}
-function sendChat(){
-  const inp = document.getElementById('chatInp');
-  const msg = inp.value.trim();
-  if(!msg)return;
-  addChatMsg('user',msg);
-  inp.value='';
-  // typing indicator
-  const msgs = document.getElementById('chatMsgs');
-  const typing = document.createElement('div');
-  typing.className='chat-msg ai';typing.id='typing';
-  typing.innerHTML='<div class="chat-avatar">🤖</div><div class="chat-bubble"><div class="ai-typing"><span></span><span></span><span></span></div></div>';
-  msgs.appendChild(typing);msgs.scrollTop=msgs.scrollHeight;
-  setTimeout(()=>{
-    typing.remove();
-    addChatMsg('ai', getAIReply(msg));
-  }, 1000+Math.random()*800);
-}
-function getAIReply(msg){
-  const lang = LANGS[appLang];
-  const enD=(DB.get('les_en')||LEN).filter(l=>l.done).length;
-  const frD=(DB.get('les_fr')||LFR).filter(l=>l.done).length;
-  const ctx = {
-    enPct: Math.round(enD/LEN.length*100),
-    frPct: Math.round(frD/LFR.length*100),
-    tasks: (DB.get('tasks')||[]).filter(t=>t.date===today()&&!t.done).length,
-    vocab: (DB.get('vocab')||[]).length,
-    pts: getPts(),
-    streak: (DB.get('streak')||{n:0}).n,
-    goals: (DB.get('goals')||[]).filter(g=>!g.done).length,
-    posts: (DB.get('posts')||[]).length,
-  };
-  const m = msg.toLowerCase();
-  if(m.includes('تقدم')||m.includes('progress')||m.includes('progression')||m.includes('درس')||m.includes('learn'))
-    return lang.chat_responses[0](ctx);
-  if(m.includes('مهمة')||m.includes('task')||m.includes('tache')||m.includes('اليوم')||m.includes('today')||m.includes('aujourd'))
-    return lang.chat_responses[1](ctx);
-  if(m.includes('كلمة')||m.includes('vocab')||m.includes('flash')||m.includes('مفردات'))
-    return lang.chat_responses[2](ctx);
-  if(m.includes('نقطة')||m.includes('points')||m.includes('pts')||m.includes('نقاط'))
-    return lang.chat_responses[3](ctx);
-  if(m.includes('نصيحة')||m.includes('tip')||m.includes('conseil')||m.includes('كيف')||m.includes('how'))
-    return lang.chat_responses[Math.floor(Math.random()*3)+4]();
-  if(m.includes('streak')||m.includes('يوم متتالي'))
-    return `streak الحالي: <b>${ctx.streak} ${lang.streak_days}</b> 🔥`;
-  if(m.includes('هدف')||m.includes('goal')||m.includes('objectif'))
-    return `عندك <b>${ctx.goals}</b> هدف قيد التنفيذ 🎯`;
-  // default: pick random
-  return lang.chat_responses[Math.floor(Math.random()*lang.chat_responses.length)](ctx);
-}
-
-// ══ INIT ══
-document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('postModal').addEventListener('click',function(e){if(e.target===this)closeMod('postModal');});
-  const sess=localStorage.getItem('aw2_sess');
-  if(sess){
-    const us=getUsers();
-    boot(sess,us[sess]?.name||sess);
-  }
-  // set default date for task
-  const td=document.getElementById('tDate');
-  if(td)td.value=today();
-});
+document.addEventListener('DOMContentLoaded', init);
 </script>
 </body>
 </html>
