@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1"/>
+<title>مكتبة عواد — Aouad Library</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --ink:#06080f;--ink2:#0c1220;--ink3:#111d30;--ink4:#182540;
+  --azure:#3b82f6;--azure2:#1d4ed8;--sky:#0ea5e9;
+  --emerald:#10b981;--amber:#f59e0b;--rose:#f43f5e;--violet:#8b5cf6;
+  --text:#dde8ff;--text2:#7a9cc4;--text3:#3d5a80;
+  --border:rgba(59,130,246,.1);--border2:rgba(59,130,246,.2);
+  --r:12px;--r2:18px;--sh:0 12px 40px rgba(0,0,0,.5);
+  --font-d:'Syne',sans-serif;--font-b:'IBM Plex Sans Arabic','DM Sans',sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-b);background:var(--ink);color:var(--text);min-height:100vh;}
+body::before{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(ellipse 55% 45% at 10% 5%,rgba(59,130,246,.08),transparent 55%),
+    radial-gradient(ellipse 35% 35% at 90% 85%,rgba(139,92,246,.06),transparent 55%),
+    radial-gradient(ellipse 25% 25% at 55% 50%,rgba(16,185,129,.03),transparent 60%);
+}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-thumb{background:var(--ink4);border-radius:4px;}
+
+/* ══ LAYOUT ══ */
+header{
+  position:sticky;top:0;z-index:100;
+  background:rgba(6,8,15,.9);backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  padding:0 20px;height:58px;
+  display:flex;align-items:center;gap:12px;
+}
+.h-brand{display:flex;align-items:center;gap:8px;}
+.h-logo{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(135deg,var(--azure2),var(--sky));
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-d);font-size:16px;font-weight:800;color:#fff;
+  box-shadow:0 2px 10px rgba(59,130,246,.4);
+}
+.h-name{font-family:var(--font-d);font-size:17px;font-weight:700;
+  background:linear-gradient(135deg,var(--azure),var(--sky));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.h-sub{font-size:10px;color:var(--text3);margin-top:1px;letter-spacing:.5px;text-transform:uppercase;}
+.h-sp{flex:1;}
+.h-acts{display:flex;gap:8px;align-items:center;}
+
+.wrap{max-width:1100px;margin:0 auto;padding:22px 16px;position:relative;z-index:1;}
+
+/* ══ HERO ══ */
+.hero{
+  background:linear-gradient(135deg,rgba(59,130,246,.08),rgba(14,165,233,.04));
+  border:1px solid var(--border2);border-radius:22px;
+  padding:28px 24px;margin-bottom:24px;
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+}
+.hero-ico{font-size:48px;flex-shrink:0;}
+.hero-t{font-family:var(--font-d);font-size:26px;font-weight:700;margin-bottom:4px;}
+.hero-t span{background:linear-gradient(135deg,var(--azure),var(--sky));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-s{font-size:13px;color:var(--text2);line-height:1.7;}
+.hero-stats{margin-right:auto;display:flex;gap:14px;flex-wrap:wrap;}
+.hstat{text-align:center;padding:10px 16px;background:rgba(255,255,255,.04);
+  border:1px solid var(--border);border-radius:12px;}
+.hstat-v{font-family:var(--font-d);font-size:22px;font-weight:700;color:var(--azure);}
+.hstat-l{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;margin-top:2px;}
+
+/* ══ TOOLBAR ══ */
+.toolbar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:20px;}
+.search-box{
+  flex:1;min-width:200px;position:relative;
+}
+.search-box input{
+  width:100%;padding:10px 14px 10px 38px;
+  background:var(--ink2);border:1px solid var(--border);
+  border-radius:11px;color:var(--text);
+  font-family:var(--font-b);font-size:13px;outline:none;transition:.2s;
+}
+.search-box input:focus{border-color:var(--azure);}
+.search-box::before{
+  content:'🔍';position:absolute;right:12px;top:50%;
+  transform:translateY(-50%);font-size:14px;pointer-events:none;
+}
+.filter-tabs{display:flex;background:var(--ink3);border-radius:11px;padding:3px;gap:3px;}
+.ftab{padding:7px 13px;border:none;background:transparent;
+  color:var(--text2);font-family:var(--font-b);font-size:11px;font-weight:600;
+  border-radius:9px;cursor:pointer;transition:.2s;white-space:nowrap;}
+.ftab.on{background:var(--azure);color:#fff;box-shadow:0 2px 8px rgba(59,130,246,.3);}
+
+/* ══ BUTTONS ══ */
+.btn{
+  padding:9px 16px;border-radius:10px;border:none;
+  font-family:var(--font-b);font-size:12px;font-weight:600;
+  cursor:pointer;transition:.2s;display:inline-flex;align-items:center;gap:6px;
+}
+.btn-blue{background:linear-gradient(135deg,var(--azure2),var(--azure));color:#fff;
+  box-shadow:0 3px 10px rgba(59,130,246,.25);}
+.btn-blue:hover{transform:translateY(-1px);box-shadow:0 5px 18px rgba(59,130,246,.4);}
+.btn-ghost{background:rgba(255,255,255,.05);color:var(--text2);border:1px solid var(--border);}
+.btn-ghost:hover{border-color:var(--azure);color:var(--azure);}
+.btn-emerald{background:rgba(16,185,129,.1);color:var(--emerald);border:1px solid rgba(16,185,129,.2);}
+.btn-emerald:hover{background:rgba(16,185,129,.2);}
+.btn-amber{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.2);}
+.btn-rose{background:rgba(244,63,94,.08);color:var(--rose);border:1px solid rgba(244,63,94,.18);}
+.btn-sm{padding:6px 11px;font-size:11px;}
+
+/* ══ BOOK GRID ══ */
+.books-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:14px;
+}
+@media(max-width:600px){.books-grid{grid-template-columns:repeat(2,1fr);}}
+
+.book-card{
+  background:var(--ink2);border:1px solid var(--border);
+  border-radius:var(--r2);overflow:hidden;
+  cursor:pointer;transition:.25s;position:relative;
+}
+.book-card:hover{transform:translateY(-4px);border-color:var(--border2);
+  box-shadow:0 14px 40px rgba(0,0,0,.4);}
+.book-card.selected{border-color:var(--azure);box-shadow:0 0 0 2px rgba(59,130,246,.2);}
+
+.book-cover{
+  width:100%;aspect-ratio:3/4;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.book-cover-emoji{font-size:36px;margin-bottom:8px;filter:drop-shadow(0 2px 8px rgba(0,0,0,.3));}
+.book-cover-title{
+  font-family:var(--font-d);font-size:11px;font-weight:700;
+  text-align:center;padding:0 10px;color:rgba(255,255,255,.9);
+  line-height:1.3;text-shadow:0 1px 3px rgba(0,0,0,.5);
+}
+.book-cover-author{
+  font-size:9px;color:rgba(255,255,255,.6);text-align:center;
+  padding:0 8px;margin-top:4px;
+}
+.book-cover-flag{
+  position:absolute;top:8px;right:8px;font-size:16px;
+  background:rgba(0,0,0,.35);border-radius:6px;padding:2px 4px;
+}
+.book-cover-level{
+  position:absolute;bottom:8px;left:8px;
+  font-size:9px;font-weight:700;padding:2px 6px;border-radius:5px;
+  background:rgba(0,0,0,.45);
+}
+.book-sel-check{
+  position:absolute;top:8px;left:8px;
+  width:22px;height:22px;border-radius:7px;border:2px solid var(--azure);
+  background:var(--azure);display:flex;align-items:center;justify-content:center;
+  font-size:12px;color:#fff;opacity:0;transition:.2s;
+}
+.book-card.selected .book-sel-check{opacity:1;}
+
+.book-info{padding:11px 12px;}
+.book-title{font-size:13px;font-weight:600;margin-bottom:3px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.book-author{font-size:11px;color:var(--text2);margin-bottom:6px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.book-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px;}
+.btag{font-size:9px;font-weight:700;padding:2px 7px;border-radius:20px;white-space:nowrap;}
+.btag-fr{background:rgba(59,130,246,.12);color:var(--azure);}
+.btag-ar{background:rgba(16,185,129,.12);color:var(--emerald);}
+.btag-en{background:rgba(14,165,233,.12);color:var(--sky);}
+.btag-genre{background:rgba(139,92,246,.1);color:var(--violet);}
+.btag-level{background:rgba(245,158,11,.1);color:var(--amber);}
+.book-actions{display:flex;gap:5px;}
+
+/* ══ ADD BOOK PANEL ══ */
+.add-panel{
+  background:var(--ink2);border:1px solid var(--border2);
+  border-radius:var(--r2);padding:22px;margin-bottom:22px;
+  display:none;animation:slideDown .3s both;
+}
+.add-panel.on{display:block;}
+@keyframes slideDown{from{opacity:0;transform:translateY(-12px)}to{opacity:1;transform:translateY(0)}}
+.panel-title{font-family:var(--font-d);font-size:16px;font-weight:700;margin-bottom:18px;
+  display:flex;align-items:center;gap:8px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr;}}
+.field label{display:block;font-size:10px;color:var(--text3);font-weight:600;
+  margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;}
+.inp{width:100%;padding:10px 13px;background:var(--ink3);border:1px solid var(--border);
+  border-radius:10px;color:var(--text);font-family:var(--font-b);font-size:13px;
+  outline:none;transition:.2s;}
+.inp:focus{border-color:var(--azure);box-shadow:0 0 0 3px rgba(59,130,246,.1);}
+select.inp{cursor:pointer;}
+textarea.inp{resize:vertical;min-height:80px;line-height:1.7;}
+.form-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;}
+
+/* ══ EXPORT PANEL ══ */
+.export-bar{
+  position:fixed;bottom:0;left:0;right:0;z-index:200;
+  background:rgba(10,16,30,.97);backdrop-filter:blur(20px);
+  border-top:1px solid var(--border2);
+  padding:12px 20px;
+  display:none;align-items:center;gap:12px;flex-wrap:wrap;
+}
+.export-bar.on{display:flex;}
+.export-count{
+  font-size:13px;font-weight:600;color:var(--azure);
+  display:flex;align-items:center;gap:6px;
+}
+.export-sp{flex:1;}
+.export-hint{font-size:11px;color:var(--text2);}
+
+/* ══ READER ══ */
+.reader-overlay{
+  position:fixed;inset:0;z-index:300;
+  background:var(--ink);display:none;flex-direction:column;
+}
+.reader-overlay.on{display:flex;}
+.reader-header{
+  padding:14px 20px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:12px;background:var(--ink2);flex-shrink:0;
+}
+.reader-title{font-family:var(--font-d);font-size:15px;font-weight:700;flex:1;}
+.reader-meta{font-size:11px;color:var(--text2);}
+.reader-body{flex:1;overflow-y:auto;padding:28px 20px;max-width:760px;margin:0 auto;width:100%;}
+.reader-chapter{margin-bottom:40px;}
+.reader-chapter h2{font-family:var(--font-d);font-size:20px;font-weight:700;
+  color:var(--azure);margin-bottom:14px;padding-bottom:8px;border-bottom:1px solid var(--border);}
+.reader-chapter p{font-size:15px;line-height:2;color:var(--text2);margin-bottom:14px;}
+.reader-chapter .highlight{color:var(--text);font-weight:500;}
+.reader-chapter .vocab{
+  background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.15);
+  border-radius:5px;padding:1px 6px;cursor:pointer;color:var(--azure);
+  transition:.2s;
+}
+.reader-chapter .vocab:hover{background:rgba(59,130,246,.2);}
+.reader-progress{height:3px;background:var(--ink3);}
+.reader-progress-fill{height:100%;background:linear-gradient(90deg,var(--azure),var(--sky));
+  transition:width .3s;}
+.reader-controls{
+  padding:10px 20px;border-top:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;background:var(--ink2);flex-shrink:0;flex-wrap:wrap;
+}
+.font-size-ctrl{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2);}
+.font-size-ctrl button{width:28px;height:28px;border-radius:7px;border:1px solid var(--border);
+  background:var(--ink3);color:var(--text);cursor:pointer;font-size:14px;font-weight:700;transition:.2s;}
+.font-size-ctrl button:hover{border-color:var(--azure);}
+
+/* ══ IMPORT ZONE ══ */
+.import-zone{
+  border:2px dashed var(--border2);border-radius:var(--r2);
+  padding:32px;text-align:center;cursor:pointer;transition:.3s;
+  background:rgba(59,130,246,.02);margin-bottom:20px;
+}
+.import-zone:hover,.import-zone.drag{
+  border-color:var(--azure);background:rgba(59,130,246,.05);}
+.import-zone-ico{font-size:36px;margin-bottom:10px;opacity:.5;}
+.import-zone-t{font-size:14px;font-weight:600;color:var(--text2);margin-bottom:4px;}
+.import-zone-s{font-size:12px;color:var(--text3);}
+
+/* ══ TOAST ══ */
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%) translateY(10px);
+  background:var(--ink2);border:1px solid var(--border2);border-radius:10px;
+  padding:9px 18px;font-size:13px;font-weight:500;
+  box-shadow:var(--sh);z-index:9999;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap;}
+.toast.on{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* ══ EMPTY ══ */
+.empty{text-align:center;padding:60px 20px;color:var(--text3);}
+.empty-ico{font-size:48px;margin-bottom:12px;opacity:.3;}
+.empty-t{font-size:16px;font-weight:600;margin-bottom:6px;color:var(--text2);}
+.empty-s{font-size:13px;}
+
+/* ══ MODAL ══ */
+.moverlay{position:fixed;inset:0;z-index:400;background:rgba(0,0,0,.8);
+  backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:16px;}
+.moverlay.on{display:flex;}
+.mbox{background:var(--ink2);border:1px solid var(--border2);border-radius:22px;
+  padding:24px;width:100%;max-width:520px;max-height:88vh;overflow-y:auto;
+  animation:slideDown .3s both;}
+.mtitle{font-family:var(--font-d);font-size:17px;font-weight:700;margin-bottom:16px;
+  display:flex;justify-content:space-between;align-items:center;}
+.mclose{width:28px;height:28px;border-radius:50%;border:1px solid var(--border);
+  background:var(--ink3);color:var(--text2);cursor:pointer;font-size:12px;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.detail-cover{width:120px;aspect-ratio:3/4;border-radius:12px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  font-size:32px;flex-shrink:0;margin-bottom:14px;}
+.detail-row{display:flex;gap:16px;align-items:flex-start;margin-bottom:14px;flex-wrap:wrap;}
+.detail-info{flex:1;}
+.detail-title{font-family:var(--font-d);font-size:18px;font-weight:700;margin-bottom:4px;}
+.detail-author{font-size:13px;color:var(--text2);margin-bottom:10px;}
+.detail-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.detail-notes{font-size:13px;color:var(--text2);line-height:1.8;
+  background:var(--ink3);border-radius:10px;padding:12px;margin-bottom:14px;}
+.pbar{height:5px;background:var(--ink4);border-radius:5px;overflow:hidden;margin-bottom:10px;}
+.pfill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--azure),var(--sky));transition:width .6s;}
+.st-row{display:flex;gap:8px;flex-wrap:wrap;}
+
+/* ══ AWAD CONNECT ══ */
+.connect-card{
+  background:linear-gradient(135deg,rgba(59,130,246,.06),rgba(14,165,233,.03));
+  border:1px solid rgba(59,130,246,.18);border-radius:var(--r2);
+  padding:18px;margin-bottom:22px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.connect-ico{font-size:30px;flex-shrink:0;}
+.connect-body{flex:1;}
+.connect-title{font-size:14px;font-weight:700;margin-bottom:4px;}
+.connect-sub{font-size:12px;color:var(--text2);line-height:1.6;}
+.connect-status{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:700;}
+.cstatus-dot{width:7px;height:7px;border-radius:50%;}
+.cstatus-dot.on{background:var(--emerald);box-shadow:0 0 6px rgba(16,185,129,.5);}
+.cstatus-dot.off{background:var(--text3);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="h-brand">
+    <div class="h-logo">ع</div>
+    <div>
+      <div class="h-name">مكتبة عواد</div>
+      <div class="h-sub">Aouad Book Library</div>
+    </div>
+  </div>
+  <div class="h-sp"></div>
+  <div class="h-acts">
+    <button class="btn btn-ghost btn-sm" onclick="toggleImport()">📥 استيراد</button>
+    <button class="btn btn-ghost btn-sm" onclick="toggleAdd()">➕ إضافة</button>
+    <button class="btn btn-blue btn-sm" onclick="openExportAll()">📤 تصدير لعواد</button>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- Awad Connect Card -->
+  <div class="connect-card" id="connectCard">
+    <div class="connect-ico">🔗</div>
+    <div class="connect-body">
+      <div class="connect-title">ربط مع تطبيق عواد</div>
+      <div class="connect-sub">صدّر الكتب مباشرة إلى تطبيق عواد. افتح عواد في نفس المتصفح ثم اضغط "تصدير".</div>
+    </div>
+    <div>
+      <div class="connect-status" id="awadStatus">
+        <div class="cstatus-dot off" id="statusDot"></div>
+        <span id="statusTxt">غير متصل</span>
+      </div>
+      <div style="margin-top:8px;display:flex;gap:6px;">
+        <button class="btn btn-ghost btn-sm" onclick="checkAwadConn()">🔄 فحص</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Import Zone -->
+  <div id="importWrap" style="display:none">
+    <div class="import-zone" id="importZone" onclick="document.getElementById('fileInput').click()"
+         ondragover="event.preventDefault();this.classList.add('drag')"
+         ondragleave="this.classList.remove('drag')"
+         ondrop="handleDrop(event)">
+      <div class="import-zone-ico">📂</div>
+      <div class="import-zone-t">اسحب ملف JSON هنا أو اضغط للاختيار</div>
+      <div class="import-zone-s">يدعم ملفات التصدير من عواد (.json)</div>
+    </div>
+    <input type="file" id="fileInput" accept=".json" style="display:none" onchange="handleFileImport(this)"/>
+  </div>
+
+  <!-- Add Book Panel -->
+  <div class="add-panel" id="addPanel">
+    <div class="panel-title">📚 إضافة كتاب جديد</div>
+    <div class="form-grid">
+      <div class="field"><label>عنوان الكتاب *</label><input class="inp" id="fTitle" placeholder="Le Petit Prince"/></div>
+      <div class="field"><label>المؤلف</label><input class="inp" id="fAuth" placeholder="Antoine de Saint-Exupéry"/></div>
+      <div class="field"><label>اللغة</label>
+        <select class="inp" id="fLang">
+          <option value="fr">🇫🇷 Français</option>
+          <option value="ar">🇲🇦 العربية</option>
+          <option value="en">🇬🇧 English</option>
+        </select></div>
+      <div class="field"><label>المستوى</label>
+        <select class="inp" id="fLevel">
+          <option value="A1">A1 — مبتدئ</option>
+          <option value="A2" selected>A2 — أساسي</option>
+          <option value="B1">B1 — متوسط</option>
+          <option value="B2">B2 — فوق المتوسط</option>
+          <option value="C1">C1 — متقدم</option>
+        </select></div>
+      <div class="field"><label>النوع الأدبي</label><input class="inp" id="fGenre" placeholder="رواية، شعر، فلسفة..."/></div>
+      <div class="field"><label>السنة</label><input class="inp" id="fYear" placeholder="1943"/></div>
+    </div>
+    <div class="field" style="margin-bottom:12px"><label>ملاحظاتي</label><textarea class="inp" id="fNotes" placeholder="لماذا أريد قراءة هذا الكتاب..."></textarea></div>
+    <div class="form-actions">
+      <button class="btn btn-blue" onclick="addBook()">💾 حفظ الكتاب</button>
+      <button class="btn btn-ghost" onclick="toggleAdd()">إلغاء</button>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-ico">📚</div>
+    <div>
+      <div class="hero-t">مكتبتي <span>الشخصية</span></div>
+      <div class="hero-s">أضف كتبك، تابع تقدمك، وصدّرها لتطبيق عواد مباشرة</div>
+    </div>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-v" id="hTotal">0</div><div class="hstat-l">📚 كتاب</div></div>
+      <div class="hstat"><div class="hstat-v" id="hReading">0</div><div class="hstat-l">📖 يُقرأ</div></div>
+      <div class="hstat"><div class="hstat-v" id="hDone">0</div><div class="hstat-l">✅ مكتمل</div></div>
+      <div class="hstat"><div class="hstat-v" id="hFr">0</div><div class="hstat-l">🇫🇷 فرنسية</div></div>
+      <div class="hstat"><div class="hstat-v" id="hAr">0</div><div class="hstat-l">🇲🇦 عربية</div></div>
+    </div>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="toolbar">
+    <div class="search-box">
+      <input type="text" id="searchInp" placeholder="ابحث عن كتاب..." oninput="render()"/>
+    </div>
+    <div class="filter-tabs">
+      <button class="ftab on" onclick="setFilter('all',this)">الكل</button>
+      <button class="ftab" onclick="setFilter('fr',this)">🇫🇷</button>
+      <button class="ftab" onclick="setFilter('ar',this)">🇲🇦</button>
+      <button class="ftab" onclick="setFilter('en',this)">🇬🇧</button>
+      <button class="ftab" onclick="setFilter('reading',this)">📖</button>
+      <button class="ftab" onclick="setFilter('done',this)">✅</button>
+      <button class="ftab" onclick="setFilter('todo',this)">📌</button>
+    </div>
+    <button class="btn btn-ghost btn-sm" id="selAllBtn" onclick="toggleSelAll()">☑️ تحديد الكل</button>
+  </div>
+
+  <!-- Books Grid -->
+  <div class="books-grid" id="booksGrid"></div>
+
+  <!-- Empty State -->
+  <div class="empty" id="emptyState" style="display:none">
+    <div class="empty-ico">📚</div>
+    <div class="empty-t">المكتبة فارغة</div>
+    <div class="empty-s">اضغط "إضافة" لإضافة أول كتاب</div>
+  </div>
+
+</div>
+
+<!-- Export Bar -->
+<div class="export-bar" id="exportBar">
+  <div class="export-count">📦 <span id="selCount">0</span> كتاب محدد</div>
+  <div class="export-hint">سيتم التصدير إلى تطبيق عواد</div>
+  <div class="export-sp"></div>
+  <button class="btn btn-ghost btn-sm" onclick="clearSel()">✕ إلغاء</button>
+  <button class="btn btn-emerald btn-sm" onclick="exportSelected()">📤 تصدير المحدد</button>
+  <button class="btn btn-blue btn-sm" onclick="exportSelectedRead()">📖 تصدير + قراءة</button>
+</div>
+
+<!-- Book Detail Modal -->
+<div class="moverlay" id="detailModal">
+  <div class="mbox">
+    <div class="mtitle"><span id="dTitle">—</span><button class="mclose" onclick="closeMod('detailModal')">✕</button></div>
+    <div class="detail-row">
+      <div class="detail-cover" id="dCover"></div>
+      <div class="detail-info">
+        <div class="detail-author" id="dAuthor"></div>
+        <div class="detail-tags" id="dTags"></div>
+        <div id="dProgress" style="margin-bottom:10px"></div>
+        <div class="st-row" id="dSt"></div>
+      </div>
+    </div>
+    <div class="detail-notes" id="dNotes"></div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-blue btn-sm" id="dRead" onclick="">📖 اقرأ الآن</button>
+      <button class="btn btn-emerald btn-sm" onclick="exportOne(currentBookId)">📤 تصدير لعواد</button>
+      <button class="btn btn-rose btn-sm" onclick="deleteBook(currentBookId);closeMod('detailModal')">🗑️ حذف</button>
+    </div>
+  </div>
+</div>
+
+<!-- Reader -->
+<div class="reader-overlay" id="reader">
+  <div class="reader-header">
+    <button class="btn btn-ghost btn-sm" onclick="closeReader()">← رجوع</button>
+    <div>
+      <div class="reader-title" id="readerTitle">—</div>
+      <div class="reader-meta" id="readerMeta"></div>
+    </div>
+    <div style="margin-right:auto;display:flex;gap:8px;align-items:center">
+      <div class="font-size-ctrl">
+        <button onclick="changeFontSize(-1)">−</button>
+        <span id="fsDisplay">16px</span>
+        <button onclick="changeFontSize(1)">+</button>
+      </div>
+      <button class="btn btn-emerald btn-sm" onclick="saveReadProgress()">💾 حفظ</button>
+    </div>
+  </div>
+  <div class="reader-progress"><div class="reader-progress-fill" id="readProg"></div></div>
+  <div class="reader-body" id="readerBody" onscroll="updateReadProgress()"></div>
+  <div class="reader-controls">
+    <button class="btn btn-ghost btn-sm" id="prevChBtn" onclick="changeChapter(-1)">◀ السابق</button>
+    <span style="font-size:12px;color:var(--text2)" id="chapIndicator">الفصل 1/1</span>
+    <button class="btn btn-ghost btn-sm" id="nextChBtn" onclick="changeChapter(1)">التالي ▶</button>
+    <div style="margin-right:auto;font-size:11px;color:var(--text2)" id="readPercent">0%</div>
+  </div>
+</div>
+
+<!-- Export Modal -->
+<div class="moverlay" id="exportModal">
+  <div class="mbox">
+    <div class="mtitle">📤 تصدير لعواد<button class="mclose" onclick="closeMod('exportModal')">✕</button></div>
+    <div style="margin-bottom:16px">
+      <div style="font-size:13px;color:var(--text2);line-height:1.8;margin-bottom:14px" id="exportInfo"></div>
+      <div style="background:var(--ink3);border-radius:12px;padding:14px;margin-bottom:14px">
+        <div style="font-size:11px;font-weight:700;margin-bottom:10px;color:var(--sky)">📋 طريقة الاستيراد في عواد:</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.9">
+          1. افتح تطبيق <b>عواد</b> في نفس المتصفح<br/>
+          2. اذهب إلى قسم <b>المكتبة</b><br/>
+          3. اضغط على زر <b>"📥 استيراد"</b><br/>
+          4. الكتب ستظهر تلقائياً
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn btn-blue" onclick="doExport()">📤 تصدير الآن</button>
+      <button class="btn btn-ghost" onclick="doExportFile()">💾 حفظ كـ JSON</button>
+      <button class="btn btn-ghost" onclick="closeMod('exportModal')">إلغاء</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+'use strict';
+
+// ══ STORAGE ══
+const LIB_KEY = 'awad_library_books';
+const SEL_KEY = 'awad_library_sel';
+const EXPORT_KEY = 'awad_lib_export'; // shared key with Awad app
+
+function getBooks(){ return JSON.parse(localStorage.getItem(LIB_KEY)||'[]'); }
+function setBooks(b){ localStorage.setItem(LIB_KEY, JSON.stringify(b)); }
+
+// ══ COVER GRADIENTS ══
+const GRADIENTS = [
+  ['#1e3a5f','#3b82f6'],['#064e3b','#10b981'],['#312e81','#8b5cf6'],
+  ['#78350f','#f59e0b'],['#7f1d1d','#ef4444'],['#164e63','#06b6d4'],
+  ['#1a1a2e','#e94560'],['#0f3460','#533483'],['#1b4332','#52b788'],
+  ['#3d0000','#c9a227'],['#0d1b2a','#415a77'],['#2d0022','#c77dff'],
+];
+const BOOK_EMOJIS = {fr:'📗',ar:'📕',en:'📘'};
+const LEVEL_COLORS = {A1:'#10b981',A2:'#0ea5e9',B1:'#3b82f6',B2:'#f59e0b',C1:'#ef4444'};
+const LANG_LABELS = {fr:'🇫🇷 Français',ar:'🇲🇦 العربية',en:'🇬🇧 English'};
+
+// ══ DEFAULT BOOKS ══
+const DEFAULTS = [
+  // 🇫🇷 Français
+  {id:'ldf1',title:'Le Petit Prince',auth:'Antoine de Saint-Exupéry',lang:'fr',level:'A2',genre:'Conte philosophique',year:'1943',st:'todo',notes:'رواية فلسفية جميلة — مثالية لتعلم الفرنسية بأسلوب شعري',pages:96},
+  {id:'ldf2',title:'Les Misérables',auth:'Victor Hugo',lang:'fr',level:'B2',genre:'Roman historique',year:'1862',st:'todo',notes:'ملحمة أدبية عن العدالة والحرية في فرنسا القرن 19',pages:1463},
+  {id:'ldf3',title:`Le Comte de Monte-Cristo`,auth:'Alexandre Dumas',lang:'fr',level:'B1',genre:'Aventure',year:'1844',st:'todo',notes:'قصة انتقام رائعة — من أكثر الروايات الفرنسية قراءة في العالم',pages:1276},
+  {id:'ldf4',title:`L'Étranger`,auth:'Albert Camus',lang:'fr',level:'B1',genre:'Roman existentiel',year:'1942',st:'todo',notes:'رواية وجودية قصيرة بأسلوب بسيط ومباشر',pages:123},
+  {id:'ldf5',title:'Madame Bovary',auth:'Gustave Flaubert',lang:'fr',level:'B2',genre:'Roman réaliste',year:'1857',st:'todo',notes:'من أهم الروايات الفرنسية — نقد للرومانسية المفرطة',pages:356},
+  {id:'ldf6',title:'Le Tour du monde en 80 jours',auth:'Jules Verne',lang:'fr',level:'A2',genre:'Aventure',year:'1872',st:'todo',notes:'مغامرة ممتعة حول العالم — لغة سهلة ومناسبة للمستوى الأساسي',pages:236},
+  {id:'ldf7',title:'Candide',auth:'Voltaire',lang:'fr',level:'B1',genre:'Satire',year:'1759',st:'todo',notes:'نقد ساخر للمجتمع والتفاؤل المبالغ فيه — قصير وممتع',pages:112},
+  {id:'ldf8',title:'Notre-Dame de Paris',auth:'Victor Hugo',lang:'fr',level:'B1',genre:'Roman historique',year:'1831',st:'todo',notes:'قصة كوازيمودو الشهيرة في باريس القروسطية',pages:480},
+  {id:'ldf9',title:'Germinal',auth:'Émile Zola',lang:'fr',level:'B2',genre:'Roman social',year:'1885',st:'todo',notes:'رواية عمالية قوية عن إضراب عمال المناجم',pages:591},
+  {id:'ldf10',title:'La Nausée',auth:'Jean-Paul Sartre',lang:'fr',level:'C1',genre:'Roman philosophique',year:'1938',st:'todo',notes:'الرواية الأولى لسارتر — أسس الوجودية الفرنسية',pages:248},
+  // 🇲🇦 عربية
+  {id:'lda1',title:'ألف ليلة وليلة',auth:'مجهول',lang:'ar',level:'B1',genre:'قصص شعبية',year:'القرن 9',st:'todo',notes:'أشهر تراث أدبي عربي — حكايات شهرزاد الخالدة',pages:800},
+  {id:'lda2',title:'الأيام',auth:'طه حسين',lang:'ar',level:'B1',genre:'سيرة ذاتية',year:'1929',st:'todo',notes:'سيرة ذاتية رائعة لعميد الأدب العربي — أسلوب شاعري جميل',pages:312},
+  {id:'lda3',title:'زقاق المدق',auth:'نجيب محفوظ',lang:'ar',level:'B1',genre:'رواية اجتماعية',year:'1947',st:'todo',notes:'من روائع نجيب محفوظ — تصوير حي لحياة حارة مصرية',pages:320},
+  {id:'lda4',title:'رجال في الشمس',auth:'غسان كنفاني',lang:'ar',level:'A2',genre:'رواية',year:'1963',st:'todo',notes:'رواية قصيرة ومؤثرة جداً — أسلوب بسيط وقوي',pages:87},
+  {id:'lda5',title:'موسم الهجرة إلى الشمال',auth:'الطيب صالح',lang:'ar',level:'B2',genre:'رواية',year:'1966',st:'todo',notes:'من أهم 100 رواية في الأدب العالمي حسب اليونسكو',pages:175},
+  {id:'lda6',title:'اللص والكلاب',auth:'نجيب محفوظ',lang:'ar',level:'B1',genre:'رواية نفسية',year:'1961',st:'todo',notes:'رواية مكثفة عن الانتقام والخيانة — أسلوب درامي',pages:145},
+  {id:'lda7',title:'أولاد حارتنا',auth:'نجيب محفوظ',lang:'ar',level:'B1',genre:'رواية رمزية',year:'1959',st:'todo',notes:'ملحمة رمزية عن تاريخ الإنسانية من منظور ديني',pages:400},
+  {id:'lda8',title:'الخيميائي',auth:'باولو كويلو — ترجمة',lang:'ar',level:'A2',genre:'فلسفي',year:'1988',st:'todo',notes:'رواية ملهمة عن اتباع أحلامك — لغة بسيطة وتأملية',pages:163},
+  {id:'lda9',title:'عبقرية عمر',auth:'عباس العقاد',lang:'ar',level:'B2',genre:'تاريخ وأدب',year:'1942',st:'todo',notes:'دراسة أدبية وتاريخية عميقة لشخصية عمر بن الخطاب',pages:280},
+  {id:'lda10',title:'قنديل أم هاشم',auth:'يحيى حقي',lang:'ar',level:'B1',genre:'رواية اجتماعية',year:'1944',st:'todo',notes:'قصيرة ومكثفة عن الصراع بين الحداثة والتراث',pages:98},
+];
+
+let selectedIds = new Set();
+let currentFilter = 'all';
+let currentBookId = null;
+let readerFontSize = 16;
+let readerChapter = 0;
+let readerBookId = null;
+
+// ══ INIT ══
+function init(){
+  // Load defaults if first time
+  if(!localStorage.getItem(LIB_KEY)){
+    setBooks(DEFAULTS.map(b=>({...b, progress:0, readAt:null})));
+  }
+  render();
+  updateStats();
+  checkAwadConn();
+}
+
+// ══ RENDER ══
+function render(){
+  const books = getBooks();
+  const q = document.getElementById('searchInp').value.toLowerCase();
+  let filtered = books.filter(b=>{
+    if(currentFilter==='fr') return b.lang==='fr';
+    if(currentFilter==='ar') return b.lang==='ar';
+    if(currentFilter==='en') return b.lang==='en';
+    if(currentFilter==='reading') return b.st==='reading';
+    if(currentFilter==='done') return b.st==='done';
+    if(currentFilter==='todo') return b.st==='todo';
+    return true;
+  });
+  if(q) filtered = filtered.filter(b=>
+    b.title.toLowerCase().includes(q)||
+    (b.auth||'').toLowerCase().includes(q)||
+    (b.genre||'').toLowerCase().includes(q)
+  );
+
+  const grid = document.getElementById('booksGrid');
+  const empty = document.getElementById('emptyState');
+
+  if(!filtered.length){grid.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+
+  const stLbl={reading:'📖 يُقرأ',done:'✅ مكتمل',todo:'📌 لاحقاً'};
+  const stC={reading:'var(--azure)',done:'var(--emerald)',todo:'var(--text3)'};
+
+  grid.innerHTML = filtered.map((b,i)=>{
+    const g = GRADIENTS[i%GRADIENTS.length];
+    const isSel = selectedIds.has(b.id);
+    const prog = b.progress||0;
+    return `
+    <div class="book-card${isSel?' selected':''}" data-id="${b.id}" onclick="handleCardClick('${b.id}',event)">
+      <div class="book-sel-check">✓</div>
+      <div class="book-cover" style="background:linear-gradient(145deg,${g[0]},${g[1]})">
+        <div class="book-cover-flag">${b.lang==='fr'?'🇫🇷':b.lang==='ar'?'🇲🇦':'🇬🇧'}</div>
+        <div class="book-cover-emoji">${BOOK_EMOJIS[b.lang]||'📖'}</div>
+        <div class="book-cover-title">${b.title}</div>
+        <div class="book-cover-author">${b.auth||''}</div>
+        ${b.level?`<div class="book-cover-level" style="color:${LEVEL_COLORS[b.level]||'#fff'}">${b.level}</div>`:''}
+      </div>
+      <div class="book-info">
+        <div class="book-title">${b.title}</div>
+        <div class="book-author">${b.auth||'—'}</div>
+        <div class="book-tags">
+          <span class="btag btag-${b.lang}">${b.lang==='fr'?'Français':b.lang==='ar'?'عربية':'English'}</span>
+          ${b.genre?`<span class="btag btag-genre">${b.genre.split(' ')[0]}</span>`:''}
+          ${b.level?`<span class="btag btag-level">${b.level}</span>`:''}
+        </div>
+        ${prog>0?`<div style="height:3px;background:var(--ink4);border-radius:3px;margin-bottom:7px;overflow:hidden"><div style="height:100%;width:${prog}%;background:linear-gradient(90deg,var(--azure),var(--sky));border-radius:3px"></div></div>`:''}
+        <div style="font-size:10px;font-weight:600;color:${stC[b.st]}">${stLbl[b.st]||''}</div>
+        <div class="book-actions" style="margin-top:8px">
+          <button class="btn btn-ghost" style="flex:1;font-size:10px;padding:5px 0" onclick="event.stopPropagation();cycleStatus('${b.id}')">🔄</button>
+          <button class="btn btn-blue" style="flex:1;font-size:10px;padding:5px 0" onclick="event.stopPropagation();openReaderForBook('${b.id}')">📖</button>
+          <button class="btn btn-emerald" style="flex:1;font-size:10px;padding:5px 0" onclick="event.stopPropagation();toggleSel('${b.id}')">📤</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  updateExportBar();
+  updateStats();
+}
+
+function updateStats(){
+  const books = getBooks();
+  document.getElementById('hTotal').textContent = books.length;
+  document.getElementById('hReading').textContent = books.filter(b=>b.st==='reading').length;
+  document.getElementById('hDone').textContent = books.filter(b=>b.st==='done').length;
+  document.getElementById('hFr').textContent = books.filter(b=>b.lang==='fr').length;
+  document.getElementById('hAr').textContent = books.filter(b=>b.lang==='ar').length;
+}
+
+// ══ FILTER ══
+function setFilter(f, el){
+  currentFilter = f;
+  document.querySelectorAll('.ftab').forEach(t=>t.classList.remove('on'));
+  el.classList.add('on');
+  render();
+}
+
+// ══ ADD BOOK ══
+function toggleAdd(){
+  document.getElementById('addPanel').classList.toggle('on');
+  document.getElementById('importWrap').style.display='none';
+}
+function toggleImport(){
+  const w=document.getElementById('importWrap');
+  w.style.display=w.style.display==='none'?'block':'none';
+  document.getElementById('addPanel').classList.remove('on');
+}
+function addBook(){
+  const t=document.getElementById('fTitle').value.trim();
+  if(!t){toast('⚠️ أدخل عنوان الكتاب');return;}
+  const books=getBooks();
+  books.push({
+    id:'u'+Date.now(),
+    title:t,
+    auth:document.getElementById('fAuth').value.trim(),
+    lang:document.getElementById('fLang').value,
+    level:document.getElementById('fLevel').value,
+    genre:document.getElementById('fGenre').value.trim(),
+    year:document.getElementById('fYear').value.trim(),
+    notes:document.getElementById('fNotes').value.trim(),
+    st:'todo',progress:0,readAt:null,
+    addedAt:new Date().toLocaleDateString('ar-MA')
+  });
+  setBooks(books);
+  ['fTitle','fAuth','fGenre','fYear','fNotes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('addPanel').classList.remove('on');
+  render();toast('📚 تم إضافة الكتاب!');
+}
+
+// ══ STATUS ══
+const ST_CYCLE={todo:'reading',reading:'done',done:'todo'};
+const ST_MSG={todo:'📌 قائمة القراءة',reading:'📖 بدأت القراءة!',done:'✅ أنهيت الكتاب! 🎉'};
+function cycleStatus(id){
+  const books=getBooks();
+  const b=books.find(x=>x.id===id);
+  if(!b)return;
+  b.st=ST_CYCLE[b.st]||'todo';
+  if(b.st==='done') b.progress=100;
+  setBooks(books);render();toast(ST_MSG[b.st]);
+}
+function setStatus(id,st){
+  const books=getBooks();
+  const b=books.find(x=>x.id===id);
+  if(b){b.st=st;if(st==='done')b.progress=100;setBooks(books);}
+  render();closeMod('detailModal');toast(ST_MSG[st]);
+}
+
+// ══ SELECTION ══
+let selMode = false;
+function handleCardClick(id, e){
+  if(selMode || selectedIds.size>0){toggleSel(id);return;}
+  openDetail(id);
+}
+function toggleSel(id){
+  selMode=true;
+  if(selectedIds.has(id)) selectedIds.delete(id);
+  else selectedIds.add(id);
+  if(selectedIds.size===0) selMode=false;
+  render();updateExportBar();
+}
+function clearSel(){
+  selectedIds.clear();selMode=false;
+  render();updateExportBar();
+}
+function toggleSelAll(){
+  const books=getBooks();
+  if(selectedIds.size===books.length){clearSel();return;}
+  books.forEach(b=>selectedIds.add(b.id));
+  selMode=true;render();updateExportBar();
+}
+function updateExportBar(){
+  const bar=document.getElementById('exportBar');
+  bar.classList.toggle('on',selectedIds.size>0);
+  document.getElementById('selCount').textContent=selectedIds.size;
+}
+
+// ══ DETAIL MODAL ══
+function openDetail(id){
+  const books=getBooks();
+  const b=books.find(x=>x.id===id);
+  if(!b)return;
+  currentBookId=id;
+  const g=GRADIENTS[books.indexOf(b)%GRADIENTS.length];
+  document.getElementById('dTitle').textContent=b.title;
+  document.getElementById('dCover').style.background=`linear-gradient(145deg,${g[0]},${g[1]})`;
+  document.getElementById('dCover').innerHTML=`<div style="font-size:36px">${BOOK_EMOJIS[b.lang]||'📖'}</div><div style="font-size:11px;color:rgba(255,255,255,.7);text-align:center;padding:0 8px;margin-top:6px">${b.title}</div>`;
+  document.getElementById('dAuthor').textContent='✍️ '+(b.auth||'—');
+  document.getElementById('dTags').innerHTML=`
+    <span class="btag btag-${b.lang}">${LANG_LABELS[b.lang]||b.lang}</span>
+    ${b.level?`<span class="btag btag-level">${b.level}</span>`:''}
+    ${b.genre?`<span class="btag btag-genre">${b.genre}</span>`:''}
+    ${b.year?`<span class="btag" style="background:rgba(255,255,255,.06);color:var(--text2)">${b.year}</span>`:''}
+  `;
+  const prog=b.progress||0;
+  document.getElementById('dProgress').innerHTML=prog>0?`
+    <div style="font-size:11px;color:var(--text2);margin-bottom:5px">التقدم: ${prog}%</div>
+    <div class="pbar"><div class="pfill" style="width:${prog}%"></div></div>`:
+    '<div style="font-size:11px;color:var(--text3)">لم تبدأ القراءة بعد</div>';
+  const stLbl={reading:'📖 يُقرأ حالياً',done:'✅ مكتمل',todo:'📌 قائمة القراءة'};
+  const stC={reading:'var(--azure)',done:'var(--emerald)',todo:'var(--text3)'};
+  document.getElementById('dSt').innerHTML=`
+    <div style="font-size:13px;font-weight:600;color:${stC[b.st]};margin-bottom:10px">${stLbl[b.st]||''}</div>
+    <button class="btn btn-ghost btn-sm" onclick="setStatus('${id}','reading')">📖 أقرأه</button>
+    <button class="btn btn-emerald btn-sm" onclick="setStatus('${id}','done')">✅ أنهيته</button>
+    <button class="btn btn-ghost btn-sm" onclick="setStatus('${id}','todo')">📌 لاحقاً</button>
+  `;
+  document.getElementById('dNotes').textContent=b.notes||'لا توجد ملاحظات';
+  document.getElementById('dRead').onclick=()=>{closeMod('detailModal');openReaderForBook(id);};
+  document.getElementById('detailModal').classList.add('on');
+}
+
+// ══ DELETE ══
+function deleteBook(id){
+  if(!confirm('تمسح هذا الكتاب؟'))return;
+  setBooks(getBooks().filter(b=>b.id!==id));
+  render();toast('🗑️ تم الحذف');
+}
+
+// ══ READER ══
+const SAMPLE_CHAPTERS = {
+  fr:[
+    {title:'Chapitre I — Introduction', text:`<p>Vous allez découvrir dans ce livre une histoire unique et fascinante. <span class="vocab" title="fascinante = رائعة">fascinante</span> est un mot important en français.</p><p>La langue française est belle et <span class="vocab" title="mélodieuse = موسيقية">mélodieuse</span>. Elle se parle dans plus de 50 pays dans le monde.</p><p>Notre histoire commence par un voyage extraordinaire, plein de <span class="vocab" title="surprises = مفاجآت">surprises</span> et d'aventures.</p>`},
+    {title:'Chapitre II — Le Début', text:`<p>Le personnage principal <span class="vocab" title="personnage principal = الشخصية الرئيسية">personnage principal</span> commence son voyage un matin d'automne.</p><p>Il regarde le <span class="vocab" title="ciel = السماء">ciel</span> bleu et pense à sa famille. La vie est parfois <span class="vocab" title="difficile = صعبة">difficile</span>, mais il ne perd jamais espoir.</p><p>Au bout du chemin, il aperçoit une petite <span class="vocab" title="maison = بيت">maison</span> en pierre avec une lumière à la fenêtre.</p>`},
+    {title:'Chapitre III — La Rencontre', text:`<p>Une <span class="vocab" title="femme = امرأة">femme</span> âgée ouvre la porte. Elle a les yeux verts et les cheveux blancs comme la neige.</p><p>"Entrez, je vous attendais," dit-elle avec un sourire <span class="vocab" title="mystérieux = غامض">mystérieux</span>.</p><p>À l'intérieur, des centaines de <span class="vocab" title="livres = كتب">livres</span> couvrent tous les murs. Notre héros n'en croit pas ses yeux.</p>`},
+  ],
+  ar:[
+    {title:'الفصل الأول — البداية', text:`<p class="highlight">في بدايةِ كلِّ قصةٍ، ثمةَ لحظةٌ حاسمةٌ تغيّر مجرى الأحداث.</p><p>كان الصباح هادئاً حين فتح البطل عينيه على ضوء الشمس الذهبي يتسلل من بين ستائر الغرفة. شعر بأن هذا اليوم مختلف عن غيره.</p><p>نهض ببطء، ارتدى ملابسه، وتناول فنجان قهوته الصباحي وهو ينظر من النافذة إلى الشارع الهادئ أسفله.</p>`},
+    {title:'الفصل الثاني — الرحلة', text:`<p>لم يكن يعلم أن قراره بمغادرة البيت في ذلك الصباح سيغير حياته إلى الأبد.</p><p>مشى في الطرق الضيقة للمدينة القديمة، يتأمل البيوت العتيقة والأبواب الملونة. كانت رائحة الخبز الطازج تفوح من المخبز المجاور.</p><p class="highlight">في زاوية الشارع، وجد كتاباً قديماً ملقى على الأرض. رفعه وقرأ عنوانه: "أسرار المدينة المنسية".</p>`},
+    {title:'الفصل الثالث — الاكتشاف', text:`<p>فتح الكتاب بحذر. كانت صفحاته صفراء من الزمن، وخطه الجميل يشبه خط الخطاطين القدامى.</p><p>قرأ السطر الأول: "من يجد هذا الكتاب، فقد اختاره القدر لمهمة عظيمة..."</p><p class="highlight">نظر حوله، لم يكن أحد في الشارع. أخذ الكتاب وسار نحو المقهى القريب ليقرأه بتمعن.</p>`},
+  ]
+};
+function openReaderForBook(id){
+  const books=getBooks();
+  const b=books.find(x=>x.id===id);
+  if(!b){toast('⚠️ الكتاب غير موجود');return;}
+  readerBookId=id;readerChapter=0;
+  document.getElementById('readerTitle').textContent=b.title;
+  document.getElementById('readerMeta').textContent=(b.auth||'')+(b.lang?' · '+(b.lang==='fr'?'Français':b.lang==='ar'?'عربية':'English'):'');
+  document.getElementById('reader').classList.add('on');
+  const lang=b.lang||'fr';
+  const chapters=SAMPLE_CHAPTERS[lang]||SAMPLE_CHAPTERS['fr'];
+  document.getElementById('chapIndicator').textContent=`الفصل 1/${chapters.length}`;
+  // Set RTL for Arabic
+  const body=document.getElementById('readerBody');
+  body.dir=lang==='ar'?'rtl':'ltr';
+  body.style.textAlign=lang==='ar'?'right':'left';
+  renderChapter();
+  // Mark as reading
+  if(b.st==='todo'){setStatus(id,'reading');}
+}
+function renderChapter(){
+  const books=getBooks();
+  const b=books.find(x=>x.id===readerBookId);
+  const lang=(b&&b.lang)||'fr';
+  const chapters=SAMPLE_CHAPTERS[lang]||SAMPLE_CHAPTERS['fr'];
+  if(readerChapter<0)readerChapter=0;
+  if(readerChapter>=chapters.length)readerChapter=chapters.length-1;
+  const ch=chapters[readerChapter];
+  document.getElementById('readerBody').innerHTML=`<div class="reader-chapter"><h2>${ch.title}</h2>${ch.text}</div>`;
+  document.getElementById('chapIndicator').textContent=`الفصل ${readerChapter+1}/${chapters.length}`;
+  document.getElementById('prevChBtn').disabled=readerChapter===0;
+  document.getElementById('nextChBtn').disabled=readerChapter===chapters.length-1;
+  document.getElementById('readerBody').style.fontSize=readerFontSize+'px';
+  updateReadProgress();
+  // Add vocab tooltips
+  document.querySelectorAll('.vocab').forEach(el=>{
+    el.addEventListener('click',()=>{
+      const t=el.getAttribute('title');
+      toast('📚 '+t);
+    });
+  });
+}
+function changeChapter(d){readerChapter+=d;renderChapter();}
+function changeFontSize(d){readerFontSize=Math.max(12,Math.min(24,readerFontSize+d));
+  document.getElementById('readerBody').style.fontSize=readerFontSize+'px';
+  document.getElementById('fsDisplay').textContent=readerFontSize+'px';}
+function updateReadProgress(){
+  const body=document.getElementById('readerBody');
+  const pct=Math.round((body.scrollTop/(body.scrollHeight-body.clientHeight||1))*100);
+  document.getElementById('readProg').style.width=pct+'%';
+  document.getElementById('readPercent').textContent=pct+'%';
+}
+function saveReadProgress(){
+  const books=getBooks();
+  const b=books.find(x=>x.id===readerBookId);
+  if(!b)return;
+  const chapters=SAMPLE_CHAPTERS[b.lang||'fr']||SAMPLE_CHAPTERS['fr'];
+  const prog=Math.round(((readerChapter+1)/chapters.length)*100);
+  b.progress=prog;
+  if(prog>=100){b.st='done';toast('🎉 أنهيت الكتاب! احسنت');}
+  else toast(`💾 تم الحفظ — التقدم: ${prog}%`);
+  setBooks(books);render();
+}
+function closeReader(){document.getElementById('reader').classList.remove('on');}
+
+// ══ EXPORT ══
+let exportQueue = [];
+function exportOne(id){
+  exportQueue=[id];
+  showExportModal([id]);
+}
+function exportSelected(){
+  exportQueue=[...selectedIds];
+  showExportModal([...selectedIds]);
+}
+function exportSelectedRead(){
+  exportQueue=[...selectedIds];
+  // Mark all as reading first
+  const books=getBooks();
+  exportQueue.forEach(id=>{
+    const b=books.find(x=>x.id===id);
+    if(b&&b.st==='todo')b.st='reading';
+  });
+  setBooks(books);render();
+  showExportModal(exportQueue);
+}
+function openExportAll(){
+  const books=getBooks();
+  exportQueue=books.map(b=>b.id);
+  showExportModal(exportQueue);
+}
+function showExportModal(ids){
+  const books=getBooks();
+  const sel=books.filter(b=>ids.includes(b.id));
+  document.getElementById('exportInfo').innerHTML=
+    `سيتم تصدير <b>${sel.length} كتاب</b>:<br/><br/>`+
+    sel.slice(0,8).map(b=>`• ${b.title} (${b.auth||'—'})`).join('<br/>')+
+    (sel.length>8?`<br/>... و${sel.length-8} كتاب آخر`:'');
+  document.getElementById('exportModal').classList.add('on');
+}
+function doExport(){
+  const books=getBooks();
+  const sel=books.filter(b=>exportQueue.includes(b.id));
+  // Write to shared localStorage key that Awad will read
+  const payload={
+    source:'awad_library',
+    timestamp:Date.now(),
+    books: sel.map(b=>({
+      id:'lib_'+b.id, title:b.title, auth:b.auth||'',
+      lang:b.lang, st:b.st||'todo', level:b.level||'',
+      notes:b.notes||'', genre:b.genre||'', year:b.year||'',
+      pages:b.pages||0, progress:b.progress||0,
+      date:b.addedAt||new Date().toLocaleDateString('ar-MA')
+    }))
+  };
+  localStorage.setItem(EXPORT_KEY, JSON.stringify(payload));
+  closeMod('exportModal');
+  clearSel();
+  toast(`✅ تم التصدير! ${sel.length} كتاب جاهز للاستيراد في عواد`);
+  checkAwadConn();
+}
+function doExportFile(){
+  const books=getBooks();
+  const sel=books.filter(b=>exportQueue.includes(b.id));
+  const payload={source:'awad_library',timestamp:Date.now(),books:sel};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='awad_books_export.json';
+  a.click();
+  closeMod('exportModal');
+  toast(`💾 تم حفظ ${sel.length} كتاب كـ JSON`);
+}
+
+// ══ IMPORT FROM FILE ══
+function handleFileImport(input){
+  const file=input.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      const imported=data.books||[];
+      const books=getBooks();
+      let added=0;
+      imported.forEach(b=>{
+        if(!books.find(x=>x.title===b.title&&x.auth===b.auth)){
+          books.push({...b, id:'imp_'+Date.now()+'_'+Math.random(), addedAt:new Date().toLocaleDateString()});
+          added++;
+        }
+      });
+      setBooks(books);render();
+      document.getElementById('importWrap').style.display='none';
+      toast(`✅ تم الاستيراد! ${added} كتاب جديد`);
+    }catch{toast('⚠️ ملف غير صحيح');}
+  };
+  reader.readAsText(file);
+}
+function handleDrop(e){
+  e.preventDefault();
+  document.getElementById('importZone').classList.remove('drag');
+  const file=e.dataTransfer.files[0];
+  if(!file)return;
+  const inp=document.getElementById('fileInput');
+  const dt=new DataTransfer();dt.items.add(file);inp.files=dt.files;
+  handleFileImport(inp);
+}
+
+// ══ AWAD CONNECTION ══
+function checkAwadConn(){
+  // Check if there's recent Awad data in localStorage
+  const awadKeys=Object.keys(localStorage).filter(k=>k.startsWith('aw3_')||k.startsWith('aw2_'));
+  const connected=awadKeys.length>0;
+  document.getElementById('statusDot').className='cstatus-dot '+(connected?'on':'off');
+  document.getElementById('statusTxt').textContent=connected?'عواد متصل ✓':'لم يُفتح عواد بعد';
+  // Check for pending import (Awad exported to us)
+  const pending=localStorage.getItem('awad_lib_import');
+  if(pending){
+    try{
+      const data=JSON.parse(pending);
+      if(data.books&&data.books.length>0){
+        toast(`📥 ${data.books.length} كتاب من عواد متاح للاستيراد`);
+      }
+    }catch{}
+  }
+}
+
+// ══ HELPERS ══
+function closeMod(id){document.getElementById(id).classList.remove('on');}
+let _tt;
+function toast(m){
+  const t=document.getElementById('toast');
+  t.textContent=m;t.classList.add('on');
+  clearTimeout(_tt);_tt=setTimeout(()=>t.classList.remove('on'),2800);
+}
+
+// ══ AUTO-CHECK ══
+setInterval(checkAwadConn, 5000);
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
